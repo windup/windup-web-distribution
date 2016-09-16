@@ -1,0 +1,3 @@
+/system-property=keycloak.server.url:add(value="http://localhost:8080/auth")
+/subsystem=keycloak/secure-deployment=windup-web-services.war:add(realm=windup, realm-public-key="${keycloak.realm.public.key}", auth-server-url="${keycloak.server.url}", ssl-required="EXTERNAL", resource=windup-web-services, public-client=true)
+/subsystem=keycloak/secure-deployment=windup-web.war:add(realm=windup, realm-public-key="${keycloak.realm.public.key}", auth-server-url="${keycloak.server.url}", ssl-required="EXTERNAL", resource=windup-web, public-client=true)

@@ -1,0 +1,17 @@
+= Windup Distribution
+
+== Overview
+
+This builds a ZIP file containing a self contained distribution of Windup Web.
+
+== Build the Project
+
+To build this project, type:
+
+        mvn clean install
+
+This creates a `windup-web-distribution-<VERSION>.zip` file in the `windup-web-distribution/target/` directory.
+
+== Additional Resources
+
+* Follow the https://github.com/windup/windup/wiki/Get-Involved[Get Involved] in Windup wiki.
