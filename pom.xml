@@ -145,7 +145,7 @@
                                 <argument>--password</argument>
                                 <argument>password</argument>
                                 <argument>--file</argument>
-                                <argument>/home/jsightler/project/migration/software/windup-web-distribution/target/wildfly-10.1.0.Final/standalone/configuration/keycloak-add-user.json</argument>
+                                <argument>${project.build.directory}/wildfly-${version.wildfly}/standalone/configuration/keycloak-add-user.json</argument>
                             </arguments>
                         </configuration>
                     </execution>
