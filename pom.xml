@@ -160,14 +160,14 @@
                       <executable>java</executable>
                       <arguments>
                         <argument>-jar</argument>
-                        <argument>/home/mnovotny/projects/git/windup-projects/windup-web-distribution/target/keycloak-tool/keycloak-tool.jar</argument>
+                        <argument>${project.build.directory}/keycloak-tool/keycloak-tool.jar</argument>
                         <argument>initialize-keycloak</argument>
                         <argument>--username</argument>
                         <argument>admin</argument>
                         <argument>--password</argument>
                         <argument>password</argument>
                         <argument>--file</argument>
-                        <argument>/home/mnovotny/projects/git/windup-projects/windup-web-distribution/target/wildfly-10.1.0.Final/standalone/configuration/keycloak-add-user.json</argument>
+                        <argument>${project.build.directory}/wildfly-${version.wildfly}/standalone/configuration/keycloak-add-user.json</argument>
                       </arguments>
                     </configuration>
                   </execution>
@@ -179,10 +179,10 @@
                     </goals>
                     <configuration>
                       <executable>java</executable>
-                      <outputFile>/home/mnovotny/projects/git/windup-projects/windup-web-distribution/target/create-realm.output</outputFile>
+                      <outputFile>${project.build.directory}/create-realm.output</outputFile>
                       <arguments>
                         <argument>-jar</argument>
-                        <argument>/home/mnovotny/projects/git/windup-projects/windup-web-distribution/target/keycloak-tool/keycloak-tool.jar</argument>
+                        <argument>${project.build.directory}/keycloak-tool/keycloak-tool.jar</argument>
                         <argument>create-windup-realm</argument>
                       </arguments>
                     </configuration>
@@ -195,10 +195,10 @@
                     </goals>
                     <configuration>
                       <executable>java</executable>
-                      <outputFile>/home/mnovotny/projects/git/windup-projects/windup-web-distribution/target/create-guest.output</outputFile>
+                      <outputFile>${project.build.directory}/create-guest.output</outputFile>
                       <arguments>
                         <argument>-jar</argument>
-                        <argument>/home/mnovotny/projects/git/windup-projects/windup-web-distribution/target/keycloak-tool/keycloak-tool.jar</argument>
+                        <argument>${project.build.directory}/keycloak-tool/keycloak-tool.jar</argument>
                         <argument>create-windup-user</argument>
                         <argument>--newUserID</argument>
                         <argument>guest</argument>
@@ -219,10 +219,10 @@
                     </goals>
                     <configuration>
                       <executable>java</executable>
-                      <outputFile>/home/mnovotny/projects/git/windup-projects/windup-web-distribution/target/publickey.cli</outputFile>
+                      <outputFile>${project.build.directory}/publickey.cli</outputFile>
                       <arguments>
                         <argument>-jar</argument>
-                        <argument>/home/mnovotny/projects/git/windup-projects/windup-web-distribution/target/keycloak-tool/keycloak-tool.jar</argument>
+                        <argument>${project.build.directory}/keycloak-tool/keycloak-tool.jar</argument>
                         <argument>print-windup-realm-public-key</argument>
                       </arguments>
                     </configuration>
@@ -243,11 +243,11 @@
                       <goal>execute-commands</goal>
                     </goals>
                     <configuration>
-                      <jbossHome>/home/mnovotny/projects/git/windup-projects/windup-web-distribution/target/wildfly-10.1.0.Final</jbossHome>
+                      <jbossHome>${project.build.directory}/wildfly-${version.wildfly}</jbossHome>
                       <serverConfig>standalone-full.xml</serverConfig>
-                      <stdout>/home/mnovotny/projects/git/windup-projects/windup-web-distribution/target/jboss.stdout</stdout>
+                      <stdout>${project.build.directory}/jboss.stdout</stdout>
                       <scripts>
-                        <script>/home/mnovotny/projects/git/windup-projects/windup-web-distribution/target/wildfly-10.1.0.Final/bin/adapter-install.cli</script>
+                        <script>${project.build.directory}/wildfly-${version.wildfly}/bin/adapter-install.cli</script>
                         <script>src/main/cli/keycloak-install.cli</script>
                         <script>src/main/cli/setup-jms.cli</script>
                       </scripts>
@@ -261,10 +261,10 @@
                       <goal>shutdown</goal>
                     </goals>
                     <configuration>
-                      <jbossHome>/home/mnovotny/projects/git/windup-projects/windup-web-distribution/target/wildfly-10.1.0.Final</jbossHome>
+                      <jbossHome>${project.build.directory}/wildfly-${version.wildfly}</jbossHome>
                       <serverConfig>standalone-full.xml</serverConfig>
                       <scripts>
-                        <script>/home/mnovotny/projects/git/windup-projects/windup-web-distribution/target/publickey.cli</script>
+                        <script>${project.build.directory}/publickey.cli</script>
                         <script>src/main/cli/setup-windup-keycloak-properties.cli</script>
                       </scripts>
                     </configuration>
