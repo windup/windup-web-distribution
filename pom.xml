@@ -105,6 +105,7 @@
                                     <version>${version.wildfly}</version>
                                     <type>zip</type>
                                     <overWrite>false</overWrite>
+                                    <excludes>**/README.txt</excludes>
                                     <outputDirectory>${project.build.directory}</outputDirectory>
                                 </artifactItem>
                                 <artifactItem>
