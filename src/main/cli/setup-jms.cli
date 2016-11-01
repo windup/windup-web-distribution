@@ -1,2 +1,3 @@
 /subsystem=messaging-activemq/server=default/jms-queue=executorQueue:add(entries=[queues/executorQueue])
 /subsystem=messaging-activemq/server=default/jms-queue=statusUpdateQueue:add(entries=[queues/statusUpdateQueue])
+/subsystem=messaging-activemq/server=default/jms-queue=packageDiscoveryQueue:add(entries=[queues/packageDiscoveryQueue])
