@@ -1,3 +1,5 @@
 /subsystem=messaging-activemq/server=default/jms-queue=executorQueue:add(entries=[queues/executorQueue])
 /subsystem=messaging-activemq/server=default/jms-queue=statusUpdateQueue:add(entries=[queues/statusUpdateQueue])
 /subsystem=messaging-activemq/server=default/jms-queue=packageDiscoveryQueue:add(entries=[queues/packageDiscoveryQueue])
+/subsystem=datasources/data-source=WindupServicesDS:add(jndi-name="java:jboss/datasources/WindupServicesDS", connection-url="jdbc:h2:${jboss.server.data.dir}/h2/windup-web", driver-name="h2", max-pool-size=30, user-name=sa, password=sa)
+
