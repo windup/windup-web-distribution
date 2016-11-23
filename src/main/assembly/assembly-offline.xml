@@ -15,6 +15,7 @@
             <outputDirectory></outputDirectory>
             <excludes>
                 <exclude>**/keycloak.lock.db</exclude>
+                <exclude>standalone/configuration/logging.properties</exclude>
             </excludes>
         </fileSet>
         <fileSet>
