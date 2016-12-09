@@ -144,6 +144,27 @@
                             </artifactItems>
                         </configuration>
                     </execution>
+                    <!-- Unpack only logging.properties from Wildfly -->
+                    <execution>
+                        <id>unpack-logging-properties</id>
+                        <phase>test</phase>
+                        <goals>
+                            <goal>unpack</goal>
+                        </goals>
+                        <configuration>
+                            <artifactItems>
+                                <artifactItem>
+                                    <groupId>org.wildfly</groupId>
+                                    <artifactId>wildfly-dist</artifactId>
+                                    <version>${version.wildfly}</version>
+                                    <type>zip</type>
+                                    <overWrite>true</overWrite>
+                                    <includes>**/logging.properties</includes>
+                                    <outputDirectory>${project.build.directory}</outputDirectory>
+                                </artifactItem>
+                            </artifactItems>
+                        </configuration>
+                    </execution>
                 </executions>
             </plugin>
             <!-- Create the Keycloak admin user file -->

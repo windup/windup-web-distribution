@@ -16,7 +16,6 @@
             <excludes>
                 <exclude>**/keycloak.lock.db</exclude>
                 <exclude>bin/standalone.conf</exclude>
-                <exclude>standalone/configuration/logging.properties</exclude>
             </excludes>
         </fileSet>
         <fileSet>
