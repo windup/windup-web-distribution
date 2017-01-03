@@ -1,4 +1,4 @@
-= Windup Distribution
+= Windup Web Distribution
 
 == Overview
 
@@ -11,6 +11,8 @@ To build this project, type:
         mvn clean install
 
 This creates a `windup-web-distribution-<VERSION>.zip` file in the `windup-web-distribution/target/` directory.
+
+The windup-web-distribution build requires artifacts built from windup-web and windup-keycloak-tool. The sequence of commands https://github.com/d-s/scripts-windup/blob/9a0184c9af6d7fc3a33611e071cb3f2620cb7683/windup-web-dist-build.sh[here] should work.
 
 == Additional Resources
 
