@@ -1,0 +1,3 @@
+/subsystem=undertow/configuration=handler/file=windup-web-redirect:add
+/subsystem=undertow/configuration=handler/file=windup-web-redirect:write-attribute(name=path,value=${jboss.home.dir}/windup-web-redirect)
+/subsystem=undertow/server=default-server/host=default-host/location=\//:write-attribute(name=handler,value=windup-web-redirect)

@@ -272,6 +272,7 @@
                         <script>${project.build.directory}/wildfly-${version.wildfly}/bin/adapter-install.cli</script>
                         <script>src/main/cli/keycloak-install.cli</script>
                         <script>src/main/cli/setup-eap.cli</script>
+                        <script>src/main/cli/adding-redirect.cli</script>
                       </scripts>
                     </configuration>
                   </execution>
