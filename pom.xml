@@ -182,7 +182,7 @@
                       <executable>java</executable>
                       <arguments>
                         <argument>-jar</argument>
-                        <argument>${project.build.directory}/keycloak-tool/keycloak-tool.jar</argument>
+                        <argument>${keycloak.tool.path}</argument>
                         <argument>initialize-keycloak</argument>
                         <argument>--username</argument>
                         <argument>admin</argument>
@@ -204,7 +204,7 @@
                       <outputFile>${project.build.directory}/create-realm.output</outputFile>
                       <arguments>
                         <argument>-jar</argument>
-                        <argument>${project.build.directory}/keycloak-tool/keycloak-tool.jar</argument>
+                        <argument>${keycloak.tool.path}</argument>
                         <argument>create-windup-realm</argument>
                       </arguments>
                     </configuration>
@@ -220,7 +220,7 @@
                       <outputFile>${project.build.directory}/create-guest.output</outputFile>
                       <arguments>
                         <argument>-jar</argument>
-                        <argument>${project.build.directory}/keycloak-tool/keycloak-tool.jar</argument>
+                        <argument>${keycloak.tool.path}</argument>
                         <argument>create-windup-user</argument>
                         <argument>--newUserID</argument>
                         <argument>guest</argument>
@@ -244,7 +244,7 @@
                       <outputFile>${project.build.directory}/publickey.cli</outputFile>
                       <arguments>
                         <argument>-jar</argument>
-                        <argument>${project.build.directory}/keycloak-tool/keycloak-tool.jar</argument>
+                        <argument>${keycloak.tool.path}</argument>
                         <argument>print-windup-realm-public-key</argument>
                       </arguments>
                     </configuration>
