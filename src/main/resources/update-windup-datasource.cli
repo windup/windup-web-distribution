@@ -1,3 +1,0 @@
-embed-server --server-config=standalone-full.xml
-
-/subsystem=datasources/data-source=WindupServicesDS/:write-attribute(name=connection-url,value=jdbc:h2:${windup.data.dir}/h2/windup-web)
