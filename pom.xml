@@ -13,7 +13,7 @@
     </parent>
 
     <groupId>org.jboss.windup.web</groupId>
-    <artifactId>windup-web-distribution</artifactId>
+    <artifactId>rhamt-web-distribution</artifactId>
     <version>3.0.0-SNAPSHOT</version>
 
     <name>Windup Web - Distribution Build</name>
@@ -363,10 +363,10 @@
                                 <phase>package</phase>
                                 <configuration>
                                     <licensesOutputDirectory>
-                                        ${project.build.directory}/windup-distribution-${project.version}/docs/licenses
+                                        ${project.build.directory}/rhamt-web-distribution-${project.version}/docs/licenses
                                     </licensesOutputDirectory>
                                     <licensesOutputFile>
-                                        ${project.build.directory}/windup-distribution-${project.version}/docs/licenses/licenses.xml
+                                        ${project.build.directory}/rhamt-web-distribution-${project.version}/docs/licenses/licenses.xml
                                     </licensesOutputFile>
                                 </configuration>
                             </execution>
