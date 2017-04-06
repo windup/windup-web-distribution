@@ -45,6 +45,10 @@
             <outputDirectory></outputDirectory>
             <filtered>false</filtered>
         </fileSet>
+        <fileSet>
+            <directory>src/main/wildfly_overlay/themes/rhamt</directory>
+            <outputDirectory>themes</outputDirectory>
+        </fileSet>
     </fileSets>
     <!-- Override the login.ftl with the autologin one -->
     <files>
