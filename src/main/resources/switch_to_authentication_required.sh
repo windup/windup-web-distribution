@@ -5,7 +5,6 @@ DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 cd $DIR
 
 cp $DIR/themes/base/login/regular_login.ftl $DIR/themes/base/login/login.ftl
-cp $DIR/standalone/deployments/windup-web.war/regular_index.html.ftl $DIR/standalone/deployments/windup-web.war/index.html.ftl
 
 echo "================================"
 echo ""
