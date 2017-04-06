@@ -131,7 +131,7 @@
                                     <version>${project.version}</version>
                                     <type>war</type>
                                     <overWrite>true</overWrite>
-                                    <outputDirectory>${project.build.directory}/wildfly-${version.wildfly}/standalone/deployments/rhamt-web/api.war</outputDirectory>
+                                    <outputDirectory>${project.build.directory}/wildfly-${version.wildfly}/standalone/deployments/windup-web-services.war</outputDirectory>
                                 </artifactItem>
                                 <artifactItem>
                                     <groupId>${project.groupId}</groupId>
@@ -139,7 +139,7 @@
                                     <version>${project.version}</version>
                                     <type>war</type>
                                     <overWrite>true</overWrite>
-                                    <outputDirectory>${project.build.directory}/wildfly-${version.wildfly}/standalone/deployments/rhamt-web.war</outputDirectory>
+                                    <outputDirectory>${project.build.directory}/wildfly-${version.wildfly}/standalone/deployments/windup-web.war</outputDirectory>
                                 </artifactItem>
                             </artifactItems>
                         </configuration>

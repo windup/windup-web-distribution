@@ -45,10 +45,6 @@
             <outputDirectory></outputDirectory>
             <filtered>false</filtered>
         </fileSet>
-        <fileSet>
-            <directory>src/main/wildfly_overlay/themes/rhamt</directory>
-            <outputDirectory>themes</outputDirectory>
-        </fileSet>
     </fileSets>
     <!-- Override the login.ftl with the autologin one -->
     <files>
@@ -56,6 +52,18 @@
             <source>src/main/wildfly_overlay/themes/base/login/auto_login.ftl</source>
             <outputDirectory>themes/base/login</outputDirectory>
             <destName>login.ftl</destName>
+            <filtered>false</filtered>
+        </file>
+        <file>
+            <source>src/main/wildfly_overlay/standalone/deployments/windup-web.war/auto_index.html.ftl</source>
+            <outputDirectory>standalone/deployments/windup-web.war/</outputDirectory>
+            <destName>index.html.ftl</destName>
+            <filtered>false</filtered>
+        </file>
+        <file>
+            <source>src/main/wildfly_overlay/standalone/deployments/windup-web.war/index.html.ftl</source>
+            <outputDirectory>standalone/deployments/windup-web.war/</outputDirectory>
+            <destName>regular_index.html.ftl</destName>
             <filtered>false</filtered>
         </file>
     </files>
