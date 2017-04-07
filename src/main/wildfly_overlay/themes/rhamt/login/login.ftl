@@ -1,5 +1,5 @@
 <#import "template.ftl" as layout>
-<@layout.registrationLayout displayInfo=social.displayInfo; section>
+<@layout.registrationLayout displayInfo=true; section>
     <#if section = "title">
     ${msg("loginTitle",(realm.displayName!''))}
     <#elseif section = "header">
@@ -60,6 +60,10 @@
         </form>
         </#if>
     <#elseif section = "info" >
+        <div class="welcome-help-text">
+            Learn more about Red Hat Application Migration Toolkit
+            <a href="https://access.redhat.com/documentation/en/red-hat-jboss-migration-toolkit/">from the documentation</a>.
+        </div>
         <#if realm.password && realm.registrationAllowed && !usernameEditDisabled??>
         <div id="kc-registration">
             <span>${msg("noAccount")} <a href="${url.registrationUrl}">${msg("doRegister")}</a></span>
