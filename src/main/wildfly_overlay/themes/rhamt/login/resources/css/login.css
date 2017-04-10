@@ -1,0 +1,36 @@
+.login-pf body {
+    background: #080808 repeat-x 50% 0
+}
+#kc-logo-wrapper {
+    background: url("../img/Logotype_RH_AMT_RGB_White.svg") no-repeat;
+
+    height: 100px;
+    width: 400px;
+    right: 10%;
+    top: 10%;
+    position: absolute;
+}
+
+#kc-header-wrapper {
+    display: none;
+}
+
+.login-pf .container {
+    background-color: initial;
+}
+
+#rhamt-title {
+    font-size: 18px;
+    vertical-align: middle;
+    line-height: 60px;
+    color: #FFFFFF;
+}
+
+#rhamt-title strong {
+    text-transform: uppercase;
+}
+
+.login-pf .container {
+    bottom: 20%;
+    padding-right: 120px;
+}
