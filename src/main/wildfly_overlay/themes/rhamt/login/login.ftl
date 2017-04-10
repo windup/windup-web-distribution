@@ -4,6 +4,8 @@
     ${msg("loginTitle",(realm.displayName!''))}
     <#elseif section = "header">
     ${msg("loginTitleHtml",(realm.displayNameHtml!''))}
+    <#elseif section = "logo">
+        <span id="rhamt-title"><strong>Red Hat Application Migration Toolkit</strong> - Web Console</span>
     <#elseif section = "form">
         <#if realm.password>
         <form id="kc-form-login" class="${properties.kcFormClass!}" action="${url.loginAction}" method="post">
@@ -60,10 +62,11 @@
         </form>
         </#if>
     <#elseif section = "info" >
-        <div class="welcome-help-text">
+        <strong class="welcome-help-text">
+            Welcome to Red Hat Application Migration Toolkit Web Console <br>
             Learn more about Red Hat Application Migration Toolkit
             <a href="https://access.redhat.com/documentation/en/red-hat-jboss-migration-toolkit/">from the documentation</a>.
-        </div>
+        </strong>
         <#if realm.password && realm.registrationAllowed && !usernameEditDisabled??>
         <div id="kc-registration">
             <span>${msg("noAccount")} <a href="${url.registrationUrl}">${msg("doRegister")}</a></span>
