@@ -45,25 +45,20 @@
             <outputDirectory></outputDirectory>
             <filtered>false</filtered>
         </fileSet>
+        <fileSet>
+            <directory>src/main/wildfly_overlay/themes/rhamt</directory>
+            <outputDirectory>themes/rhamt</outputDirectory>
+            <excludes>
+                <exclude>login/auto_login.theme.properties</exclude>
+            </excludes>
+        </fileSet>
     </fileSets>
-    <!-- Override the login.ftl with the autologin one -->
+    <!-- Override the theme.properties with the autologin one -->
     <files>
         <file>
-            <source>src/main/wildfly_overlay/themes/base/login/auto_login.ftl</source>
-            <outputDirectory>themes/base/login</outputDirectory>
-            <destName>login.ftl</destName>
-            <filtered>false</filtered>
-        </file>
-        <file>
-            <source>src/main/wildfly_overlay/standalone/deployments/rhamt-web.war/auto_index.html.ftl</source>
-            <outputDirectory>standalone/deployments/rhamt-web.war/</outputDirectory>
-            <destName>index.html.ftl</destName>
-            <filtered>false</filtered>
-        </file>
-        <file>
-            <source>src/main/wildfly_overlay/standalone/deployments/rhamt-web.war/index.html.ftl</source>
-            <outputDirectory>standalone/deployments/rhamt-web.war/</outputDirectory>
-            <destName>regular_index.html.ftl</destName>
+            <source>src/main/wildfly_overlay/themes/rhamt/login/auto_login.theme.properties</source>
+            <outputDirectory>themes/rhamt/login</outputDirectory>
+            <destName>theme.properties</destName>
             <filtered>false</filtered>
         </file>
     </files>
