@@ -1,3 +1,3 @@
-/system-property=keycloak.server.url:add(value="http://localhost:8080/auth")
+/system-property=keycloak.server.url:add(value="/auth")
 /subsystem=keycloak/secure-deployment=api.war:add(realm=rhamt, realm-public-key="${keycloak.realm.public.key}", auth-server-url="${keycloak.server.url}", ssl-required="EXTERNAL", resource=rhamt-web, public-client=true)
 /subsystem=keycloak/secure-deployment=rhamt-web.war:add(realm=rhamt, realm-public-key="${keycloak.realm.public.key}", auth-server-url="${keycloak.server.url}", ssl-required="EXTERNAL", resource=rhamt-web, public-client=true)
