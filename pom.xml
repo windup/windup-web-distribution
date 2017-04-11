@@ -223,13 +223,13 @@
                         <argument>${keycloak.tool.path}</argument>
                         <argument>create-windup-user</argument>
                         <argument>--newUserID</argument>
-                        <argument>guest</argument>
+                        <argument>rhamt</argument>
                         <argument>--newUserPassword</argument>
-                        <argument>guest</argument>
+                        <argument>password</argument>
                         <argument>--firstName</argument>
-                        <argument>guest</argument>
+                        <argument>rhamt</argument>
                         <argument>--lastName</argument>
-                        <argument>guest</argument>
+                        <argument>rhamt</argument>
                       </arguments>
                     </configuration>
                   </execution>
