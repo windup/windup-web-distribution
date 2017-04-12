@@ -22,7 +22,12 @@
     <properties>
         <version.nexus.index>5</version.nexus.index>
         <version.keycloak>2.1.0.Final</version.keycloak>
+
+        <wildfly.groupId>org.wildfly</wildfly.groupId>
+        <wildfly.artifactId>wildfly-dist</wildfly.artifactId>
         <version.wildfly>10.1.0.Final</version.wildfly>
+        <wildfly.directory>wildfly-${version.wildfly}</wildfly.directory>
+
         <version.wildfly.maven.plugin>1.1.0.Beta1</version.wildfly.maven.plugin>
 
         <windup.scm.connection>scm:git:https://github.com/windup/windup-web-distribution.git</windup.scm.connection>
@@ -100,8 +105,8 @@
                         <configuration>
                             <artifactItems>
                                 <artifactItem>
-                                    <groupId>org.wildfly</groupId>
-                                    <artifactId>wildfly-dist</artifactId>
+                                    <groupId>${wildfly.groupId}</groupId>
+                                    <artifactId>${wildfly.artifactId}</artifactId>
                                     <version>${version.wildfly}</version>
                                     <type>zip</type>
                                     <overWrite>false</overWrite>
@@ -114,7 +119,7 @@
                                     <version>${version.keycloak}</version>
                                     <type>zip</type>
                                     <overWrite>true</overWrite>
-                                    <outputDirectory>${project.build.directory}/wildfly-${version.wildfly}/</outputDirectory>
+                                    <outputDirectory>${project.build.directory}/${wildfly.directory}/</outputDirectory>
                                 </artifactItem>
                                 <artifactItem>
                                     <groupId>org.keycloak</groupId>
@@ -122,7 +127,7 @@
                                     <version>${version.keycloak}</version>
                                     <type>zip</type>
                                     <overWrite>true</overWrite>
-                                    <outputDirectory>${project.build.directory}/wildfly-${version.wildfly}/</outputDirectory>
+                                    <outputDirectory>${project.build.directory}/${wildfly.directory}/</outputDirectory>
                                 </artifactItem>
 
                                 <artifactItem>
@@ -131,7 +136,7 @@
                                     <version>${project.version}</version>
                                     <type>war</type>
                                     <overWrite>true</overWrite>
-                                    <outputDirectory>${project.build.directory}/wildfly-${version.wildfly}/standalone/deployments/api.war</outputDirectory>
+                                    <outputDirectory>${project.build.directory}/${wildfly.directory}/standalone/deployments/api.war</outputDirectory>
                                 </artifactItem>
                                 <artifactItem>
                                     <groupId>${project.groupId}</groupId>
@@ -139,7 +144,7 @@
                                     <version>${project.version}</version>
                                     <type>war</type>
                                     <overWrite>true</overWrite>
-                                    <outputDirectory>${project.build.directory}/wildfly-${version.wildfly}/standalone/deployments/rhamt-web.war</outputDirectory>
+                                    <outputDirectory>${project.build.directory}/${wildfly.directory}/standalone/deployments/rhamt-web.war</outputDirectory>
                                 </artifactItem>
                             </artifactItems>
                         </configuration>
@@ -154,8 +159,8 @@
                         <configuration>
                             <artifactItems>
                                 <artifactItem>
-                                    <groupId>org.wildfly</groupId>
-                                    <artifactId>wildfly-dist</artifactId>
+                                    <groupId>${wildfly.groupId}</groupId>
+                                    <artifactId>${wildfly.artifactId}</artifactId>
                                     <version>${version.wildfly}</version>
                                     <type>zip</type>
                                     <overWrite>true</overWrite>
@@ -189,7 +194,7 @@
                         <argument>--password</argument>
                         <argument>password</argument>
                         <argument>--file</argument>
-                        <argument>${project.build.directory}/wildfly-${version.wildfly}/standalone/configuration/keycloak-add-user.json</argument>
+                        <argument>${project.build.directory}/${wildfly.directory}/standalone/configuration/keycloak-add-user.json</argument>
                       </arguments>
                     </configuration>
                   </execution>
@@ -265,14 +270,14 @@
                       <goal>execute-commands</goal>
                     </goals>
                     <configuration>
-                      <jbossHome>${project.build.directory}/wildfly-${version.wildfly}</jbossHome>
+                      <jbossHome>${project.build.directory}/${wildfly.directory}</jbossHome>
                       <serverConfig>standalone-full.xml</serverConfig>
                       <stdout>${project.build.directory}/jboss.stdout</stdout>
                       <systemProperties>
                         <windup.data.dir>${jboss.server.data.dir}/h2/windup-web</windup.data.dir>
                       </systemProperties>
                       <scripts>
-                        <script>${project.build.directory}/wildfly-${version.wildfly}/bin/adapter-install.cli</script>
+                        <script>${project.build.directory}/${wildfly.directory}/bin/adapter-install.cli</script>
                         <script>src/main/cli/keycloak-install.cli</script>
                         <script>src/main/cli/setup-eap.cli</script>
                         <script>src/main/cli/adding-redirect.cli</script>
@@ -287,7 +292,7 @@
                       <goal>shutdown</goal>
                     </goals>
                     <configuration>
-                      <jbossHome>${project.build.directory}/wildfly-${version.wildfly}</jbossHome>
+                      <jbossHome>${project.build.directory}/${wildfly.directory}</jbossHome>
                       <serverConfig>standalone-full.xml</serverConfig>
                       <scripts>
                         <script>${project.build.directory}/publickey.cli</script>
@@ -307,7 +312,7 @@
                             <goal>copy-resources</goal>
                         </goals>
                         <configuration>
-                            <outputDirectory>${project.build.directory}/wildfly-${version.wildfly}/standalone/deployments/</outputDirectory>
+                            <outputDirectory>${project.build.directory}/${wildfly.directory}/standalone/deployments/</outputDirectory>
                             <overwrite>true</overwrite>
                             <resources>
                                 <resource>

@@ -5,6 +5,9 @@ ADD . /opt/rhamt-web-distribution/
 
 user 0
 RUN chown --recursive jboss:0 /opt/rhamt-web-distribution
+RUN chgrp -R 0 /opt/rhamt-web-distribution \
+  && chmod -R g+rwX /opt/rhamt-web-distribution
+
 user jboss
 
 EXPOSE 8180:8180

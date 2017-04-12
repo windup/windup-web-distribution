@@ -11,7 +11,7 @@
     <!-- Add distribution files -->
     <fileSets>
         <fileSet>
-            <directory>${project.build.directory}/wildfly-${version.wildfly}</directory>
+            <directory>${project.build.directory}/${wildfly.directory}</directory>
             <outputDirectory></outputDirectory>
             <excludes>
                 <exclude>**/keycloak.lock.db</exclude>
