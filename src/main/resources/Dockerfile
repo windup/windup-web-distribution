@@ -2,7 +2,9 @@ FROM registry.access.redhat.com/redhat-openjdk-18/openjdk18-openshift:latest
 
 EXPOSE 8180
 
-LABEL io.k8s.description="Red Hat Application Migration Toolkit Web Console" \
+LABEL description="Red Hat Application Migration Toolkit Web Console" \
+      version="4.0.0-SNAPSHOT" \
+      io.k8s.description="Red Hat Application Migration Toolkit Web Console" \
       io.k8s.display-name="RHAMT Web Console" \
       io.openshift.expose-services="8180:http" \
       io.openshift.tags="rhamt,migration"
