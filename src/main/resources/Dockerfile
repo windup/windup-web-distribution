@@ -19,8 +19,6 @@ RUN chgrp -R 0 /opt/rhamt-web-distribution \
 
 user jboss
 
-EXPOSE 8180:8180
-
 ENTRYPOINT /opt/rhamt-web-distribution/run_rhamt.sh -b 0.0.0.0 -Djboss.socket.binding.port-offset=100
 
 
