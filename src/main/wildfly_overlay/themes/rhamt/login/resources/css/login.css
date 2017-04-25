@@ -34,3 +34,7 @@
     bottom: 20%;
     padding-right: 120px;
 }
+
+#kc-info-wrapper > p {
+    margin-bottom: 10px;
+}
