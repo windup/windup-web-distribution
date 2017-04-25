@@ -61,12 +61,15 @@
             </div>
         </form>
         </#if>
-    <#elseif section = "info" >
-        <strong class="welcome-help-text">
-            Welcome to Red Hat Application Migration Toolkit Web Console <br>
-            Learn more about Red Hat Application Migration Toolkit
-            <a href="https://access.redhat.com/documentation/en/red-hat-jboss-migration-toolkit/">from the documentation</a>.
-        </strong>
+    <#elseif section = "info">
+        <p>
+            <strong class="welcome-help-text"> Welcome to Red Hat Application Migration Toolkit Web Console. </strong>
+        </p>
+        <p>
+            Learn more about Red Hat Application Migration Toolkit from the
+            <a href="https://access.redhat.com/documentation/en/red-hat-jboss-migration-toolkit/">documentation</a>.
+        </p>
+
         <#if realm.password && realm.registrationAllowed && !usernameEditDisabled??>
         <div id="kc-registration">
             <span>${msg("noAccount")} <a href="${url.registrationUrl}">${msg("doRegister")}</a></span>
