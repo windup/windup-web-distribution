@@ -4,7 +4,7 @@ DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 
 cd $DIR
 
-cp $DIR/themes/rhamt/login/auto_login.properties $DIR/themes/rhamt/login/theme.properties
+cp $DIR/themes/rhamt/login/auto_login.theme.properties $DIR/themes/rhamt/login/theme.properties
 
 echo "================================"
 echo ""
