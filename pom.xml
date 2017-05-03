@@ -176,7 +176,7 @@
                             </artifactItems>
                         </configuration>
                     </execution>
-                    <!-- Get the Keycloak tool locally -->
+                    <!-- Overlay an updated H2 jar -->
                     <execution>
                         <id>copy-h2db</id>
                         <phase>generate-test-resources</phase>
@@ -189,8 +189,7 @@
                                     <groupId>com.h2database</groupId>
                                     <artifactId>h2</artifactId>
                                     <version>1.4.194</version>
-                                    <outputDirectory>${project.build.directory}/${wildfly.directory}/modules/system/layers/base/com/h2database/h2/main</outputDirectory>
-                                    <destFileName>h2-1.3.173.jar</destFileName>
+                                    <outputDirectory>${project.build.directory}/${wildfly.directory}/modules/com/h2database/h2/main</outputDirectory>
                                     <overWrite>true</overWrite>
                                 </artifactItem>
                             </artifactItems>
