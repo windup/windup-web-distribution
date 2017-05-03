@@ -44,7 +44,13 @@
     </dependencyManagement>
 
     <dependencies>
-
+        <!-- Keeping this here so that Maven knows about it. -->
+        <dependency>
+            <groupId>com.h2database</groupId>
+            <artifactId>h2</artifactId>
+            <version>1.4.194</version>
+            <scope>provided</scope>
+        </dependency>
     </dependencies>
 
     <build>
@@ -53,7 +59,7 @@
                 <plugin>
                     <groupId>org.codehaus.mojo</groupId>
                     <artifactId>exec-maven-plugin</artifactId>
-                    <version>1.5.0</version>
+                    <version>1.6.0</version>
                 </plugin>
                 <plugin>
                     <groupId>org.wildfly.plugins</groupId>
@@ -62,12 +68,12 @@
                 </plugin>
                 <plugin>
                     <artifactId>maven-resources-plugin</artifactId>
-                    <version>3.0.1</version>
+                    <version>3.0.2</version>
                 </plugin>
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-assembly-plugin</artifactId>
-                    <version>2.5.5</version>
+                    <version>3.0.0</version>
                 </plugin>
             </plugins>
         </pluginManagement>
@@ -170,6 +176,26 @@
                             </artifactItems>
                         </configuration>
                     </execution>
+                    <!-- Get the Keycloak tool locally -->
+                    <execution>
+                        <id>copy-h2db</id>
+                        <phase>generate-test-resources</phase>
+                        <goals>
+                            <goal>copy</goal>
+                        </goals>
+                        <configuration>
+                            <artifactItems>
+                                <artifactItem>
+                                    <groupId>com.h2database</groupId>
+                                    <artifactId>h2</artifactId>
+                                    <version>1.4.194</version>
+                                    <outputDirectory>${project.build.directory}/${wildfly.directory}/modules/system/layers/base/com/h2database/h2/main</outputDirectory>
+                                    <destFileName>h2-1.3.173.jar</destFileName>
+                                    <overWrite>true</overWrite>
+                                </artifactItem>
+                            </artifactItems>
+                        </configuration>
+                    </execution>
                 </executions>
             </plugin>
             <!-- Create the Keycloak admin user file -->
@@ -177,83 +203,83 @@
                 <groupId>org.codehaus.mojo</groupId>
                 <artifactId>exec-maven-plugin</artifactId>
                 <executions>
-                  <execution>
-                    <id>create-keycloak-admin-user</id>
-                    <phase>compile</phase>
-                    <goals>
-                      <goal>exec</goal>
-                    </goals>
-                    <configuration>
-                      <executable>java</executable>
-                      <arguments>
-                        <argument>-jar</argument>
-                        <argument>${keycloak.tool.path}</argument>
-                        <argument>initialize-keycloak</argument>
-                        <argument>--username</argument>
-                        <argument>admin</argument>
-                        <argument>--password</argument>
-                        <argument>password</argument>
-                        <argument>--file</argument>
-                        <argument>${project.build.directory}/${wildfly.directory}/standalone/configuration/keycloak-add-user.json</argument>
-                      </arguments>
-                    </configuration>
-                  </execution>
-                  <execution>
-                    <id>create-windup-realm</id>
-                    <phase>prepare-package</phase>
-                    <goals>
-                      <goal>exec</goal>
-                    </goals>
-                    <configuration>
-                      <executable>java</executable>
-                      <outputFile>${project.build.directory}/create-realm.output</outputFile>
-                      <arguments>
-                        <argument>-jar</argument>
-                        <argument>${keycloak.tool.path}</argument>
-                        <argument>create-windup-realm</argument>
-                      </arguments>
-                    </configuration>
-                  </execution>
-                  <execution>
-                    <id>create-keycloak-guest-user</id>
-                    <phase>prepare-package</phase>
-                    <goals>
-                      <goal>exec</goal>
-                    </goals>
-                    <configuration>
-                      <executable>java</executable>
-                      <outputFile>${project.build.directory}/create-guest.output</outputFile>
-                      <arguments>
-                        <argument>-jar</argument>
-                        <argument>${keycloak.tool.path}</argument>
-                        <argument>create-windup-user</argument>
-                        <argument>--newUserID</argument>
-                        <argument>rhamt</argument>
-                        <argument>--newUserPassword</argument>
-                        <argument>password</argument>
-                        <argument>--firstName</argument>
-                        <argument>rhamt</argument>
-                        <argument>--lastName</argument>
-                        <argument>rhamt</argument>
-                      </arguments>
-                    </configuration>
-                  </execution>
-                  <execution>
-                    <id>get-windup-realm-public-key</id>
-                    <phase>prepare-package</phase>
-                    <goals>
-                      <goal>exec</goal>
-                    </goals>
-                    <configuration>
-                      <executable>java</executable>
-                      <outputFile>${project.build.directory}/publickey.cli</outputFile>
-                      <arguments>
-                        <argument>-jar</argument>
-                        <argument>${keycloak.tool.path}</argument>
-                        <argument>print-windup-realm-public-key</argument>
-                      </arguments>
-                    </configuration>
-                  </execution>
+                    <execution>
+                        <id>create-keycloak-admin-user</id>
+                        <phase>compile</phase>
+                        <goals>
+                            <goal>exec</goal>
+                        </goals>
+                        <configuration>
+                            <executable>java</executable>
+                            <arguments>
+                                <argument>-jar</argument>
+                                <argument>${keycloak.tool.path}</argument>
+                                <argument>initialize-keycloak</argument>
+                                <argument>--username</argument>
+                                <argument>admin</argument>
+                                <argument>--password</argument>
+                                <argument>password</argument>
+                                <argument>--file</argument>
+                                <argument>${project.build.directory}/${wildfly.directory}/standalone/configuration/keycloak-add-user.json</argument>
+                            </arguments>
+                        </configuration>
+                    </execution>
+                    <execution>
+                        <id>create-windup-realm</id>
+                        <phase>prepare-package</phase>
+                        <goals>
+                            <goal>exec</goal>
+                        </goals>
+                        <configuration>
+                            <executable>java</executable>
+                            <outputFile>${project.build.directory}/create-realm.output</outputFile>
+                            <arguments>
+                                <argument>-jar</argument>
+                                <argument>${keycloak.tool.path}</argument>
+                                <argument>create-windup-realm</argument>
+                            </arguments>
+                        </configuration>
+                    </execution>
+                    <execution>
+                        <id>create-keycloak-guest-user</id>
+                        <phase>prepare-package</phase>
+                        <goals>
+                            <goal>exec</goal>
+                        </goals>
+                        <configuration>
+                            <executable>java</executable>
+                            <outputFile>${project.build.directory}/create-guest.output</outputFile>
+                            <arguments>
+                                <argument>-jar</argument>
+                                <argument>${keycloak.tool.path}</argument>
+                                <argument>create-windup-user</argument>
+                                <argument>--newUserID</argument>
+                                <argument>rhamt</argument>
+                                <argument>--newUserPassword</argument>
+                                <argument>password</argument>
+                                <argument>--firstName</argument>
+                                <argument>rhamt</argument>
+                                <argument>--lastName</argument>
+                                <argument>rhamt</argument>
+                            </arguments>
+                        </configuration>
+                    </execution>
+                    <execution>
+                        <id>get-windup-realm-public-key</id>
+                        <phase>prepare-package</phase>
+                        <goals>
+                            <goal>exec</goal>
+                        </goals>
+                        <configuration>
+                            <executable>java</executable>
+                            <outputFile>${project.build.directory}/publickey.cli</outputFile>
+                            <arguments>
+                                <argument>-jar</argument>
+                                <argument>${keycloak.tool.path}</argument>
+                                <argument>print-windup-realm-public-key</argument>
+                            </arguments>
+                        </configuration>
+                    </execution>
                 </executions>
             </plugin>
 
@@ -262,44 +288,44 @@
                 <groupId>org.wildfly.plugins</groupId>
                 <artifactId>wildfly-maven-plugin</artifactId>
                 <executions>
-                  <execution>
-                    <id>start-wildfly</id>
-                    <phase>compile</phase>
-                    <goals>
-                      <goal>start</goal>
-                      <goal>execute-commands</goal>
-                    </goals>
-                    <configuration>
-                      <jbossHome>${project.build.directory}/${wildfly.directory}</jbossHome>
-                      <serverConfig>standalone-full.xml</serverConfig>
-                      <stdout>${project.build.directory}/jboss.stdout</stdout>
-                      <systemProperties>
-                        <windup.data.dir>${jboss.server.data.dir}/h2/windup-web</windup.data.dir>
-                      </systemProperties>
-                      <scripts>
-                        <script>${project.build.directory}/${wildfly.directory}/bin/adapter-install.cli</script>
-                        <script>src/main/cli/keycloak-install.cli</script>
-                        <script>src/main/cli/setup-eap.cli</script>
-                        <script>src/main/cli/adding-redirect.cli</script>
-                      </scripts>
-                    </configuration>
-                  </execution>
-                  <execution>
-                    <id>stop-wildfly</id>
-                    <phase>package</phase>
-                    <goals>
-                      <goal>execute-commands</goal>
-                      <goal>shutdown</goal>
-                    </goals>
-                    <configuration>
-                      <jbossHome>${project.build.directory}/${wildfly.directory}</jbossHome>
-                      <serverConfig>standalone-full.xml</serverConfig>
-                      <scripts>
-                        <script>${project.build.directory}/publickey.cli</script>
-                        <script>src/main/cli/setup-windup-keycloak-properties.cli</script>
-                      </scripts>
-                    </configuration>
-                  </execution>
+                    <execution>
+                        <id>start-wildfly</id>
+                        <phase>compile</phase>
+                        <goals>
+                            <goal>start</goal>
+                            <goal>execute-commands</goal>
+                        </goals>
+                        <configuration>
+                            <jbossHome>${project.build.directory}/${wildfly.directory}</jbossHome>
+                            <serverConfig>standalone-full.xml</serverConfig>
+                            <stdout>${project.build.directory}/jboss.stdout</stdout>
+                            <systemProperties>
+                                <windup.data.dir>${jboss.server.data.dir}/h2/windup-web</windup.data.dir>
+                            </systemProperties>
+                            <scripts>
+                                <script>${project.build.directory}/${wildfly.directory}/bin/adapter-install.cli</script>
+                                <script>src/main/cli/keycloak-install.cli</script>
+                                <script>src/main/cli/setup-eap.cli</script>
+                                <script>src/main/cli/adding-redirect.cli</script>
+                            </scripts>
+                        </configuration>
+                    </execution>
+                    <execution>
+                        <id>stop-wildfly</id>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>execute-commands</goal>
+                            <goal>shutdown</goal>
+                        </goals>
+                        <configuration>
+                            <jbossHome>${project.build.directory}/${wildfly.directory}</jbossHome>
+                            <serverConfig>standalone-full.xml</serverConfig>
+                            <scripts>
+                                <script>${project.build.directory}/publickey.cli</script>
+                                <script>src/main/cli/setup-windup-keycloak-properties.cli</script>
+                            </scripts>
+                        </configuration>
+                    </execution>
                 </executions>
             </plugin>
             <plugin>
