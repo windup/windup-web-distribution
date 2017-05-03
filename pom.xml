@@ -176,7 +176,7 @@
                             </artifactItems>
                         </configuration>
                     </execution>
-                    <!-- Get the Keycloak tool locally -->
+                    <!-- Overwrite WildFly's H2 with 1.4.x (with MVCC). -->
                     <execution>
                         <id>copy-h2db</id>
                         <phase>generate-test-resources</phase>
