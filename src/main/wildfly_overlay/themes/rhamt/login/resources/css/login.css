@@ -38,3 +38,30 @@
 #kc-info-wrapper > p {
     margin-bottom: 10px;
 }
+
+@media (min-width: 401px) and (max-width: 1200px) {
+    #kc-logo-wrapper {
+        position: relative;
+        top: 40px;
+        right: 0;
+        margin: 0 auto;
+    }
+}
+
+@media (min-width: 401px) and (max-width: 765px) {
+    #kc-logo-wrapper {
+        top: 15px;
+    }
+}
+
+@media (max-height: 400px) {
+    #kc-logo-wrapper {
+        display: none;
+    }
+}
+
+@media (max-width: 400px) {
+    #kc-logo-wrapper {
+        display: none;
+    }
+}
