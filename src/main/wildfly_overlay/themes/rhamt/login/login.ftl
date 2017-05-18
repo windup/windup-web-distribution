@@ -5,7 +5,10 @@
     <#elseif section = "header">
     ${msg("loginTitleHtml",(realm.displayNameHtml!''))}
     <#elseif section = "logo">
-        <span id="rhamt-title"><strong>Red Hat Application Migration Toolkit</strong> - Web Console</span>
+        <span id="rhamt-title">
+            <strong class="visible-xs-inline">RHAMT</strong>
+            <strong class="hidden-xs">Red Hat Application Migration Toolkit</strong> - Web Console
+        </span>
     <#elseif section = "form">
         <#if realm.password>
         <form id="kc-form-login" class="${properties.kcFormClass!}" action="${url.loginAction}" method="post">
