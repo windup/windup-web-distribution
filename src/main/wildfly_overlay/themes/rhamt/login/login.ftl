@@ -7,7 +7,7 @@
     <#elseif section = "logo">
         <span id="rhamt-title">
             <strong class="visible-xs-inline">RHAMT</strong>
-            <strong class="hidden-xs">Red Hat Application Migration Toolkit</strong> - Web Console
+            <strong class="hidden-xs">Red Hat Application Migration Toolkit</strong> Web Console
         </span>
     <#elseif section = "form">
         <#if realm.password>
@@ -66,7 +66,7 @@
         </#if>
     <#elseif section = "info">
         <p>
-            <strong class="welcome-help-text"> Welcome to Red Hat Application Migration Toolkit Web Console. </strong>
+            <strong class="welcome-help-text"> Welcome to the Red Hat Application Migration Toolkit Web Console. </strong>
         </p>
         <p>
             Learn more about Red Hat Application Migration Toolkit from the
