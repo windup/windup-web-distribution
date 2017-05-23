@@ -65,3 +65,7 @@
         display: none;
     }
 }
+
+.btn {
+    text-transform: capitalize;
+}
