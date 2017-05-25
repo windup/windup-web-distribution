@@ -98,6 +98,24 @@
                                     <destFileName>keycloak-tool.jar</destFileName>
                                     <overWrite>true</overWrite>
                                 </artifactItem>
+                                <artifactItem>
+                                    <groupId>${project.groupId}</groupId>
+                                    <artifactId>windup-web-services</artifactId>
+                                    <version>${project.version}</version>
+                                    <type>war</type>
+                                    <overWrite>true</overWrite>
+                                    <destFileName>api.war</destFileName>
+                                    <outputDirectory>${project.build.directory}/${wildfly.directory}/standalone/deployments/</outputDirectory>
+                                </artifactItem>
+                                <artifactItem>
+                                    <groupId>${project.groupId}</groupId>
+                                    <artifactId>windup-web-ui</artifactId>
+                                    <version>${project.version}</version>
+                                    <type>war</type>
+                                    <overWrite>true</overWrite>
+                                    <destFileName>rhamt-web.war</destFileName>
+                                    <outputDirectory>${project.build.directory}/${wildfly.directory}/standalone/deployments/</outputDirectory>
+                                </artifactItem>
                             </artifactItems>
                         </configuration>
                     </execution>
@@ -115,7 +133,7 @@
                                     <artifactId>${wildfly.artifactId}</artifactId>
                                     <version>${version.wildfly}</version>
                                     <type>zip</type>
-                                    <overWrite>false</overWrite>
+                                    <overWrite>true</overWrite>
                                     <excludes>**/README.txt</excludes>
                                     <outputDirectory>${project.build.directory}</outputDirectory>
                                 </artifactItem>
@@ -134,23 +152,6 @@
                                     <type>zip</type>
                                     <overWrite>true</overWrite>
                                     <outputDirectory>${project.build.directory}/${wildfly.directory}/</outputDirectory>
-                                </artifactItem>
-
-                                <artifactItem>
-                                    <groupId>${project.groupId}</groupId>
-                                    <artifactId>windup-web-services</artifactId>
-                                    <version>${project.version}</version>
-                                    <type>war</type>
-                                    <overWrite>true</overWrite>
-                                    <outputDirectory>${project.build.directory}/${wildfly.directory}/standalone/deployments/api.war</outputDirectory>
-                                </artifactItem>
-                                <artifactItem>
-                                    <groupId>${project.groupId}</groupId>
-                                    <artifactId>windup-web-ui</artifactId>
-                                    <version>${project.version}</version>
-                                    <type>war</type>
-                                    <overWrite>true</overWrite>
-                                    <outputDirectory>${project.build.directory}/${wildfly.directory}/standalone/deployments/rhamt-web.war</outputDirectory>
                                 </artifactItem>
                             </artifactItems>
                         </configuration>
@@ -323,28 +324,6 @@
                                 <script>${project.build.directory}/publickey.cli</script>
                                 <script>src/main/cli/setup-windup-keycloak-properties.cli</script>
                             </scripts>
-                        </configuration>
-                    </execution>
-                </executions>
-            </plugin>
-            <plugin>
-                <artifactId>maven-resources-plugin</artifactId>
-                <executions>
-                    <execution>
-                        <id>copy-deployment-markers</id>
-                        <phase>package</phase>
-                        <goals>
-                            <goal>copy-resources</goal>
-                        </goals>
-                        <configuration>
-                            <outputDirectory>${project.build.directory}/${wildfly.directory}/standalone/deployments/</outputDirectory>
-                            <overwrite>true</overwrite>
-                            <resources>
-                                <resource>
-                                    <directory>src/main/deploymentmarkers</directory>
-                                    <filtering>false</filtering>
-                                </resource>
-                            </resources>
                         </configuration>
                     </execution>
                 </executions>
