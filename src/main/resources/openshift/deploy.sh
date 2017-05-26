@@ -12,7 +12,9 @@ cd $SCRIPT_DIR
 
 cp ../standalone/deployments/api.war $SERVICES_WAR
 cp ../standalone/deployments/rhamt-web.war $UI_WAR
-
+rm -rf sso-builder/themes
+mkdir -p sso-builder/themes/
+cp -R themes/rhamt sso-builder/themes/
 
 # Checks if the "api.war" file has been added properly
 ls -al ${SERVICES_WAR}
@@ -40,6 +42,11 @@ oc create -n ${OCP_PROJECT} -f templates/eap-app-secret.json
 sleep 1
 oc create -n ${OCP_PROJECT} -f templates/sso-app-secret.json
 sleep 1
+
+echo "  -> Build 'sso-builder' image"
+oc process -f templates/rhamt-sso-image.json | oc create -n rhamt -f -
+
+oc start-build --wait --from-dir=sso-builder rhamt-sso
 
 echo "  -> Process SSO template"
 # Template adapted from https://github.com/jboss-openshift/application-templates/blob/master/sso/sso71-postgresql-persistent.json
