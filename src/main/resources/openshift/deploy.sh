@@ -14,7 +14,7 @@ cp ../standalone/deployments/api.war $SERVICES_WAR
 cp ../standalone/deployments/rhamt-web.war $UI_WAR
 rm -rf sso-builder/themes
 mkdir -p sso-builder/themes/
-cp -R themes/rhamt sso-builder/themes/
+cp -R ../themes/rhamt sso-builder/themes/
 
 # Checks if the "api.war" file has been added properly
 ls -al ${SERVICES_WAR}
