@@ -15,6 +15,7 @@ cp ../standalone/deployments/rhamt-web.war $UI_WAR
 rm -rf sso-builder/themes
 mkdir -p sso-builder/themes/
 cp -R ../themes/rhamt sso-builder/themes/
+cp sso-builder/themes/rhamt/login/login_required.theme.properties sso-builder/themes/rhamt/login/theme.properties
 
 # Checks if the "api.war" file has been added properly
 ls -al ${SERVICES_WAR}
