@@ -1,11 +1,18 @@
+# JMS Queues
 /subsystem=messaging-activemq/server=default/jms-queue=executorQueue:add(entries=[queues/executorQueue])
 /subsystem=messaging-activemq/server=default/jms-queue=statusUpdateQueue:add(entries=[queues/statusUpdateQueue])
 /subsystem=messaging-activemq/server=default/jms-queue=packageDiscoveryQueue:add(entries=[queues/packageDiscoveryQueue])
 /subsystem=messaging-activemq/server=default/jms-topic=executorCancellation:add(entries=[topics/executorCancellation])
+
+# Properties
 /system-property=windup.data.dir:add(value="${jboss.server.data.dir}/h2/windup-web")
 /subsystem=datasources/data-source=WindupServicesDS:add(jndi-name="java:jboss/datasources/WindupServicesDS", connection-url="jdbc:h2:${windup.data.dir}/h2/windup-web;MULTI_THREADED=1", driver-name="h2", max-pool-size=30, user-name=sa, password=sa)
 /system-property=windup.data.dir:remove()
-/subsystem=undertow/server=default-server/http-listener=default:write-attribute(name=max-post-size, value=943718400)
+
+# Logging
+/subsystem=logging/logger=org.jboss.windup:add(level=INFO, use-parent-handlers=false, handlers=[])
+/subsystem=logging/logger=org.jboss.windup.web:add(level=INFO, use-parent-handlers=false, handlers=[FILE, CONSOLE])
+/subsystem=logging/logger=org.jboss.windup.web.services.WindupWebProgressMonitor:add(level=INFO, use-parent-handlers=false, handlers=[])
 
 ## Reduce the Furnace loading warnings.
 /subsystem=logging/logger=org.jboss.forge.furnace.container.simple.impl.SimpleServiceRegistry/:add(level=SEVERE)
@@ -18,3 +25,8 @@
 /subsystem=logging/logger=org.jboss.msc.service.fail/:add(level=ERROR)
 ## HHH000431: Unable to determine H2 database version, certain features may not work
 /subsystem=logging/logger=org.hibernate.dialect.H2Dialect/:add(level=ERROR)
+
+
+
+# Other
+/subsystem=undertow/server=default-server/http-listener=default:write-attribute(name=max-post-size, value=943718400)
