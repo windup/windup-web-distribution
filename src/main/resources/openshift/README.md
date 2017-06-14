@@ -1,6 +1,11 @@
 # rhamt-ocp
 Builder for the Red Hat Application Migration Toolkit on OpenShift Container Platform
 
+# Prerequisites
+
+- Access to a running OpenShift instance
+- Client tools on your local machine (OpenShift 3.5+ supported)
+
 # Usage
 
 1. Connect to OpenShift with the command line tools. For example:
