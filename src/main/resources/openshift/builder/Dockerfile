@@ -1,5 +1,7 @@
 FROM jboss-eap-7/eap70-openshift:1.4
 
+ADD windup-web-redirect /opt/eap/windup-web-redirect
+
 # Backup
 RUN cp /opt/eap/bin/openshift-launch.sh /opt/eap/bin/openshift-launch.sh.orig
 

@@ -10,12 +10,20 @@ UI_WAR=${APP_DIR}/rhamt-web.war
 SCRIPT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 cd $SCRIPT_DIR
 
+# Copy root war configuration
+cp -R ../windup-web-redirect builder/
+
+# Copy deployments
 cp ../standalone/deployments/api.war $SERVICES_WAR
 cp ../standalone/deployments/rhamt-web.war $UI_WAR
+
+# Copy SSO Themes
 rm -rf sso-builder/themes
 mkdir -p sso-builder/themes/
 cp -R ../themes/rhamt sso-builder/themes/
 cp sso-builder/themes/rhamt/login/login_required.theme.properties sso-builder/themes/rhamt/login/theme.properties
+
+
 
 # Checks if the "api.war" file has been added properly
 ls -al ${SERVICES_WAR}
@@ -54,6 +62,9 @@ echo "  -> Process SSO template"
 oc process -f templates/sso70-postgresql-persistent.json \
     -p SSO_ADMIN_USERNAME=admin \
     -p SSO_ADMIN_PASSWORD=admin \
+    -p SSO_SERVICE_USERNAME=admin \
+    -p SSO_SERVICE_PASSWORD=admin \
+    -p SSO_REALM=rhamt \
     -p HTTPS_NAME=jboss \
     -p HTTPS_PASSWORD=mykeystorepass | oc create -n ${OCP_PROJECT} -f -
 sleep 1
