@@ -390,8 +390,8 @@
                             ],
                             "from": {
                                 "kind": "ImageStreamTag",
-                                "namespace": "${IMAGE_STREAM_NAMESPACE}",
-                                "name": "redhat-sso70-openshift:1.3"
+                                "namespace": "rhamt",
+                                "name": "rhamt-sso:latest"
                             }
                         }
                     },
