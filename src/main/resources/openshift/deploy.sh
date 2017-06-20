@@ -67,7 +67,9 @@ oc process -f templates/sso70-postgresql-persistent.json \
     -p SSO_REALM=rhamt \
     -p HTTPS_NAME=jboss \
     -p HTTPS_PASSWORD=mykeystorepass | oc create -n ${OCP_PROJECT} -f -
-sleep 1
+
+echo "    -> Waiting on SSO startup (90 seconds)..."
+sleep 90
 
 SSO_HOSTNAME=`oc get route --no-headers -o=custom-columns=HOST:.spec.host sso`
 SSO_URL="http://$SSO_HOSTNAME/auth"
@@ -88,6 +90,9 @@ oc start-build --wait --from-dir=builder eap-builder
 
 echo "  -> Build '${APP}' application image"
 oc start-build --wait --from-dir=${APP_DIR} ${APP} 2>/dev/null > /dev/null
+
+echo "  -> Applications built -- pause for the system to settle"
+sleep 30
 
 echo
 echo "Start application (${APP})"

@@ -182,24 +182,7 @@
   "otpPolicyDigits" : 6,
   "otpPolicyLookAheadWindow" : 1,
   "otpPolicyPeriod" : 30,
-  "users" : [ {
-    "id" : "1453daaa-2720-4037-94e6-6fcd4b5feac8",
-    "createdTimestamp" : 1491555471831,
-    "username" : "rhamt",
-    "enabled" : true,
-    "totp" : false,
-    "emailVerified" : true,
-    "credentials" : [ {
-      "type" : "password",
-      "value" : "password"
-    } ],
-    "requiredActions" : [ ],
-    "realmRoles" : [ "uma_authorization", "offline_access", "user" ],
-    "clientRoles" : {
-      "account" : [ "manage-account", "view-profile" ]
-    },
-    "groups" : [ ]
-  } ],
+  "users" : [ ],
   "clientScopeMappings" : {
     "realm-management" : [ {
       "client" : "admin-cli",
