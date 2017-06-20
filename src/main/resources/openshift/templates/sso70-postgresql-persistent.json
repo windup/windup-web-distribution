@@ -390,7 +390,8 @@
                             ],
                             "from": {
                                 "kind": "ImageStreamTag",
-                                "name": "sso-builder:latest"
+                                "namespace": "rhamt",
+                                "name": "rhamt-sso:latest"
                             }
                         }
                     },
