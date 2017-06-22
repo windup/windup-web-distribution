@@ -53,10 +53,12 @@ oc create -n ${OCP_PROJECT} -f templates/sso-app-secret.json
 sleep 1
 
 echo "  -> Build 'sso-builder' image"
-oc process -f templates/rhamt-sso-image.json | oc create -n rhamt -f -
+oc process -f templates/rhamt-sso-image.json | oc create -n ${OCP_PROJECT} -f -
 
 oc start-build --wait --from-dir=sso-builder rhamt-sso
 
+HTTPS_NAME="jboss"
+HTTPS_PASSWORD="mykeystorepass"
 echo "  -> Process SSO template"
 # Template adapted from https://github.com/jboss-openshift/application-templates/blob/master/sso/sso71-postgresql-persistent.json
 oc process -f templates/sso70-postgresql-persistent.json \
@@ -65,18 +67,21 @@ oc process -f templates/sso70-postgresql-persistent.json \
     -p SSO_SERVICE_USERNAME=admin \
     -p SSO_SERVICE_PASSWORD=admin \
     -p SSO_REALM=rhamt \
-    -p HTTPS_NAME=jboss \
-    -p HTTPS_PASSWORD=mykeystorepass | oc create -n ${OCP_PROJECT} -f -
+    -p HTTPS_NAME=${HTTPS_NAME} \
+    -p HTTPS_PASSWORD=${HTTPS_PASSWORD} \
+    -p OCP_PROJECT=${OCP_PROJECT} | oc create -n ${OCP_PROJECT} -f -
 
 echo "    -> Waiting on SSO startup (90 seconds)..."
 sleep 90
 
-SSO_HOSTNAME=`oc get route --no-headers -o=custom-columns=HOST:.spec.host sso`
-SSO_URL="http://$SSO_HOSTNAME/auth"
+SSO_HOSTNAME=`oc get route --no-headers -o=custom-columns=HOST:.spec.host secure-sso`
+SSO_URL="https://$SSO_HOSTNAME/auth"
 
 echo "  -> SSO URL: $SSO_URL"
 cp app/configuration/eap.cli.original app/configuration/eap.cli
 sed -i -e "s#KEYCLOAK_URL#$SSO_URL#g" app/configuration/eap.cli
+sed -i -e "s#HTTPS_NAME#$HTTPS_NAME#g" app/configuration/eap.cli
+sed -i -e "s#HTTPS_PASSWORD#$HTTPS_PASSWORD#g" app/configuration/eap.cli
 
 echo "  -> Process RHAMT template"
 # Template adapted from https://github.com/jboss-openshift/application-templates/blob/master/eap/eap70-postgresql-persistent-s2i.json
