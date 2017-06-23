@@ -681,6 +681,11 @@
                                         "name": "eap-jgroups-keystore-volume",
                                         "mountPath": "/etc/jgroups-encrypt-secret-volume",
                                         "readOnly": true
+                                    },
+                                    {
+                                        "name": "${APPLICATION_NAME}-rhamt-web-pvol",
+                                        "mountPath": "/opt/eap/standalone/data",
+                                        "readOnly": false
                                     }
                                 ],
                                 "lifecycle": {
@@ -942,6 +947,12 @@
                                 "secret": {
                                     "secretName": "${JGROUPS_ENCRYPT_SECRET}"
                                 }
+                            },
+                            {
+                                "name": "${APPLICATION_NAME}-rhamt-web-pvol",
+                                "persistentVolumeClaim": {
+                                    "claimName": "${APPLICATION_NAME}-rhamt-web-claim"
+                                }
                             }
                         ]
                     }
@@ -1056,6 +1067,26 @@
             "kind": "PersistentVolumeClaim",
             "metadata": {
                 "name": "${APPLICATION_NAME}-postgresql-claim",
+                "labels": {
+                    "application": "${APPLICATION_NAME}"
+                }
+            },
+            "spec": {
+                "accessModes": [
+                    "ReadWriteOnce"
+                ],
+                "resources": {
+                    "requests": {
+                        "storage": "${VOLUME_CAPACITY}"
+                    }
+                }
+            }
+        },
+        {
+            "apiVersion": "v1",
+            "kind": "PersistentVolumeClaim",
+            "metadata": {
+                "name": "${APPLICATION_NAME}-rhamt-web-claim",
                 "labels": {
                     "application": "${APPLICATION_NAME}"
                 }
