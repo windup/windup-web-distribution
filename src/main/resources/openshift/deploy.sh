@@ -53,7 +53,7 @@ oc create -n ${OCP_PROJECT} -f templates/sso-app-secret.json
 sleep 1
 
 echo "  -> Build 'sso-builder' image"
-oc process -f templates/rhamt-sso-image.json | oc create -n rhamt -f -
+oc process -f templates/rhamt-sso-image.json | oc create -n ${OCP_PROJECT} -f -
 
 oc start-build --wait --from-dir=sso-builder rhamt-sso
 
@@ -66,7 +66,8 @@ oc process -f templates/sso70-postgresql-persistent.json \
     -p SSO_SERVICE_PASSWORD=admin \
     -p SSO_REALM=rhamt \
     -p HTTPS_NAME=jboss \
-    -p HTTPS_PASSWORD=mykeystorepass | oc create -n ${OCP_PROJECT} -f -
+    -p HTTPS_PASSWORD=mykeystorepass \
+    -p OCP_PROJECT=${OCP_PROJECT} | oc create -n ${OCP_PROJECT} -f -
 
 echo "    -> Waiting on SSO startup (90 seconds)..."
 sleep 90

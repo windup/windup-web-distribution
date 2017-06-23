@@ -247,6 +247,13 @@
             "name": "SSO_TRUSTSTORE_SECRET",
             "value": "sso-app-secret",
             "required": false
+        },
+        {
+            "displayName": "Openshift Project Name",
+            "description": "The name of the project containing this application",
+            "name": "OCP_PROJECT",
+            "value": "",
+            "required": true
         }
     ],
     "objects": [
@@ -267,7 +274,8 @@
             "metadata": {
                 "name": "${APPLICATION_NAME}",
                 "labels": {
-                    "application": "${APPLICATION_NAME}"
+                    "application": "${APPLICATION_NAME}",
+                    "app": "${APPLICATION_NAME}-http"
                 },
                 "annotations": {
                     "description": "The web server's http port.",
@@ -292,7 +300,8 @@
             "metadata": {
                 "name": "secure-${APPLICATION_NAME}",
                 "labels": {
-                    "application": "${APPLICATION_NAME}"
+                    "application": "${APPLICATION_NAME}",
+                    "app": "${APPLICATION_NAME}-https"
                 },
                 "annotations": {
                     "description": "The web server's https port.",
@@ -390,7 +399,7 @@
                             ],
                             "from": {
                                 "kind": "ImageStreamTag",
-                                "namespace": "rhamt",
+                                "namespace": "${OCP_PROJECT}",
                                 "name": "rhamt-sso:latest"
                             }
                         }
