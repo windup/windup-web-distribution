@@ -247,6 +247,13 @@
             "name": "SSO_TRUSTSTORE_SECRET",
             "value": "sso-app-secret",
             "required": false
+        },
+        {
+            "displayName": "Openshift Project Name",
+            "description": "The name of the project containing this application",
+            "name": "OCP_PROJECT",
+            "value": "",
+            "required": true
         }
     ],
     "objects": [
@@ -390,7 +397,7 @@
                             ],
                             "from": {
                                 "kind": "ImageStreamTag",
-                                "namespace": "rhamt",
+                                "namespace": "${OCP_PROJECT}",
                                 "name": "rhamt-sso:latest"
                             }
                         }
