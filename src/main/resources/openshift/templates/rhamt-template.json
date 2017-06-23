@@ -402,10 +402,12 @@
             "metadata": {
                 "name": "${APPLICATION_NAME}",
                 "labels": {
-                    "application": "${APPLICATION_NAME}"
+                    "application": "${APPLICATION_NAME}",
+                    "app": "${APPLICATION_NAME}-http"
                 },
                 "annotations": {
-                    "description": "The web server's http port."
+                    "description": "The web server's http port.",
+                    "service.alpha.openshift.io/dependencies": "[{\"name\": \"${APPLICATION_NAME}-postgresql\", \"kind\": \"Service\"}]"
                 }
             }
         },
@@ -426,10 +428,12 @@
             "metadata": {
                 "name": "secure-${APPLICATION_NAME}",
                 "labels": {
-                    "application": "${APPLICATION_NAME}"
+                    "application": "${APPLICATION_NAME}",
+                    "app": "${APPLICATION_NAME}-https"
                 },
                 "annotations": {
-                    "description": "The web server's https port."
+                    "description": "The web server's https port.",
+                    "service.alpha.openshift.io/dependencies": "[{\"name\": \"${APPLICATION_NAME}-postgresql\", \"kind\": \"Service\"}]"
                 }
             }
         },
