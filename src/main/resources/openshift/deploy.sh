@@ -92,10 +92,4 @@ oc start-build --wait --from-dir=builder eap-builder
 echo "  -> Build '${APP}' application image"
 oc start-build --wait --from-dir=${APP_DIR} ${APP} 2>/dev/null > /dev/null
 
-echo "  -> Applications built -- pause for the system to settle"
-sleep 30
-
-echo
-echo "Start application (${APP})"
-
-oc new-app -e JAVA_HOME=/usr/lib/jvm/java-1.8.0 ${APP}  2>/dev/null > /dev/null
+echo "Build and upload complete!"
