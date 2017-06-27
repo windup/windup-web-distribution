@@ -26,6 +26,8 @@
 ## HHH000431: Unable to determine H2 database version, certain features may not work
 /subsystem=logging/logger=org.hibernate.dialect.H2Dialect/:add(level=ERROR)
 
+## Remove spurious Titan warnings
+/subsystem=logging/logger=com.thinkaurelius.titan.diskstorage.berkeleyje/:add(level=ERROR)
 
 
 # Other
