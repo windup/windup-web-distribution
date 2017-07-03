@@ -1,4 +1,4 @@
-FROM jboss-eap-7/eap70-openshift:1.4
+FROM registry.access.redhat.com/jboss-eap-7/eap70-openshift:1.4
 
 ADD windup-web-redirect /opt/eap/windup-web-redirect
 
