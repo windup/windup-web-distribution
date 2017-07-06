@@ -1,6 +1,9 @@
 #!/bin/bash
 
-OCP_PROJECT=rhamt
+OCP_PROJECT=jsightlerrhamt
+DB_DATABASE=WindupServicesDS
+DB_USERNAME=postgresuser
+DB_PASSWORD=postgrespassword
 
 APP=rhamt-web-console
 APP_DIR=app
@@ -39,6 +42,9 @@ echo "  -> Create Openshift project (${OCP_PROJECT})"
 oc new-project ${OCP_PROJECT} 2>/dev/null > /dev/null
 sleep 1
 
+oc policy add-role-to-user view system:serviceaccount:$(oc project -q):eap-service-account -n $(oc project -q)
+oc policy add-role-to-user view system:serviceaccount:$(oc project -q):sso-service-account -n $(oc project -q)
+
 echo "  -> Switch to project"
 oc project ${OCP_PROJECT}  2>&1 > /dev/null
 
@@ -67,6 +73,10 @@ oc process -f templates/sso70-postgresql-persistent.json \
     -p SSO_REALM=rhamt \
     -p HTTPS_NAME=jboss \
     -p HTTPS_PASSWORD=mykeystorepass \
+    -p POSTGRESQL_MAX_CONNECTIONS=200 \
+    -p DB_DATABASE=${DB_DATABASE} \
+    -p DB_USERNAME=${DB_USERNAME} \
+    -p DB_PASSWORD=${DB_PASSWORD} \
     -p OCP_PROJECT=${OCP_PROJECT} | oc create -n ${OCP_PROJECT} -f -
 
 echo "    -> Waiting on SSO startup (90 seconds)..."
@@ -81,7 +91,12 @@ sed -i -e "s#KEYCLOAK_URL#$SSO_URL#g" app/configuration/eap.cli
 
 echo "  -> Process RHAMT template"
 # Template adapted from https://github.com/jboss-openshift/application-templates/blob/master/eap/eap70-postgresql-persistent-s2i.json
-oc process -f templates/rhamt-template.json -p POSTGRESQL_MAX_CONNECTIONS=200 | oc create -n ${OCP_PROJECT} -f -
+oc process -f templates/rhamt-template.json \
+    -p POSTGRESQL_MAX_CONNECTIONS=200 \
+    -p DB_DATABASE=${DB_DATABASE} \
+    -p DB_USERNAME=${DB_USERNAME} \
+    -p DB_PASSWORD=${DB_PASSWORD} \
+    -p OCP_PROJECT=${OCP_PROJECT} | oc create -n ${OCP_PROJECT} -f -
 
 echo
 echo "Build images"
