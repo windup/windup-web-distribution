@@ -1,6 +1,6 @@
 #!/bin/bash
 
-OCP_PROJECT=jsightlerrhamt
+OCP_PROJECT=rhamt
 DB_DATABASE=WindupServicesDS
 DB_USERNAME=postgresuser
 DB_PASSWORD=postgrespassword
