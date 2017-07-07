@@ -70,7 +70,7 @@
             "displayName": "Database Name",
             "description": "Database name",
             "name": "DB_DATABASE",
-            "value": "WindupServicesDS",
+            "value": "",
             "required": true
         },
         {
@@ -382,6 +382,13 @@
             "name": "SSO_TRUSTSTORE_SECRET",
             "value": "eap7-app-secret",
             "required": false
+        },
+        {
+            "displayName": "Openshift Project Name",
+            "description": "The name of the project containing this application",
+            "name": "OCP_PROJECT",
+            "value": "",
+            "required": true
         }
     ],
     "objects": [
@@ -407,7 +414,7 @@
                 },
                 "annotations": {
                     "description": "The web server's http port.",
-                    "service.alpha.openshift.io/dependencies": "[{\"name\": \"${APPLICATION_NAME}-postgresql\", \"kind\": \"Service\"}]"
+                    "service.alpha.openshift.io/dependencies": "[{\"name\": \"${OCP_PROJECT}-postgresql\", \"kind\": \"Service\"}]"
                 }
             }
         },
@@ -433,31 +440,7 @@
                 },
                 "annotations": {
                     "description": "The web server's https port.",
-                    "service.alpha.openshift.io/dependencies": "[{\"name\": \"${APPLICATION_NAME}-postgresql\", \"kind\": \"Service\"}]"
-                }
-            }
-        },
-        {
-            "kind": "Service",
-            "apiVersion": "v1",
-            "spec": {
-                "ports": [
-                    {
-                        "port": 5432,
-                        "targetPort": 5432
-                    }
-                ],
-                "selector": {
-                    "deploymentConfig": "${APPLICATION_NAME}-postgresql"
-                }
-            },
-            "metadata": {
-                "name": "${APPLICATION_NAME}-postgresql",
-                "labels": {
-                    "application": "${APPLICATION_NAME}"
-                },
-                "annotations": {
-                    "description": "The database server's port."
+                    "service.alpha.openshift.io/dependencies": "[{\"name\": \"${OCP_PROJECT}-postgresql\", \"kind\": \"Service\"}]"
                 }
             }
         },
@@ -742,7 +725,7 @@
                                 "env": [
                                     {
                                         "name": "DB_SERVICE_PREFIX_MAPPING",
-                                        "value": "${APPLICATION_NAME}-postgresql=DB"
+                                        "value": "${OCP_PROJECT}-postgresql=DB"
                                     },
                                     {
                                         "name": "DB_JNDI",
@@ -762,7 +745,7 @@
                                     },
                                     {
                                         "name": "TX_DATABASE_PREFIX_MAPPING",
-                                        "value": "${APPLICATION_NAME}-postgresql=DB"
+                                        "value": "${OCP_PROJECT}-postgresql=DB"
                                     },
                                     {
                                         "name": "DB_MIN_POOL_SIZE",
@@ -850,11 +833,11 @@
                                     },
                                     {
                                         "name": "DEFAULT_JOB_REPOSITORY",
-                                        "value": "${APPLICATION_NAME}-postgresql"
+                                        "value": "${OCP_PROJECT}-postgresql"
                                     },
                                     {
                                         "name": "TIMER_SERVICE_DATA_STORE",
-                                        "value": "${APPLICATION_NAME}-postgresql"
+                                        "value": "${OCP_PROJECT}-postgresql"
                                     },
                                     {
                                         "name": "SSO_URL",
@@ -955,129 +938,6 @@
                                 }
                             }
                         ]
-                    }
-                }
-            }
-        },
-        {
-            "kind": "DeploymentConfig",
-            "apiVersion": "v1",
-            "metadata": {
-                "name": "${APPLICATION_NAME}-postgresql",
-                "labels": {
-                    "application": "${APPLICATION_NAME}"
-                }
-            },
-            "spec": {
-                "strategy": {
-                    "type": "Recreate"
-                },
-                "triggers": [
-                    {
-                        "type": "ImageChange",
-                        "imageChangeParams": {
-                            "automatic": true,
-                            "containerNames": [
-                                "${APPLICATION_NAME}-postgresql"
-                            ],
-                            "from": {
-                                "kind": "ImageStreamTag",
-                                "namespace": "${IMAGE_STREAM_NAMESPACE}",
-                                "name": "postgresql:latest"
-                            }
-                        }
-                    },
-                    {
-                        "type": "ConfigChange"
-                    }
-                ],
-                "replicas": 1,
-                "selector": {
-                    "deploymentConfig": "${APPLICATION_NAME}-postgresql"
-                },
-                "template": {
-                    "metadata": {
-                        "name": "${APPLICATION_NAME}-postgresql",
-                        "labels": {
-                            "deploymentConfig": "${APPLICATION_NAME}-postgresql",
-                            "application": "${APPLICATION_NAME}"
-                        }
-                    },
-                    "spec": {
-                        "terminationGracePeriodSeconds": 60,
-                        "containers": [
-                            {
-                                "name": "${APPLICATION_NAME}-postgresql",
-                                "image": "postgresql",
-                                "imagePullPolicy": "Always",
-                                "ports": [
-                                    {
-                                        "containerPort": 5432,
-                                        "protocol": "TCP"
-                                    }
-                                ],
-                                "volumeMounts": [
-                                    {
-                                        "mountPath": "/var/lib/pgsql/data",
-                                        "name": "${APPLICATION_NAME}-postgresql-pvol"
-                                    }
-                                ],
-                                "env": [
-                                    {
-                                        "name": "POSTGRESQL_USER",
-                                        "value": "${DB_USERNAME}"
-                                    },
-                                    {
-                                        "name": "POSTGRESQL_PASSWORD",
-                                        "value": "${DB_PASSWORD}"
-                                    },
-                                    {
-                                        "name": "POSTGRESQL_DATABASE",
-                                        "value": "${DB_DATABASE}"
-                                    },
-                                    {
-                                        "name": "POSTGRESQL_MAX_CONNECTIONS",
-                                        "value": "${POSTGRESQL_MAX_CONNECTIONS}"
-                                    },
-                                    {
-                                        "name": "POSTGRESQL_MAX_PREPARED_TRANSACTIONS",
-                                        "value": "${POSTGRESQL_MAX_CONNECTIONS}"
-                                    },
-                                    {
-                                        "name": "POSTGRESQL_SHARED_BUFFERS",
-                                        "value": "${POSTGRESQL_SHARED_BUFFERS}"
-                                    }
-                                ]
-                            }
-                        ],
-                        "volumes": [
-                            {
-                                "name": "${APPLICATION_NAME}-postgresql-pvol",
-                                "persistentVolumeClaim": {
-                                    "claimName": "${APPLICATION_NAME}-postgresql-claim"
-                                }
-                            }
-                        ]
-                    }
-                }
-            }
-        },
-        {
-            "apiVersion": "v1",
-            "kind": "PersistentVolumeClaim",
-            "metadata": {
-                "name": "${APPLICATION_NAME}-postgresql-claim",
-                "labels": {
-                    "application": "${APPLICATION_NAME}"
-                }
-            },
-            "spec": {
-                "accessModes": [
-                    "ReadWriteOnce"
-                ],
-                "resources": {
-                    "requests": {
-                        "storage": "${VOLUME_CAPACITY}"
                     }
                 }
             }

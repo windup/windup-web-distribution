@@ -49,7 +49,7 @@
             "displayName": "Database Name",
             "description": "Database name",
             "name": "DB_DATABASE",
-            "value": "root",
+            "value": "",
             "required": true
         },
         {
@@ -279,7 +279,7 @@
                 },
                 "annotations": {
                     "description": "The web server's http port.",
-                    "service.alpha.openshift.io/dependencies": "[{\"name\": \"${APPLICATION_NAME}-postgresql\", \"kind\": \"Service\"}]"
+                    "service.alpha.openshift.io/dependencies": "[{\"name\": \"${OCP_PROJECT}-postgresql\", \"kind\": \"Service\"}]"
                 }
             }
         },
@@ -305,7 +305,7 @@
                 },
                 "annotations": {
                     "description": "The web server's https port.",
-                    "service.alpha.openshift.io/dependencies": "[{\"name\": \"${APPLICATION_NAME}-postgresql\", \"kind\": \"Service\"}]"
+                    "service.alpha.openshift.io/dependencies": "[{\"name\": \"${OCP_PROJECT}-postgresql\", \"kind\": \"Service\"}]"
                 }
             }
         },
@@ -320,11 +320,11 @@
                     }
                 ],
                 "selector": {
-                    "deploymentConfig": "${APPLICATION_NAME}-postgresql"
+                    "deploymentConfig": "${OCP_PROJECT}-postgresql"
                 }
             },
             "metadata": {
-                "name": "${APPLICATION_NAME}-postgresql",
+                "name": "${OCP_PROJECT}-postgresql",
                 "labels": {
                     "application": "${APPLICATION_NAME}"
                 },
@@ -499,7 +499,7 @@
                                 "env": [
                                     {
                                         "name": "DB_SERVICE_PREFIX_MAPPING",
-                                        "value": "${APPLICATION_NAME}-postgresql=DB"
+                                        "value": "${OCP_PROJECT}-postgresql=DB"
                                     },
                                     {
                                         "name": "DB_JNDI",
@@ -519,7 +519,7 @@
                                     },
                                     {
                                         "name": "TX_DATABASE_PREFIX_MAPPING",
-                                        "value": "${APPLICATION_NAME}-postgresql=DB"
+                                        "value": "${OCP_PROJECT}-postgresql=DB"
                                     },
                                     {
                                         "name": "DB_MIN_POOL_SIZE",
@@ -652,7 +652,7 @@
             "kind": "DeploymentConfig",
             "apiVersion": "v1",
             "metadata": {
-                "name": "${APPLICATION_NAME}-postgresql",
+                "name": "${OCP_PROJECT}-postgresql",
                 "labels": {
                     "application": "${APPLICATION_NAME}"
                 }
@@ -667,7 +667,7 @@
                         "imageChangeParams": {
                             "automatic": true,
                             "containerNames": [
-                                "${APPLICATION_NAME}-postgresql"
+                                "${OCP_PROJECT}-postgresql"
                             ],
                             "from": {
                                 "kind": "ImageStreamTag",
@@ -682,13 +682,13 @@
                 ],
                 "replicas": 1,
                 "selector": {
-                    "deploymentConfig": "${APPLICATION_NAME}-postgresql"
+                    "deploymentConfig": "${OCP_PROJECT}-postgresql"
                 },
                 "template": {
                     "metadata": {
-                        "name": "${APPLICATION_NAME}-postgresql",
+                        "name": "${OCP_PROJECT}-postgresql",
                         "labels": {
-                            "deploymentConfig": "${APPLICATION_NAME}-postgresql",
+                            "deploymentConfig": "${OCP_PROJECT}-postgresql",
                             "application": "${APPLICATION_NAME}"
                         }
                     },
@@ -696,7 +696,7 @@
                         "terminationGracePeriodSeconds": 60,
                         "containers": [
                             {
-                                "name": "${APPLICATION_NAME}-postgresql",
+                                "name": "${OCP_PROJECT}-postgresql",
                                 "image": "postgresql",
                                 "imagePullPolicy": "Always",
                                 "ports": [
@@ -708,7 +708,7 @@
                                 "volumeMounts": [
                                     {
                                         "mountPath": "/var/lib/pgsql/data",
-                                        "name": "${APPLICATION_NAME}-postgresql-pvol"
+                                        "name": "${OCP_PROJECT}-postgresql-pvol"
                                     }
                                 ],
                                 "env": [
@@ -741,9 +741,9 @@
                         ],
                         "volumes": [
                             {
-                                "name": "${APPLICATION_NAME}-postgresql-pvol",
+                                "name": "${OCP_PROJECT}-postgresql-pvol",
                                 "persistentVolumeClaim": {
-                                    "claimName": "${APPLICATION_NAME}-postgresql-claim"
+                                    "claimName": "${OCP_PROJECT}-postgresql-claim"
                                 }
                             }
                         ]
@@ -755,7 +755,7 @@
             "apiVersion": "v1",
             "kind": "PersistentVolumeClaim",
             "metadata": {
-                "name": "${APPLICATION_NAME}-postgresql-claim",
+                "name": "${OCP_PROJECT}-postgresql-claim",
                 "labels": {
                     "application": "${APPLICATION_NAME}"
                 }
