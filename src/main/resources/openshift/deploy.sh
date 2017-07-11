@@ -41,12 +41,12 @@ echo "Openshift project"
 echo "  -> Create Openshift project (${OCP_PROJECT})"
 oc new-project ${OCP_PROJECT} > /dev/null
 sleep 1
-
-oc policy add-role-to-user view system:serviceaccount:$(oc project -q):eap-service-account -n $(oc project -q)
-oc policy add-role-to-user view system:serviceaccount:$(oc project -q):sso-service-account -n $(oc project -q)
-
 echo "  -> Switch to project"
 oc project ${OCP_PROJECT} > /dev/null
+sleep 1
+echo "  -> Register service accounts"
+oc policy add-role-to-user view system:serviceaccount:${OCP_PROJECT}:eap-service-account -n ${OCP_PROJECT}
+oc policy add-role-to-user view system:serviceaccount:${OCP_PROJECT}:sso-service-account -n ${OCP_PROJECT}
 sleep 1
 
 echo
