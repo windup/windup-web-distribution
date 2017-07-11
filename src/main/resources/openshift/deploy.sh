@@ -79,7 +79,7 @@ oc start-build --wait --from-dir=sso-builder rhamt-sso
 sleep 1
 
 echo "  -> Process SSO template"
-# Template adapted from https://github.com/jboss-openshift/application-templates/blob/master/sso/sso71-postgresql-persistent.json
+# Template adapted from https://github.com/jboss-openshift/application-templates/blob/master/sso/sso70-postgresql-persistent.json
 oc process -f templates/sso70-postgresql-persistent.json \
     -p SSO_ADMIN_USERNAME=admin \
     -p SSO_ADMIN_PASSWORD=admin \
