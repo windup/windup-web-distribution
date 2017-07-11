@@ -39,14 +39,15 @@ rc=$?; if [[ $rc != 0 ]]; then echo "Missing deployment. Please build and copy r
 echo
 echo "Openshift project"
 echo "  -> Create Openshift project (${OCP_PROJECT})"
-oc new-project ${OCP_PROJECT} 2>/dev/null > /dev/null
+oc new-project ${OCP_PROJECT} > /dev/null
 sleep 1
 
 oc policy add-role-to-user view system:serviceaccount:$(oc project -q):eap-service-account -n $(oc project -q)
 oc policy add-role-to-user view system:serviceaccount:$(oc project -q):sso-service-account -n $(oc project -q)
 
 echo "  -> Switch to project"
-oc project ${OCP_PROJECT}  2>&1 > /dev/null
+oc project ${OCP_PROJECT} > /dev/null
+sleep 1
 
 echo
 echo "Project setup"
@@ -59,8 +60,9 @@ sleep 1
 
 echo "  -> Build 'sso-builder' image"
 oc process -f templates/rhamt-sso-image.json | oc create -n ${OCP_PROJECT} -f -
-
+sleep 1
 oc start-build --wait --from-dir=sso-builder rhamt-sso
+sleep 1
 
 echo "  -> Process SSO template"
 # Template adapted from https://github.com/jboss-openshift/application-templates/blob/master/sso/sso71-postgresql-persistent.json
@@ -77,6 +79,7 @@ oc process -f templates/sso70-postgresql-persistent.json \
     -p DB_USERNAME=${DB_USERNAME} \
     -p DB_PASSWORD=${DB_PASSWORD} \
     -p OCP_PROJECT=${OCP_PROJECT} | oc create -n ${OCP_PROJECT} -f -
+sleep 1
 
 echo "    -> Waiting on SSO startup (90 seconds)..."
 sleep 90
