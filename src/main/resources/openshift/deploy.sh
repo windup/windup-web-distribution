@@ -3,32 +3,30 @@
 set -e
 
 OCP_PROJECT=rhamt
+
 DB_DATABASE=WindupServicesDS
 DB_USERNAME=postgresuser
 DB_PASSWORD=postgrespassword
-
 APP=rhamt-web-console
 APP_DIR=app
 SERVICES_WAR=${APP_DIR}/api.war
 UI_WAR=${APP_DIR}/rhamt-web.war
 
 SCRIPT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
-cd $SCRIPT_DIR
+cd ${SCRIPT_DIR}
 
 # Copy root war configuration
 cp -R ../windup-web-redirect builder/
 
 # Copy deployments
-cp ../standalone/deployments/api.war $SERVICES_WAR
-cp ../standalone/deployments/rhamt-web.war $UI_WAR
+cp ../standalone/deployments/api.war ${SERVICES_WAR}
+cp ../standalone/deployments/rhamt-web.war ${UI_WAR}
 
 # Copy SSO Themes
 rm -rf sso-builder/themes
 mkdir -p sso-builder/themes/
 cp -R ../themes/rhamt sso-builder/themes/
 cp sso-builder/themes/rhamt/login/login_required.theme.properties sso-builder/themes/rhamt/login/theme.properties
-
-
 
 # Checks if the "api.war" file has been added properly
 ls -al ${SERVICES_WAR}
@@ -52,7 +50,6 @@ oc project ${OCP_PROJECT}  2>&1 > /dev/null
 
 echo
 echo "Project setup"
-
 # Templates taken from https://github.com/jboss-openshift/application-templates/tree/master/secrets
 echo "  -> Populate EAP and SSO secrets"
 oc create -n ${OCP_PROJECT} -f templates/eap-app-secret.json
