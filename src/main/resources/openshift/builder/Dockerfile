@@ -1,4 +1,4 @@
-FROM jboss-eap-7/eap70-openshift:1.4
+FROM jboss-eap-7/eap70-openshift:latest
 
 ADD windup-web-redirect /opt/eap/windup-web-redirect
 
