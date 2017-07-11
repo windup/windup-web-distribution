@@ -95,15 +95,9 @@ oc process -f templates/sso70-postgresql-persistent.json \
     -p OCP_PROJECT=${OCP_PROJECT} | oc create -n ${OCP_PROJECT} -f -
 sleep 1
 
-echo "    -> Waiting on SSO startup (90 seconds)..."
-sleep 90
-
-SSO_HOSTNAME=`oc get route --no-headers -o=custom-columns=HOST:.spec.host sso`
-SSO_URL="http://$SSO_HOSTNAME/auth"
-
-echo "  -> SSO URL: $SSO_URL"
-cp app/configuration/eap.cli.original app/configuration/eap.cli
-sed -i -e "s#KEYCLOAK_URL#$SSO_URL#g" app/configuration/eap.cli
+SSO_HOSTNAME="$(oc get route --no-headers -o=custom-columns=HOST:.spec.host sso)"
+echo "keycloak.server.url=http://${SSO_HOSTNAME}/auth" > app/configuration/eap.properties
+#echo "     SSO URL: ${SSO_HOSTNAME}"
 
 echo "  -> Process RHAMT template"
 # Template adapted from https://github.com/jboss-openshift/application-templates/blob/master/eap/eap70-postgresql-persistent-s2i.json
