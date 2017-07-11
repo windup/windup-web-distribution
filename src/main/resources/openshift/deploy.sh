@@ -1,5 +1,7 @@
 #!/bin/bash
 
+set -e
+
 OCP_PROJECT=rhamt
 DB_DATABASE=WindupServicesDS
 DB_USERNAME=postgresuser
