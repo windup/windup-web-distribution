@@ -117,4 +117,22 @@ oc start-build --wait --from-dir=builder eap-builder
 echo "  -> Build '${APP}' application image"
 oc start-build --wait --from-dir=${APP_DIR} ${APP}
 
-echo "Build and upload complete!"
+echo "  -> Deploy RHAMT Web Console ..."
+N=0
+until [ ${N} -ge 50 ]
+do
+  IS_RUNNING=$(oc get pods | grep rhamt-web-console | grep -v build | grep Running| wc -l)
+  if [ ${IS_RUNNING} == "1" ]
+  then
+    break
+  else
+    N=$[${N}+1]
+    sleep 5
+  fi
+done
+
+CONSOLE_URL="http://$(oc get route --no-headers -o=custom-columns=HOST:.spec.host rhamt-web-console)/"
+
+echo "Upload, build and deployment successful!"
+echo
+echo "Open ${CONSOLE_URL} to start using the RHAMT Web Console on OpenShift (user='rhamt',password='password')"
