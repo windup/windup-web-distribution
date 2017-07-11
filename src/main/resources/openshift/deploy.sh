@@ -115,6 +115,6 @@ echo "  -> Build 'eap-builder' image"
 oc start-build --wait --from-dir=builder eap-builder
 
 echo "  -> Build '${APP}' application image"
-oc start-build --wait --from-dir=${APP_DIR} ${APP} 2>/dev/null > /dev/null
+oc start-build --wait --from-dir=${APP_DIR} ${APP}
 
 echo "Build and upload complete!"
