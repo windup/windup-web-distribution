@@ -48,6 +48,20 @@ echo "  -> Register service accounts"
 oc policy add-role-to-user view system:serviceaccount:${OCP_PROJECT}:eap-service-account -n ${OCP_PROJECT}
 oc policy add-role-to-user view system:serviceaccount:${OCP_PROJECT}:sso-service-account -n ${OCP_PROJECT}
 sleep 1
+echo "  -> Verify ImageStreams"
+sleep 1
+M=0
+until [ ${M} -ge 50 ]
+do
+  EAP_IMG=$(oc describe is jboss-eap70-openshift -n openshift|grep latest|grep tagged|wc -l)
+  SSO_IMG=$(oc describe is redhat-sso70-openshift -n openshift |grep latest|grep tagged|wc -l)
+  if [ ${EAP_IMG} == "1" ]  && [ ${SSO_IMG} == "1" ]; then
+    break
+  else
+    M=$[${M}+1]
+    sleep 5
+  fi
+done
 
 echo
 echo "Project setup"
