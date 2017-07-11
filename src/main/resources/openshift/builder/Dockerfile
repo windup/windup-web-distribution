@@ -1,4 +1,4 @@
-FROM jboss-eap-7/eap70-openshift:1.4
+FROM jboss-eap-7/eap70-openshift:latest
 
 ADD windup-web-redirect /opt/eap/windup-web-redirect
 
@@ -21,7 +21,7 @@ RUN sed -i -e 's#-javaagent:$JBOSS_HOME/jolokia.jar=port=8778,protocol=https,caC
 RUN echo "export LANG=C.UTF-8" >> /opt/eap/bin/openshift-launch.sh
 
 # Add updated "standalone.sh"
-RUN echo 'exec $JBOSS_HOME/bin/standalone.sh -c standalone-openshift.xml -bmanagement 127.0.0.1 $JBOSS_HA_ARGS ${JBOSS_MESSAGING_ARGS}' >> /opt/eap/bin/openshift-launch.sh
+RUN echo 'exec $JBOSS_HOME/bin/standalone.sh -c standalone-openshift.xml -P ${JBOSS_HOME}/standalone/configuration/eap.properties -bmanagement 127.0.0.1 $JBOSS_HA_ARGS ${JBOSS_MESSAGING_ARGS}' >> /opt/eap/bin/openshift-launch.sh
 
 USER 0
 RUN sed -i 's/cp -v /cp -av /' -- /usr/local/s2i/assemble
