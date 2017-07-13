@@ -48,7 +48,7 @@ echo "  -> Register service accounts"
 oc policy add-role-to-user view system:serviceaccount:${OCP_PROJECT}:eap-service-account -n ${OCP_PROJECT}
 oc policy add-role-to-user view system:serviceaccount:${OCP_PROJECT}:sso-service-account -n ${OCP_PROJECT}
 sleep 1
-echo "  -> Verify ImageStreams"
+echo -n "  -> Verify ImageStreams..."
 sleep 1
 M=0
 until [ ${M} -ge 50 ]
@@ -56,12 +56,18 @@ do
   EAP_IMG=$(oc describe is jboss-eap70-openshift -n openshift|grep latest|grep tagged|wc -l)
   SSO_IMG=$(oc describe is redhat-sso70-openshift -n openshift |grep latest|grep tagged|wc -l)
   if [ ${EAP_IMG} == "1" ]  && [ ${SSO_IMG} == "1" ]; then
+    echo -e "verified"
+    #echo -e "\e[92m[OK]\e[39m"
     break
   else
+    echo -n "."
     M=$[${M}+1]
     sleep 5
   fi
 done
+if [ ${M} -eq 50 ]; then
+	echo -e "\e[91m[KO]\e[39m"
+fi
 
 echo
 echo "Project setup"
@@ -117,22 +123,32 @@ oc start-build --wait --from-dir=builder eap-builder
 echo "  -> Build '${APP}' application image"
 oc start-build --wait --from-dir=${APP_DIR} ${APP}
 
-echo "  -> Deploy RHAMT Web Console ..."
+echo -n "  -> Deploy RHAMT Web Console ..."
 N=0
 until [ ${N} -ge 50 ]
 do
-  IS_RUNNING=$(oc get pods | grep rhamt-web-console | grep -v build | grep Running| wc -l)
+  IS_RUNNING=$(oc get pods | grep rhamt-web-console | grep -v build |  grep -v deploy | grep Running | grep -v '0/'|wc -l)
   if [ ${IS_RUNNING} == "1" ]
   then
+    echo -e "done"
+    #echo -e "\e[92m[OK]\e[39m"
     break
   else
     N=$[${N}+1]
+    echo -n "."
     sleep 5
   fi
 done
+if [ ${N} -eq 50 ]
+    then
+        #echo -e "\e[91m[KO]\e[39m"
+	echo
+	echo "Check the status of the project in the OpenShift console to see if it is still processing or if there are errors"
+    else
+	CONSOLE_URL="http://$(oc get route --no-headers -o=custom-columns=HOST:.spec.host rhamt-web-console)/"
 
-CONSOLE_URL="http://$(oc get route --no-headers -o=custom-columns=HOST:.spec.host rhamt-web-console)/"
+	echo "Upload, build and deployment successful!"
+	echo
+	echo "Open ${CONSOLE_URL} to start using the RHAMT Web Console on OpenShift (user='rhamt',password='password')"
+fi
 
-echo "Upload, build and deployment successful!"
-echo
-echo "Open ${CONSOLE_URL} to start using the RHAMT Web Console on OpenShift (user='rhamt',password='password')"
