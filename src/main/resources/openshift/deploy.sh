@@ -12,6 +12,8 @@ APP_DIR=app
 SERVICES_WAR=${APP_DIR}/api.war
 UI_WAR=${APP_DIR}/rhamt-web.war
 
+SSO_PUBLIC_KEY="MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAhlI4WQ3tbIFE71M0HAO3TfvJFxH0P16wdOSzc/Fr9l8/tOn8cN5sgkGpnyEWcawgv2z4nouUkpV92/vo9fadKr3KVUMVaE3EaR3BmsC0Ct6TY7mYD+sz/yGoSWqwmGYocEJRIXAuMCX3jCu6CKMSV+1qjpcyYqzRaVWTB/EV76Sx+CSh9rEMLl8mE6owxNWQck03KgvWCA70l/LAu1M1bWy1aozoUKiTryX0nTxbHbj4qg3vvHC6igYndJ4zLr30QlCVn1iQ1jXC1MQUJ+Mwc8yZlkhaoAfDS1iM9I8NUcpcQAIn2baD8/aBrS1F9woYYRvo0vFH5N0+Rw4xjgSDlQIDAQAB"
+
 SCRIPT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 cd ${SCRIPT_DIR}
 
@@ -102,12 +104,14 @@ oc process -f templates/sso70-postgresql-persistent.json \
 sleep 1
 
 SSO_HOSTNAME="$(oc get route --no-headers -o=custom-columns=HOST:.spec.host sso)"
-echo "keycloak.server.url=http://${SSO_HOSTNAME}/auth" > app/configuration/eap.properties
+SSO_URL="http://${SSO_HOSTNAME}/auth"
 #echo "     SSO URL: ${SSO_HOSTNAME}"
 
 echo "  -> Process RHAMT template"
 # Template adapted from https://github.com/jboss-openshift/application-templates/blob/master/eap/eap70-postgresql-persistent-s2i.json
 oc process -f templates/rhamt-template.json \
+    -p SSO_URL=${SSO_URL} \
+    -p SSO_PUBLIC_KEY=${SSO_PUBLIC_KEY} \
     -p POSTGRESQL_MAX_CONNECTIONS=200 \
     -p DB_DATABASE=${DB_DATABASE} \
     -p DB_USERNAME=${DB_USERNAME} \
