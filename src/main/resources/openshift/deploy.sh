@@ -66,7 +66,7 @@ do
   fi
 done
 if [ ${M} -eq 50 ]; then
-	echo -e "\e[91m[KO]\e[39m"
+	echo -e "\e[91m[not found]\e[39m"
 fi
 
 echo
@@ -151,4 +151,3 @@ if [ ${N} -eq 50 ]
 	echo
 	echo "Open ${CONSOLE_URL} to start using the RHAMT Web Console on OpenShift (user='rhamt',password='password')"
 fi
-
