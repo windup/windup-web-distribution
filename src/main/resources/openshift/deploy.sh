@@ -2,7 +2,9 @@
 
 set -e
 
-OCP_PROJECT=rhamt
+if [ -z "$OCP_PROJECT" ]; then
+    OCP_PROJECT=rhamt
+fi
 
 if [ -z "$RHAMT_VOLUME_CAPACITY" ]; then
     RHAMT_VOLUME_CAPACITY=10Gi
