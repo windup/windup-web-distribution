@@ -2,7 +2,9 @@
 
 set -e
 
-OCP_PROJECT=rhamt
+if [ -z "$OCP_PROJECT" ]; then
+    OCP_PROJECT=rhamt
+fi
 
 DB_DATABASE=WindupServicesDS
 DB_USERNAME=postgresuser
