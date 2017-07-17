@@ -4,6 +4,10 @@ set -e
 
 OCP_PROJECT=rhamt
 
+if [ -z "$RHAMT_VOLUME_CAPACITY" ]; then
+    RHAMT_VOLUME_CAPACITY=10Gi
+fi
+
 DB_DATABASE=WindupServicesDS
 DB_USERNAME=postgresuser
 DB_PASSWORD=postgrespassword
@@ -116,6 +120,7 @@ oc process -f templates/rhamt-template.json \
     -p DB_DATABASE=${DB_DATABASE} \
     -p DB_USERNAME=${DB_USERNAME} \
     -p DB_PASSWORD=${DB_PASSWORD} \
+    -p VOLUME_CAPACITY=${RHAMT_VOLUME_CAPACITY} \
     -p OCP_PROJECT=${OCP_PROJECT} | oc create -n ${OCP_PROJECT} -f -
 
 echo
