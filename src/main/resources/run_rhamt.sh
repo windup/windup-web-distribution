@@ -1,19 +1,24 @@
 #!/bin/bash
 
 
-## Complain about file descriptors limit if low.
+## Increase the open file limit if low, to what we need or at least to the hard limit.
+## Complain if the hard limit is lower than what we need.
 WE_NEED=1024
-MAX_OPEN_FILES=$(ulimit -H -n);
-MAX_WE_NEED_OR_CAN_HAVE=$(( $WE_NEED < $MAX_OPEN_FILES ? $WE_NEED : $MAX_OPEN_FILES ))
+MAX_HARD=$(ulimit -H -n);
+MAX_SOFT=$(ulimit -S -n);
 
-if [ $MAX_OPEN_FILES -lt $WE_NEED ] ; then 
-    echo "The limit for number of open files is too low ($MAX_OPEN_FILES), which may make RHAMT unstable."
+if [ $MAX_SOFT -lt $WE_NEED ] ; then 
+
+  if [ $MAX_HARD -lt $WE_NEED ] ; then 
+    echo "The limit for number of open files is too low ($MAX_HARD), which may make RHAMT unstable."
     echo "Please consider increasing the limit to at least $WE_NEED, see your system's documentation."
     echo "For Linux, limits are typically configured in /etc/security/limits.conf .";
     echo "For Mac OS X, limits are typically configured in /etc/launchd.conf or /etc/sysctl.conf .";
+  fi
+  MIN_WE_NEED_OR_CAN_HAVE=$(( $MAX_HARD > $WE_NEED ? $WE_NEED : $MAX_HARD ))
+  echo "Increasing the maximum of open files to $MIN_WE_NEED_OR_CAN_HAVE."
+  ulimit -S -n $MIN_WE_NEED_OR_CAN_HAVE
 fi
-echo "Setting maximum of open files to $MAX_WE_NEED_OR_CAN_HAVE."
-ulimit -S -n $MAX_WE_NEED_OR_CAN_HAVE
 
 
 DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
