@@ -10,6 +10,15 @@ if [ -z "$RHAMT_VOLUME_CAPACITY" ]; then
     RHAMT_VOLUME_CAPACITY=10Gi
 fi
 
+if [ -z "$REQUESTED_CPU" ]; then
+    REQUESTED_CPU=1
+fi
+
+if [ -z "$REQUESTED_MEMORY" ]; then
+    REQUESTED_MEMORY=2Gi
+fi
+
+
 DB_DATABASE=WindupServicesDS
 DB_USERNAME=postgresuser
 DB_PASSWORD=postgrespassword
@@ -123,6 +132,8 @@ oc process -f templates/rhamt-template.json \
     -p DB_USERNAME=${DB_USERNAME} \
     -p DB_PASSWORD=${DB_PASSWORD} \
     -p VOLUME_CAPACITY=${RHAMT_VOLUME_CAPACITY} \
+    -p REQUESTED_CPU=${REQUESTED_CPU} \
+    -p REQUESTED_MEMORY=${REQUESTED_MEMORY} \
     -p OCP_PROJECT=${OCP_PROJECT} | oc create -n ${OCP_PROJECT} -f -
 
 echo

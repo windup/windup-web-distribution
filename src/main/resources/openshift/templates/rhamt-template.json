@@ -25,6 +25,20 @@
             "required": true
         },
         {
+            "displayName": "Application Name",
+            "description": "The name for the application.",
+            "name": "REQUESTED_CPU",
+            "value": "2",
+            "required": true
+        },
+        {
+            "displayName": "Application Name",
+            "description": "The name for the application.",
+            "name": "REQUESTED_MEMORY",
+            "value": "4Gi",
+            "required": true
+        },
+        {
             "displayName": "Custom http Route Hostname",
             "description": "Custom hostname for http service route.  Leave blank for default hostname, e.g.: <application-name>-<project>.<default-domain-suffix>",
             "name": "HOSTNAME_HTTP",
@@ -565,8 +579,8 @@
                                 "imagePullPolicy": "Always",
                                 "resources": {
                                     "requests": {
-                                        "cpu": "2",
-                                        "memory": "4Gi"
+                                        "cpu": "${REQUESTED_CPU}",
+                                        "memory": "${REQUESTED_MEMORY}"
                                     }
                                 },
                                 "volumeMounts": [
