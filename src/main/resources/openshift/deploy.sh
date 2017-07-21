@@ -2,6 +2,24 @@
 
 set -e
 
+PROPERTIES_FILE="deployment.properties"
+
+if [ ! -f ${PROPERTIES_FILE} ]; then
+    echo "Configuration file ${PROPERTIES_FILE} does not exist";
+    exit 1;
+fi
+
+while IFS='=' read -r key value
+do
+    key=$(echo ${key} | tr '.' '_')
+
+    if [ -z ${!key} ]; then
+        eval "${key}='${value}'"
+    fi
+
+done < ${PROPERTIES_FILE}
+
+
 if [ -z "$OCP_PROJECT" ]; then
     OCP_PROJECT=rhamt
 fi
@@ -18,16 +36,8 @@ if [ -z "$REQUESTED_MEMORY" ]; then
     REQUESTED_MEMORY=2Gi
 fi
 
-
-DB_DATABASE=WindupServicesDS
-DB_USERNAME=postgresuser
-DB_PASSWORD=postgrespassword
-APP=rhamt-web-console
-APP_DIR=app
 SERVICES_WAR=${APP_DIR}/api.war
 UI_WAR=${APP_DIR}/rhamt-web.war
-
-SSO_PUBLIC_KEY="MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAhlI4WQ3tbIFE71M0HAO3TfvJFxH0P16wdOSzc/Fr9l8/tOn8cN5sgkGpnyEWcawgv2z4nouUkpV92/vo9fadKr3KVUMVaE3EaR3BmsC0Ct6TY7mYD+sz/yGoSWqwmGYocEJRIXAuMCX3jCu6CKMSV+1qjpcyYqzRaVWTB/EV76Sx+CSh9rEMLl8mE6owxNWQck03KgvWCA70l/LAu1M1bWy1aozoUKiTryX0nTxbHbj4qg3vvHC6igYndJ4zLr30QlCVn1iQ1jXC1MQUJ+Mwc8yZlkhaoAfDS1iM9I8NUcpcQAIn2baD8/aBrS1F9woYYRvo0vFH5N0+Rw4xjgSDlQIDAQAB"
 
 SCRIPT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 cd ${SCRIPT_DIR}
