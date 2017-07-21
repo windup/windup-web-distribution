@@ -19,22 +19,26 @@ do
 
 done < ${PROPERTIES_FILE}
 
+required_variables=(
+    'OCP_PROJECT'
+    'RHAMT_VOLUME_CAPACITY'
+    'REQUESTED_CPU'
+    'REQUESTED_MEMORY'
+    'DB_DATABASE'
+    'DB_USERNAME'
+    'DB_PASSWORD'
+    'APP'
+    'APP_DIR'
+    'SSO_PUBLIC_KEY'
+)
 
-if [ -z "$OCP_PROJECT" ]; then
-    OCP_PROJECT=rhamt
-fi
-
-if [ -z "$RHAMT_VOLUME_CAPACITY" ]; then
-    RHAMT_VOLUME_CAPACITY=10Gi
-fi
-
-if [ -z "$REQUESTED_CPU" ]; then
-    REQUESTED_CPU=1
-fi
-
-if [ -z "$REQUESTED_MEMORY" ]; then
-    REQUESTED_MEMORY=2Gi
-fi
+for var in "${required_variables[@]}"
+do
+    if [ -z ${!var} ]; then
+        echo "Required variable '${var}' not set";
+        exit 2;
+    fi
+done
 
 SERVICES_WAR=${APP_DIR}/api.war
 UI_WAR=${APP_DIR}/rhamt-web.war
