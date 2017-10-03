@@ -25,15 +25,15 @@
             "required": true
         },
         {
-            "displayName": "Application Name",
-            "description": "The name for the application.",
+            "displayName": "Requested CPUs",
+            "description": "The number of cores to request.",
             "name": "REQUESTED_CPU",
             "value": "2",
             "required": true
         },
         {
-            "displayName": "Application Name",
-            "description": "The name for the application.",
+            "displayName": "Requested Memory",
+            "description": "The amount of memory to request.",
             "name": "REQUESTED_MEMORY",
             "value": "4Gi",
             "required": true
