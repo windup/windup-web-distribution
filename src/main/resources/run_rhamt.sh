@@ -7,6 +7,11 @@ WE_NEED=1024
 MAX_HARD=$(ulimit -H -n);
 MAX_SOFT=$(ulimit -S -n);
 
+# ulimit command produces non-integer output 'unlimited' on Mac OS X v10.11
+if [ $MAX_HARD == "unlimited" ] ; then
+    let "MAX_HARD = $WE_NEED + 1"
+fi
+
 if [ $MAX_SOFT -lt $WE_NEED ] ; then 
 
   if [ $MAX_HARD -lt $WE_NEED ] ; then 
