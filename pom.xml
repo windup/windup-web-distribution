@@ -25,10 +25,10 @@
 
         <wildfly.groupId>org.wildfly</wildfly.groupId>
         <wildfly.artifactId>wildfly-dist</wildfly.artifactId>
-        <version.wildfly>10.1.0.Final</version.wildfly>
+        <version.wildfly>11.0.0.Final</version.wildfly>
         <wildfly.directory>wildfly-${version.wildfly}</wildfly.directory>
 
-        <version.wildfly.maven.plugin>1.1.0.Final</version.wildfly.maven.plugin>
+        <version.wildfly.maven.plugin>1.2.1.Final</version.wildfly.maven.plugin>
 
         <windup.scm.connection>scm:git:https://github.com/windup/windup-web-distribution.git</windup.scm.connection>
         <windup.developer.connection>scm:git:git@github.com:windup/windup-web-distribution.git</windup.developer.connection>
@@ -337,6 +337,49 @@
                                 <script>${project.build.directory}/publickey.cli</script>
                                 <script>src/main/cli/setup-windup-keycloak-properties.cli</script>
                             </scripts>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-antrun-plugin</artifactId>
+                <executions>
+
+                    <!--
+                      This insures that the windup-web-redirect directory exists.
+                      Without this, the CLI script may fail later on.
+                    -->
+                    <execution>
+                        <id>create-windup-web-redirect-directory</id>
+                        <phase>process-resources</phase>
+                        <configuration>
+                            <target>
+                                <mkdir dir="${project.build.directory}/${wildfly.directory}/windup-web-redirect"/>
+                            </target>
+                        </configuration>
+                        <goals>
+                            <goal>run</goal>
+                        </goals>
+                    </execution>
+                    <!--
+                        This plugin causes a small sleep before packaging. This fixes a
+                        (somewhat) common case that can cause packaging to happen before
+                        the server is fully shutdown, which can result in either
+                        a failure or some partial files.
+
+                        So far, I have only seen that failure on CI. (jsight - 2018/04/25)
+                    -->
+                    <execution>
+                        <id>sleep-for-a-while</id>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>run</goal>
+                        </goals>
+                        <configuration>
+                            <target>
+                                <sleep seconds="5" />
+                            </target>
                         </configuration>
                     </execution>
                 </executions>
