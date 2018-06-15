@@ -16,6 +16,7 @@
             <excludes>
                 <exclude>**/keycloak.lock.db</exclude>
                 <exclude>bin/standalone.conf</exclude>
+                <exclude>bin/standalone.conf.bat</exclude>
                 <exclude>standalone/data/content/**/*</exclude>
             </excludes>
         </fileSet>
