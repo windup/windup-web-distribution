@@ -65,7 +65,8 @@ oc process -f templates/web-template.json \
     -p DB_PASSWORD=${DB_PASSWORD} \
     -p VOLUME_CAPACITY=${RHAMT_VOLUME_CAPACITY} \
     -p REQUESTED_CPU=${REQUESTED_CPU} \
-    -p REQUESTED_MEMORY=${REQUESTED_MEMORY} | oc create -n ${OCP_PROJECT} -f -
+    -p REQUESTED_MEMORY=${REQUESTED_MEMORY} \
+    -p DOCKER_IMAGES_TAG=${DOCKER_IMAGES_TAG} | oc create -n ${OCP_PROJECT} -f -
 sleep 1
 
 echo -n "  -> Deploy RHAMT Web Console ..."
