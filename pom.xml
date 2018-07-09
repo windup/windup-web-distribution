@@ -28,7 +28,7 @@
         <version.wildfly>11.0.0.Final</version.wildfly>
         <wildfly.directory>wildfly-${version.wildfly}</wildfly.directory>
 
-        <version.wildfly.maven.plugin>1.2.1.Final</version.wildfly.maven.plugin>
+        <version.wildfly.maven.plugin>1.2.2.Final</version.wildfly.maven.plugin>
 
         <windup.scm.connection>scm:git:https://github.com/windup/windup-web-distribution.git</windup.scm.connection>
         <windup.developer.connection>scm:git:git@github.com:windup/windup-web-distribution.git</windup.developer.connection>
