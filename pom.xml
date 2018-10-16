@@ -15,7 +15,7 @@
 
     <groupId>org.jboss.windup.web</groupId>
     <artifactId>rhamt-web-distribution</artifactId>
-    <version>4.2.0-SNAPSHOT</version>
+    <version>4.2.0.Alpha2</version>
 
     <name>Windup Web - Distribution Build</name>
     <packaging>pom</packaging>
@@ -464,7 +464,7 @@
     </profiles>
 
     <scm>
-        <tag>master</tag>
+        <tag>4.2.0.Alpha2</tag>
         <connection>${windup.scm.connection}</connection>
         <developerConnection>${windup.developer.connection}</developerConnection>
         <url>${windup.scm.url}</url>
