@@ -28,7 +28,7 @@
         <version.wildfly>11.0.0.Final</version.wildfly>
         <wildfly.directory>wildfly-${version.wildfly}</wildfly.directory>
 
-        <version.wildfly.maven.plugin>1.2.2.Final</version.wildfly.maven.plugin>
+        <version.wildfly.maven.plugin>2.0.0.Final</version.wildfly.maven.plugin>
 
         <windup.scm.connection>scm:git:https://github.com/windup/windup-web-distribution.git</windup.scm.connection>
         <windup.developer.connection>scm:git:git@github.com:windup/windup-web-distribution.git</windup.developer.connection>
@@ -109,6 +109,18 @@
                                     <destFileName>keycloak-tool.jar</destFileName>
                                     <overWrite>true</overWrite>
                                 </artifactItem>
+                            </artifactItems>
+                        </configuration>
+                    </execution>
+                    <!-- Copy the applications to deploy locally -->
+                    <execution>
+                        <id>copy-web-applications</id>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>copy</goal>
+                        </goals>
+                        <configuration>
+                            <artifactItems>
                                 <artifactItem>
                                     <groupId>${project.groupId}</groupId>
                                     <artifactId>windup-web-services</artifactId>
@@ -346,7 +358,7 @@
                     </execution>
                     <execution>
                         <id>stop-wildfly</id>
-                        <phase>package</phase>
+                        <phase>prepare-package</phase>
                         <goals>
                             <goal>execute-commands</goal>
                             <goal>shutdown</goal>
