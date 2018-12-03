@@ -14,6 +14,11 @@ embed-server --server-config=standalone-full.xml
 /subsystem=infinispan/cache-container=keycloak/local-cache=keys:add()
 /subsystem=infinispan/cache-container=keycloak/local-cache=keys/eviction=EVICTION:add(max-entries=1000,strategy=LRU)
 /subsystem=infinispan/cache-container=keycloak/local-cache=keys/expiration=EXPIRATION:add(max-idle=3600000)
+/subsystem=infinispan/cache-container=keycloak/local-cache=offlineClientSessions:add()
+/subsystem=infinispan/cache-container=keycloak/local-cache=authenticationSessions:add()
+/subsystem=infinispan/cache-container=keycloak/local-cache=clientSessions:add()
+/subsystem=infinispan/cache-container=keycloak/local-cache=actionTokens:add()
+
 /extension=org.keycloak.keycloak-server-subsystem/:add(module=org.keycloak.keycloak-server-subsystem)
 /subsystem=keycloak-server:add(web-context=auth,master-realm-name=master,scheduled-task-interval=900,providers=[classpath:${jboss.home.dir}/providers/*])
 /subsystem=keycloak-server/theme=defaults/:add(dir=${jboss.home.dir}/themes,staticMaxAge=2592000,cacheTemplates=true,cacheThemes=true)
@@ -39,3 +44,6 @@ embed-server --server-config=standalone-full.xml
 /subsystem=keycloak-server/spi=jta-lookup/provider=jboss/:add(enabled=true)
 /subsystem=keycloak-server/spi=publicKeyStorage/:add
 /subsystem=keycloak-server/spi=publicKeyStorage/provider=infinispan/:add(properties={minTimeBetweenRequests => "10"},enabled=true)
+
+/subsystem=keycloak-server/spi=hostname/:add(default-provider=request)
+/subsystem=keycloak-server/spi=hostname/provider=fixed/:add(properties={hostname => "localhost",httpPort => "-1",httpsPort => "-1"},enabled=true)
