@@ -21,7 +21,7 @@
     <packaging>pom</packaging>
 
     <properties>
-        <version.keycloak>4.6.0.Final</version.keycloak>
+        <version.keycloak>4.7.0.Final</version.keycloak>
 
         <wildfly.groupId>org.wildfly</wildfly.groupId>
         <wildfly.artifactId>wildfly-dist</wildfly.artifactId>
