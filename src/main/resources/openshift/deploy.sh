@@ -30,8 +30,6 @@ required_variables=(
     'DB_DATABASE'
     'DB_USERNAME'
     'DB_PASSWORD'
-    'APP'
-    'APP_DIR'
     'SSO_PUBLIC_KEY'
     'DOCKER_IMAGES_USER'
     'DOCKER_IMAGES_TAG'
