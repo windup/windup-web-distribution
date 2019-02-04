@@ -2,7 +2,7 @@
 
 set -e
 
-PROPERTIES_FILE="deployment.properties"
+PROPERTIES_FILE=${1:-deployment.properties}
 
 if [ ! -f ${PROPERTIES_FILE} ]; then
     echo "Configuration file ${PROPERTIES_FILE} does not exist";
@@ -21,15 +21,18 @@ done < ${PROPERTIES_FILE}
 
 required_variables=(
     'OCP_PROJECT'
+    'DB_VOLUME_CAPACITY'
     'RHAMT_VOLUME_CAPACITY'
-    'REQUESTED_CPU'
-    'REQUESTED_MEMORY'
+    'WEB_CONSOLE_REQUESTED_CPU'
+    'WEB_CONSOLE_REQUESTED_MEMORY'
+    'EXECUTOR_REQUESTED_CPU'
+    'EXECUTOR_REQUESTED_MEMORY'
     'DB_DATABASE'
     'DB_USERNAME'
     'DB_PASSWORD'
-    'APP'
-    'APP_DIR'
     'SSO_PUBLIC_KEY'
+    'DOCKER_IMAGES_USER'
+    'DOCKER_IMAGES_TAG'
 )
 
 for var in "${required_variables[@]}"
@@ -49,23 +52,27 @@ sleep 1
 echo "  -> Switch to project"
 oc project ${OCP_PROJECT} > /dev/null
 sleep 1
-echo "  -> Register service accounts"
-oc policy add-role-to-user view system:serviceaccount:${OCP_PROJECT}:eap-service-account -n ${OCP_PROJECT}
-oc policy add-role-to-user view system:serviceaccount:${OCP_PROJECT}:sso-service-account -n ${OCP_PROJECT}
-sleep 1
+#echo "  -> Register service accounts"
+#oc policy add-role-to-user view system:serviceaccount:${OCP_PROJECT}:eap-service-account -n ${OCP_PROJECT}
+#oc policy add-role-to-user view system:serviceaccount:${OCP_PROJECT}:sso-service-account -n ${OCP_PROJECT}
+#sleep 1
 
 
 echo "  -> Process RHAMT Web Template"
 # Template adapted from https://github.com/jboss-openshift/application-templates/blob/master/sso/sso70-postgresql-persistent.json
-oc process -f templates/web-template.json \
+oc process -f templates/web-template-empty-dir-executor.json \
     -p SSO_REALM=rhamt \
     -p POSTGRESQL_MAX_CONNECTIONS=200 \
     -p DB_DATABASE=${DB_DATABASE} \
     -p DB_USERNAME=${DB_USERNAME} \
     -p DB_PASSWORD=${DB_PASSWORD} \
-    -p VOLUME_CAPACITY=${RHAMT_VOLUME_CAPACITY} \
-    -p REQUESTED_CPU=${REQUESTED_CPU} \
-    -p REQUESTED_MEMORY=${REQUESTED_MEMORY} \
+    -p VOLUME_CAPACITY=${DB_VOLUME_CAPACITY} \
+    -p RHAMT_VOLUME_CAPACITY=${RHAMT_VOLUME_CAPACITY} \
+    -p WEB_CONSOLE_REQUESTED_CPU=${WEB_CONSOLE_REQUESTED_CPU} \
+    -p WEB_CONSOLE_REQUESTED_MEMORY=${WEB_CONSOLE_REQUESTED_MEMORY} \
+    -p EXECUTOR_REQUESTED_CPU=${EXECUTOR_REQUESTED_CPU} \
+    -p EXECUTOR_REQUESTED_MEMORY=${EXECUTOR_REQUESTED_MEMORY} \
+    -p DOCKER_IMAGES_USER=${DOCKER_IMAGES_USER} \
     -p DOCKER_IMAGES_TAG=${DOCKER_IMAGES_TAG} | oc create -n ${OCP_PROJECT} -f -
 sleep 1
 
