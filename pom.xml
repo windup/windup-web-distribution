@@ -21,11 +21,11 @@
     <packaging>pom</packaging>
 
     <properties>
-        <version.keycloak>4.8.3.Final</version.keycloak>
+        <version.keycloak>8.0.1</version.keycloak>
 
         <wildfly.groupId>org.wildfly</wildfly.groupId>
         <wildfly.artifactId>wildfly-dist</wildfly.artifactId>
-        <version.wildfly>15.0.1.Final</version.wildfly>
+        <version.wildfly>18.0.1.Final</version.wildfly>
         <wildfly.directory>wildfly-${version.wildfly}</wildfly.directory>
 
         <version.wildfly.maven.plugin>2.0.1.Final</version.wildfly.maven.plugin>
