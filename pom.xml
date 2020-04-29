@@ -21,14 +21,14 @@
     <packaging>pom</packaging>
 
     <properties>
-        <version.keycloak>4.8.3.Final</version.keycloak>
+        <version.keycloak>8.0.1</version.keycloak>
 
         <wildfly.groupId>org.wildfly</wildfly.groupId>
         <wildfly.artifactId>wildfly-dist</wildfly.artifactId>
-        <version.wildfly>15.0.1.Final</version.wildfly>
+        <version.wildfly>18.0.1.Final</version.wildfly>
         <wildfly.directory>wildfly-${version.wildfly}</wildfly.directory>
 
-        <version.wildfly.maven.plugin>2.0.1.Final</version.wildfly.maven.plugin>
+        <version.wildfly.maven.plugin>2.0.2.Final</version.wildfly.maven.plugin>
 
         <windup.scm.connection>scm:git:https://github.com/windup/windup-web-distribution.git</windup.scm.connection>
         <windup.developer.connection>scm:git:git@github.com:windup/windup-web-distribution.git</windup.developer.connection>
@@ -342,12 +342,16 @@
                             <goal>execute-commands</goal>
                         </goals>
                         <configuration>
+                            <fork>true</fork>
                             <jbossHome>${project.build.directory}/${wildfly.directory}</jbossHome>
                             <serverConfig>standalone-full.xml</serverConfig>
                             <stdout>${project.build.directory}/jboss.stdout</stdout>
                             <systemProperties>
                                 <windup.data.dir>${jboss.server.data.dir}/h2/windup-web</windup.data.dir>
                             </systemProperties>
+                            <serverArgs>
+                                <serverArg>--admin-only</serverArg>
+                            </serverArgs>
                             <scripts>
                                 <script>${project.build.directory}/${wildfly.directory}/bin/adapter-install.cli</script>
                                 <script>src/main/cli/setup-eap.cli</script>

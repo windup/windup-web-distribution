@@ -36,3 +36,5 @@
 /subsystem=undertow/server=default-server/http-listener=default:write-attribute(name=max-post-size, value=943718400)
 
 /subsystem=transactions:write-attribute(name=node-identifier,value="a")
+command-timeout set 15000
+reload
