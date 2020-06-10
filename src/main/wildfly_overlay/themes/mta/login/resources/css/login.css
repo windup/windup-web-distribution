@@ -19,14 +19,14 @@
     background-color: initial;
 }
 
-#rhamt-title {
+#mta-title {
     font-size: 18px;
     vertical-align: middle;
     line-height: 60px;
     color: #FFFFFF;
 }
 
-#rhamt-title strong {
+#mta-title strong {
     text-transform: uppercase;
 }
 
