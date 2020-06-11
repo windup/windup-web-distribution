@@ -1,13 +1,24 @@
+.login-pf {
+    background: #030303;
+}
+
 .login-pf body {
     background: #080808 repeat-x 50% 0
 }
-#kc-logo-wrapper {
-    background: url("../img/Logotype_RH_AMT_RGB_White.svg") no-repeat;
 
-    height: 100px;
-    width: 400px;
-    right: 10%;
-    top: 10%;
+@media (min-width: 768px) {
+    .login-pf .container {
+        padding-left: 120px;
+    }
+}
+
+#kc-logo-wrapper {
+    background: url("../img/Logo-RedHat-A-Reverse-RGB.svg") no-repeat;
+
+    height: 40px;
+    width: 150px;
+    right: 5%;
+    top: 90%;
     position: absolute;
 }
 
@@ -19,20 +30,29 @@
     background-color: initial;
 }
 
+#username-label {
+    margin-top: -14px;
+}
+
 #mta-title {
-    font-size: 18px;
-    vertical-align: middle;
-    line-height: 60px;
     color: #FFFFFF;
 }
 
 #mta-title strong {
-    text-transform: uppercase;
+    font-size: 40px;
+    display: block;
+}
+
+#mta-title span {
+    font-size: 30px;
+    display: block;
+    margin-top: -10px;
+    margin-bottom: 100px;
 }
 
 .login-pf .container {
-    bottom: 20%;
-    padding-right: 120px;
+    bottom: 25%;
+    padding-right: 20px;
 }
 
 #kc-info-wrapper > p {

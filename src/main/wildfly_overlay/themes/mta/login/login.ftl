@@ -6,15 +6,18 @@
     ${msg("loginTitleHtml",(realm.displayNameHtml!''))}
     <#elseif section = "logo">
         <span id="mta-title">
-            <strong class="visible-xs-inline">MTA</strong>
-            <strong class="hidden-xs">Migration Toolkit for Applications</strong> Web Console
+            <p>
+                <strong class="visible-xs-inline">MTA&nbsp;</strong>
+                <strong class="hidden-xs">Migration Toolkit for Applications</strong>
+                <span>Web Console</span>
+            </p>
         </span>
     <#elseif section = "form">
         <#if realm.password>
         <form id="kc-form-login" class="${properties.kcFormClass!}" action="${url.loginAction}" method="post">
             <div class="${properties.kcFormGroupClass!}">
                 <div class="${properties.kcLabelWrapperClass!}">
-                    <label for="username" class="${properties.kcLabelClass!}"><#if !realm.loginWithEmailAllowed??>${msg("username")}<#elseif !realm.registrationEmailAsUsername>${msg("usernameOrEmail")}<#else>${msg("email")}</#if></label>
+                    <label id="username-label" for="username" class="${properties.kcLabelClass!}"><#if !realm.loginWithEmailAllowed??>${msg("username")}<#elseif !realm.registrationEmailAsUsername>${msg("usernameOrEmail")}<#else>${msg("email")}</#if></label>
                 </div>
 
                 <div class="${properties.kcInputWrapperClass!}">
