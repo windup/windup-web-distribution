@@ -3,17 +3,16 @@
 
 ## Increase the open file limit if low, to what we need or at least to the hard limit.
 ## Complain if the hard limit is lower than what we need.
-WE_NEED=1024
+## Value set to 5000 to be higher than the recommended by Wildfly ( 4096 )
+WE_NEED=5000
 MAX_HARD=$(ulimit -H -n);
 MAX_SOFT=$(ulimit -S -n);
 
 # ulimit command produces non-integer output 'unlimited' on Mac OS X v10.11
-if [ $MAX_HARD == "unlimited" ] ; then
-    let "MAX_HARD = $WE_NEED + 1"
-fi
+if [ $MAX_SOFT == 'unlimited' ] ; then MAX_SOFT=$WE_NEED; fi;
+if [ $MAX_HARD == 'unlimited' ] ; then MAX_HARD=$WE_NEED; fi;
 
 if [ $MAX_SOFT -lt $WE_NEED ] ; then 
-
   if [ $MAX_HARD -lt $WE_NEED ] ; then 
     echo "The limit for number of open files is too low ($MAX_HARD), which may make RHAMT unstable."
     echo "Please consider increasing the limit to at least $WE_NEED, see your system's documentation."
