@@ -25,7 +25,7 @@
             <outputDirectory></outputDirectory>
             <filtered>true</filtered>
             <includes>
-               <include>/rhamt-version.txt</include>
+               <include>/mta-version.txt</include>
                <include>/README.txt</include>
             </includes>
         </fileSet>
@@ -37,7 +37,7 @@
                 <include>**</include>
             </includes>
             <excludes>
-               <exclude>/rhamt-version.txt</exclude>
+               <exclude>/mta-version.txt</exclude>
                <exclude>/README.txt</exclude>
             </excludes>
         </fileSet>
@@ -48,8 +48,8 @@
             <filtered>false</filtered>
         </fileSet>
         <fileSet>
-            <directory>src/main/wildfly_overlay/themes/rhamt</directory>
-            <outputDirectory>themes/rhamt</outputDirectory>
+            <directory>src/main/wildfly_overlay/themes/mta</directory>
+            <outputDirectory>themes/mta</outputDirectory>
             <excludes>
                 <exclude>login/auto_login.theme.properties</exclude>
             </excludes>
@@ -58,8 +58,8 @@
     <!-- Override the theme.properties with the autologin one -->
     <files>
         <file>
-            <source>src/main/wildfly_overlay/themes/rhamt/login/auto_login.theme.properties</source>
-            <outputDirectory>themes/rhamt/login</outputDirectory>
+            <source>src/main/wildfly_overlay/themes/mta/login/auto_login.theme.properties</source>
+            <outputDirectory>themes/mta/login</outputDirectory>
             <destName>theme.properties</destName>
             <filtered>false</filtered>
         </file>
