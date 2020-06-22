@@ -1,8 +1,8 @@
  ____  _   _    _    __  __ _____
-|  _ \| | | |  / \  |  \/  |_   _|
-| |_) | |_| | / _ \ | |\/| | | |
-|  _ <|  _  |/ ___ \| |  | | | |
-|_| \_\_| |_/_/   \_\_|  |_| |_|
+|  \/  ||__  __| / \
+| |\/| |  | |   / _ \
+| |  | |  | |  / ___ \
+| |  | |__| |_/_/   \_\
 
 
 Migration Toolkit for Applications (MTA) ${project.version} is an extensible and customizable rule-based tool that helps simplify migration of Java applications.
