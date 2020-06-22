@@ -5,16 +5,19 @@
     <#elseif section = "header">
     ${msg("loginTitleHtml",(realm.displayNameHtml!''))}
     <#elseif section = "logo">
-        <span id="rhamt-title">
-            <strong class="visible-xs-inline">RHAMT</strong>
-            <strong class="hidden-xs">Red Hat Application Migration Toolkit</strong> Web Console
+        <span id="mta-title">
+            <p>
+                <strong class="visible-xs-inline">MTA&nbsp;</strong>
+                <strong class="hidden-xs">Migration Toolkit for Applications</strong>
+                <span>Web Console</span>
+            </p>
         </span>
     <#elseif section = "form">
         <#if realm.password>
         <form id="kc-form-login" class="${properties.kcFormClass!}" action="${url.loginAction}" method="post">
             <div class="${properties.kcFormGroupClass!}">
                 <div class="${properties.kcLabelWrapperClass!}">
-                    <label for="username" class="${properties.kcLabelClass!}"><#if !realm.loginWithEmailAllowed??>${msg("username")}<#elseif !realm.registrationEmailAsUsername>${msg("usernameOrEmail")}<#else>${msg("email")}</#if></label>
+                    <label id="username-label" for="username" class="${properties.kcLabelClass!}"><#if !realm.loginWithEmailAllowed??>${msg("username")}<#elseif !realm.registrationEmailAsUsername>${msg("usernameOrEmail")}<#else>${msg("email")}</#if></label>
                 </div>
 
                 <div class="${properties.kcInputWrapperClass!}">
@@ -66,10 +69,10 @@
         </#if>
     <#elseif section = "info">
         <p>
-            <strong class="welcome-help-text"> Welcome to the Red Hat Application Migration Toolkit Web Console. </strong>
+            <strong class="welcome-help-text"> Welcome to the Migration Toolkit for Applications Web Console. </strong>
         </p>
         <p>
-            Learn more about Red Hat Application Migration Toolkit from the
+            Learn more about Migration Toolkit for Applications from the
             <a href="https://access.redhat.com/documentation/en/red-hat-jboss-migration-toolkit/">documentation</a>.
         </p>
 
