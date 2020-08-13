@@ -3,8 +3,8 @@
 
 ## Increase the open file limit if low, to what we need or at least to the hard limit.
 ## Complain if the hard limit is lower than what we need.
-## Value set to 100000 to be consistent with documentation
-WE_NEED=100000
+## Value set to 10000 to be consistent with documentation
+WE_NEED=10000
 MAX_HARD=$(ulimit -H -n);
 MAX_SOFT=$(ulimit -S -n);
 
