@@ -139,6 +139,15 @@
                                     <destFileName>mta-web.war</destFileName>
                                     <outputDirectory>${project.build.directory}/${wildfly.directory}/standalone/deployments/</outputDirectory>
                                 </artifactItem>
+                                <artifactItem>
+                                    <groupId>${project.groupId}</groupId>
+                                    <artifactId>windup-web-ui-pf4</artifactId>
+                                    <version>${project.version}</version>
+                                    <type>war</type>
+                                    <overWrite>true</overWrite>
+                                    <destFileName>mta-web-pf4.war</destFileName>
+                                    <outputDirectory>${project.build.directory}/${wildfly.directory}/standalone/deployments/</outputDirectory>
+                                </artifactItem>
                             </artifactItems>
                         </configuration>
                     </execution>
