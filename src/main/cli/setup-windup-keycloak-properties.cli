@@ -1,4 +1,4 @@
 /system-property=keycloak.server.url:add(value="/auth")
 /subsystem=keycloak/secure-deployment=api.war:add(realm=mta, realm-public-key="${keycloak.realm.public.key}", auth-server-url="${keycloak.server.url}", ssl-required="NONE", resource=mta-web, public-client=true)
 /subsystem=keycloak/secure-deployment=mta-web.war:add(realm=mta, realm-public-key="${keycloak.realm.public.key}", auth-server-url="${keycloak.server.url}", ssl-required="NONE", resource=mta-web, public-client=true)
-/subsystem=keycloak/secure-deployment=mta-web-pf4.war:add(realm=mta, realm-public-key="${keycloak.realm.public.key}", auth-server-url="${keycloak.server.url}", ssl-required="NONE", resource=mta-web, public-client=true)
+/subsystem=keycloak/secure-deployment=mta-ui.war:add(realm=mta, realm-public-key="${keycloak.realm.public.key}", auth-server-url="${keycloak.server.url}", ssl-required="NONE", resource=mta-web, public-client=true)

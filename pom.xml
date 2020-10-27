@@ -145,7 +145,7 @@
                                     <version>${project.version}</version>
                                     <type>war</type>
                                     <overWrite>true</overWrite>
-                                    <destFileName>mta-web-pf4.war</destFileName>
+                                    <destFileName>mta-ui.war</destFileName>
                                     <outputDirectory>${project.build.directory}/${wildfly.directory}/standalone/deployments/</outputDirectory>
                                 </artifactItem>
                             </artifactItems>
