@@ -104,7 +104,7 @@
                                 <artifactItem>
                                     <groupId>org.jboss.windup.web</groupId>
                                     <artifactId>windup-keycloak-tool</artifactId>
-                                    <version>5.3.0.Final</version>
+                                    <version>5.4.0.Final</version>
                                     <outputDirectory>${project.build.directory}/keycloak-tool</outputDirectory>
                                     <destFileName>keycloak-tool.jar</destFileName>
                                     <overWrite>true</overWrite>
@@ -137,6 +137,15 @@
                                     <type>war</type>
                                     <overWrite>true</overWrite>
                                     <destFileName>mta-web.war</destFileName>
+                                    <outputDirectory>${project.build.directory}/${wildfly.directory}/standalone/deployments/</outputDirectory>
+                                </artifactItem>
+                                <artifactItem>
+                                    <groupId>${project.groupId}</groupId>
+                                    <artifactId>windup-web-ui-pf4</artifactId>
+                                    <version>${project.version}</version>
+                                    <type>war</type>
+                                    <overWrite>true</overWrite>
+                                    <destFileName>mta-ui.war</destFileName>
                                     <outputDirectory>${project.build.directory}/${wildfly.directory}/standalone/deployments/</outputDirectory>
                                 </artifactItem>
                             </artifactItems>
