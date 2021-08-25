@@ -104,7 +104,7 @@
                                 <artifactItem>
                                     <groupId>org.jboss.windup.web</groupId>
                                     <artifactId>windup-keycloak-tool</artifactId>
-                                    <version>5.4.0.Final</version>
+                                    <version>5.5.0-SNAPSHOT</version>
                                     <outputDirectory>${project.build.directory}/keycloak-tool</outputDirectory>
                                     <destFileName>keycloak-tool.jar</destFileName>
                                     <overWrite>true</overWrite>
@@ -295,13 +295,13 @@
                                 <argument>${keycloak.tool.path}</argument>
                                 <argument>create-windup-user</argument>
                                 <argument>--newUserID</argument>
-                                <argument>mta</argument>
+                                <argument>tackle</argument>
                                 <argument>--newUserPassword</argument>
                                 <argument>password</argument>
                                 <argument>--firstName</argument>
-                                <argument>mta</argument>
+                                <argument>tackle</argument>
                                 <argument>--lastName</argument>
-                                <argument>mta</argument>
+                                <argument>tackle</argument>
                             </arguments>
                         </configuration>
                     </execution>

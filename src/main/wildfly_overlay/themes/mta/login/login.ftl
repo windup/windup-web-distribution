@@ -7,8 +7,8 @@
     <#elseif section = "logo">
         <span id="mta-title">
             <p>
-                <strong class="visible-xs-inline">MTA&nbsp;</strong>
-                <strong class="hidden-xs">Migration Toolkit for Applications</strong>
+                <strong class="visible-xs-inline">Tackle Analysis&nbsp;</strong>
+                <strong class="hidden-xs">Tackle Analysis</strong>
                 <span>Web Console</span>
             </p>
         </span>
@@ -69,10 +69,10 @@
         </#if>
     <#elseif section = "info">
         <p>
-            <strong class="welcome-help-text"> Welcome to the Migration Toolkit for Applications Web Console. </strong>
+            <strong class="welcome-help-text"> Welcome to Tackle Analysis Web Console. </strong>
         </p>
         <p>
-            Learn more about Migration Toolkit for Applications from the
+            Learn more about Tackle Analysis from the
             <a href="https://access.redhat.com/documentation/en/red-hat-jboss-migration-toolkit/">documentation</a>.
         </p>
 

@@ -7,7 +7,7 @@ window.onload = function() {
     parent.appendChild(infoElement);
 
     var usernameEl = document.getElementById("username");
-    usernameEl.value = "mta";
+    usernameEl.value = "tackle";
     var passwordEl = document.getElementById("password");
     passwordEl.value = "password";
     var loginButton = document.getElementById("kc-login");
