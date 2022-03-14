@@ -9,6 +9,7 @@ on:
 jobs:
 
   windup-wildfly4development:
+    if: github.repository_owner == 'windup'
     runs-on: ubuntu-latest
     steps:
       - name: Checkout Windup Web project
