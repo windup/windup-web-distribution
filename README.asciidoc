@@ -10,6 +10,10 @@ To build this project, type:
 
         mvn clean install
 
+If you want to build this project using SNAPSHOTs, add the `settings.xml` file to the command line:
+
+        mvn -s settings.xml clean install
+
 This creates a `windup-web-distribution-<VERSION>.zip` file in the `windup-web-distribution/target/` directory.
 
 The windup-web-distribution build requires artifacts built from windup-web and windup-keycloak-tool.
