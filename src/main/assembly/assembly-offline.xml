@@ -6,7 +6,7 @@
         <format>zip</format>
     </formats>
 
-    <baseDirectory>${project.build.finalName}</baseDirectory>
+    <baseDirectory>${assembly.baseDirectory}</baseDirectory>
 
     <!-- Add distribution files -->
     <fileSets>
