@@ -35,6 +35,8 @@
         <windup.scm.url>http://github.com/windup/windup-web-distribution</windup.scm.url>
 
         <keycloak.tool.path>${project.build.directory}/keycloak-tool/keycloak-tool.jar</keycloak.tool.path>
+        <skip.deployment>false</skip.deployment>
+        <assembly.baseDirectory>${project.build.finalName}</assembly.baseDirectory>
     </properties>
 
     <distributionManagement>
@@ -120,6 +122,7 @@
                             <goal>copy</goal>
                         </goals>
                         <configuration>
+                            <skip>${skip.deployment}</skip>
                             <artifactItems>
                                 <artifactItem>
                                     <groupId>${project.groupId}</groupId>
@@ -472,6 +475,67 @@
                                     </licensesOutputFile>
                                 </configuration>
                             </execution>
+                        </executions>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+        <profile>
+            <id>windup-wildfly4development</id>
+            <properties>
+                <skip.deployment>true</skip.deployment>
+                <classifier.wildfly4development>wildfly4development</classifier.wildfly4development>
+                <wildfly4development.name>windup-${classifier.wildfly4development}</wildfly4development.name>
+                <assembly.baseDirectory>${wildfly4development.name}-${project.version}</assembly.baseDirectory>
+            </properties>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-assembly-plugin</artifactId>
+                        <executions>
+                            <execution>
+                                <id>distribution</id>
+                                <phase>package</phase>
+                                <goals>
+                                    <goal>single</goal>
+                                </goals>
+                                <configuration>
+                                    <finalName>${wildfly4development.name}</finalName>
+                                    <appendAssemblyId>false</appendAssemblyId>
+                                    <attach>true</attach>
+                                </configuration>
+                            </execution>
+                        </executions>
+                    </plugin>
+                    <plugin>
+                        <artifactId>maven-install-plugin</artifactId>
+                        <executions>
+                          <execution>
+                            <id>default-install</id>
+                            <phase>install</phase>
+                            <goals>
+                                <goal>install</goal>
+                            </goals>
+                            <configuration>
+                                <skip>true</skip>
+                            </configuration>
+                          </execution>
+                          <execution>
+                            <id>install-${wildfly4development.name}</id>
+                            <phase>install</phase>
+                            <goals>
+                                <goal>install-file</goal>
+                            </goals>
+                            <configuration>
+                                <file>${project.build.directory}/${wildfly4development.name}.zip</file>
+                                <groupId>${project.groupId}</groupId>
+                                <artifactId>${project.artifactId}</artifactId>
+                                <version>${project.version}</version>
+                                <packaging>zip</packaging>
+                                <classifier>${classifier.wildfly4development}</classifier>
+                            </configuration>
+                          </execution>
                         </executions>
                     </plugin>
                 </plugins>
