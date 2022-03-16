@@ -34,7 +34,9 @@
 ## Tracing
 ## The following line removes warning messages from the log due to https://issues.redhat.com/browse/WFLY-14625
 ## Which has been fixed in Wildfly 24 but current version for us is 23.0.2
-/subsystem=microprofile-opentracing-smallrye/jaeger-tracer=jaeger:write-attribute(name=sampler-param, value=0)
+if (outcome == success) of /subsystem=microprofile-opentracing-smallrye:read-resource
+    /subsystem=microprofile-opentracing-smallrye/jaeger-tracer=jaeger:write-attribute(name=sampler-param, value=0)
+end-if
 
 # Other
 /subsystem=undertow/server=default-server/http-listener=default:write-attribute(name=max-post-size, value=943718400)
