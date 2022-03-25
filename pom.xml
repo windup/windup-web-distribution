@@ -34,7 +34,9 @@
         <windup.developer.connection>scm:git:git@github.com:windup/windup-web-distribution.git</windup.developer.connection>
         <windup.scm.url>http://github.com/windup/windup-web-distribution</windup.scm.url>
 
-        <keycloak.tool.path>${project.build.directory}/keycloak-tool/keycloak-tool.jar</keycloak.tool.path>
+        <keycloak.tool.basedir>${project.build.directory}/keycloak-tool</keycloak.tool.basedir>
+        <keycloak.tool.name>keycloak-tool.jar</keycloak.tool.name>
+        <keycloak.tool.path>${keycloak.tool.basedir}/${keycloak.tool.name}</keycloak.tool.path>
         <skip.deployment>false</skip.deployment>
         <assembly.baseDirectory>${project.build.finalName}</assembly.baseDirectory>
     </properties>
@@ -106,9 +108,9 @@
                                 <artifactItem>
                                     <groupId>org.jboss.windup.web</groupId>
                                     <artifactId>windup-keycloak-tool</artifactId>
-                                    <version>5.5.0.Final</version>
-                                    <outputDirectory>${project.build.directory}/keycloak-tool</outputDirectory>
-                                    <destFileName>keycloak-tool.jar</destFileName>
+                                    <version>5.7.0.Final</version>
+                                    <outputDirectory>${keycloak.tool.basedir}</outputDirectory>
+                                    <destFileName>${keycloak.tool.name}</destFileName>
                                     <overWrite>true</overWrite>
                                 </artifactItem>
                             </artifactItems>
