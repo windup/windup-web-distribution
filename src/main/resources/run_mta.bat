@@ -1,6 +1,8 @@
 @REM ====
 @REM ==== JAVA VERSION VALIDATION ====
 @REM ====
+@echo off
+
 if not "%JAVA_HOME%" == "" set JAVA_HOME=%JAVA_HOME:"=%
 
 @REM ==== START VALIDATION ====
@@ -43,7 +45,7 @@ for /f "delims=. tokens=1-3" %%v in ("%JAVAVER%") do (
 )
 set "JAVAVER_MAJOR=%JAVAVER_MAJOR:~1,2%"
 if %JAVAVER_MAJOR% equ 11 (
-    goto chkFHome
+    goto init
 )
 
 echo.
@@ -51,19 +53,17 @@ echo A Java 11 JRE is required to run MTA. "%JAVA_HOME%\bin\java.exe" is version
 echo.
 goto error
 
-:chkFHome
-
 :error
 if "%OS%"=="Windows_NT" @endlocal
 if "%OS%"=="WINNT" @endlocal
 set ERROR_CODE=1
 
+:init
 
 @REM ====
 @REM ==== EXECUTION PHASE ====
 @REM ====
 
-@echo off
 REM ---------------------------------------------------------------------------
 REM RedHat Application Migration Toolkit UI Console
 REM --------------------------------------------------------------
@@ -71,7 +71,7 @@ REM --------------------------------------------------------------
 SET JBOSS_HOME=%~dp0.
 
 if "x%WINDUP_DATA_DIR%" == "x" (
-    SET WINDUP_DATA_DIR="%JBOSS_HOME%\standalone\data"
+    SET "WINDUP_DATA_DIR=%JBOSS_HOME%\standalone\data"
 )
 
 REM *** Launching embedded MTA console server ***
