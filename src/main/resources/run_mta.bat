@@ -71,8 +71,8 @@ REM --------------------------------------------------------------
 SET JBOSS_HOME=%~dp0.
 
 if "x%WINDUP_DATA_DIR%" == "x" (
-    SET WINDUP_DATA_DIR=%JBOSS_HOME%\standalone\data
+    SET WINDUP_DATA_DIR="%JBOSS_HOME%\standalone\data"
 )
 
 REM *** Launching embedded MTA console server ***
-call %JBOSS_HOME%\bin\standalone.bat -c standalone-full.xml -Dwindup.data.dir=%WINDUP_DATA_DIR% %*
+call "%JBOSS_HOME%\bin\standalone.bat" -c standalone-full.xml -Dwindup.data.dir="%WINDUP_DATA_DIR%" %*
