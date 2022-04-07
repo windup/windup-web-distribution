@@ -1,5 +1,43 @@
 #!/bin/bash
 
+#
+# JAVA VERSION VALIDATION
+#
+
+if [ -z "$JAVACMD" ] ; then
+  if [ -n "$JAVA_HOME"  ] ; then
+    if [ -x "$JAVA_HOME/jre/sh/java" ] ; then
+      # IBM's JDK on AIX uses strange locations for the executables
+      JAVACMD="$JAVA_HOME/jre/sh/java"
+    else
+      JAVACMD="$JAVA_HOME/bin/java"
+    fi
+  else
+    JAVACMD="`which java`"
+  fi
+fi
+
+if [ ! -x "$JAVACMD" ] ; then
+  echo "Error: JAVA_HOME is not defined correctly."
+  echo "  We cannot execute $JAVACMD"
+  exit 1
+fi
+
+JAVAVER=`"$JAVACMD" -version 2>&1`
+case $JAVAVER in
+*"11"*)
+  echo ""
+ ;;
+*)
+	echo "Error: a Java 11 JRE is required to run MTA; found [$JAVACMD -version == $JAVAVER]."
+	exit 1
+ ;;
+esac
+
+
+#
+# EXECUTION PHASE
+#
 
 ## Increase the open file limit if low, to what we need or at least to the hard limit.
 ## Complain if the hard limit is lower than what we need.
