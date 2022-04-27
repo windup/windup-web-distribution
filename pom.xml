@@ -108,7 +108,7 @@
                                 <artifactItem>
                                     <groupId>org.jboss.windup.web</groupId>
                                     <artifactId>windup-keycloak-tool</artifactId>
-                                    <version>5.7.0.Final</version>
+                                    <version>5.8.0-SNAPSHOT</version>
                                     <outputDirectory>${keycloak.tool.basedir}</outputDirectory>
                                     <destFileName>${keycloak.tool.name}</destFileName>
                                     <overWrite>true</overWrite>
@@ -189,6 +189,24 @@
                                     <overWrite>true</overWrite>
                                     <excludes>META-INF/</excludes>
                                     <outputDirectory>${project.build.directory}/${wildfly.directory}/openshift/templates</outputDirectory>
+                                </artifactItem>
+                                <artifactItem>
+                                    <groupId>org.jboss.windup</groupId>
+                                    <artifactId>windup-web-openshift-templates</artifactId>
+                                    <version>${project.version}</version>
+                                    <type>jar</type>
+                                    <overWrite>true</overWrite>
+                                    <excludes>META-INF/</excludes>
+                                    <outputDirectory>${project.build.directory}/${wildfly.directory}/openshift/templates</outputDirectory>
+                                </artifactItem>
+                                <artifactItem>
+                                    <groupId>org.jboss.windup.web</groupId>
+                                    <artifactId>windup-web-keycloak-theme</artifactId>
+                                    <version>5.5.0-SNAPSHOT</version>
+                                    <type>jar</type>
+                                    <overWrite>true</overWrite>
+                                    <includes>**/${product-name}/</includes>
+                                    <outputDirectory>${project.build.directory}/${wildfly.directory}</outputDirectory>
                                 </artifactItem>
                             </artifactItems>
                         </configuration>
@@ -274,6 +292,10 @@
                                 <argument>-jar</argument>
                                 <argument>${keycloak.tool.path}</argument>
                                 <argument>create-windup-realm</argument>
+                                <argument>--realmName</argument>
+                                <argument>${product-name}</argument>
+                                <argument>--loginTheme</argument>
+                                <argument>${product-name}</argument>
                             </arguments>
                         </configuration>
                     </execution>
@@ -290,14 +312,16 @@
                                 <argument>-jar</argument>
                                 <argument>${keycloak.tool.path}</argument>
                                 <argument>create-windup-user</argument>
+                                <argument>--realmName</argument>
+                                <argument>${product-name}</argument>
                                 <argument>--newUserID</argument>
-                                <argument>mta</argument>
+                                <argument>${product-name}</argument>
                                 <argument>--newUserPassword</argument>
                                 <argument>password</argument>
                                 <argument>--firstName</argument>
-                                <argument>mta</argument>
+                                <argument>${product-name}</argument>
                                 <argument>--lastName</argument>
-                                <argument>mta</argument>
+                                <argument>${product-name}</argument>
                             </arguments>
                         </configuration>
                     </execution>
@@ -314,6 +338,8 @@
                                 <argument>-jar</argument>
                                 <argument>${keycloak.tool.path}</argument>
                                 <argument>print-windup-realm-public-key</argument>
+                                <argument>--realmName</argument>
+                                <argument>${product-name}</argument>
                             </arguments>
                         </configuration>
                     </execution>
@@ -424,6 +450,19 @@
                             </target>
                         </configuration>
                     </execution>
+                    <execution>
+                        <id>create-theme.properties</id>
+                        <phase>package</phase>
+                        <configuration>
+                            <target>
+                                <copy file="${project.build.directory}/${wildfly.directory}/themes/${product-name}/login/auto_login.theme.properties" tofile="${project.build.directory}/${wildfly.directory}/themes/${product-name}/login/theme.properties" />
+                            </target>
+                        </configuration>
+                        <goals>
+                            <goal>run</goal>
+                        </goals>
+                    </execution>
+
                 </executions>
             </plugin>
             <plugin>
@@ -541,6 +580,63 @@
                         </executions>
                     </plugin>
                 </plugins>
+            </build>
+        </profile>
+
+        <profile>
+            <id>windup</id>
+            <activation>
+                <property>
+                    <name>!downstream</name>
+                </property>
+            </activation>
+            <properties>
+                <product-name>windup</product-name>
+            </properties>
+        </profile>
+        <profile>
+            <id>mta</id>
+            <activation>
+                <property>
+                    <name>downstream</name>
+                    <value>mta</value>
+                </property>
+            </activation>
+            <properties>
+                <product-name>mta</product-name>
+            </properties>
+            <build>
+                <finalName>mta-cli-${project.version}</finalName>
+            </build>
+        </profile>
+        <profile>
+            <id>tackle</id>
+            <activation>
+                <property>
+                    <name>downstream</name>
+                    <value>tackle</value>
+                </property>
+            </activation>
+            <properties>
+                <product-name>tackle</product-name>
+            </properties>
+            <build>
+                <finalName>tackle-cli-${project.version}</finalName>
+            </build>
+        </profile>
+        <profile>
+            <id>mtr</id>
+            <activation>
+                <property>
+                    <name>downstream</name>
+                    <value>mtr</value>
+                </property>
+            </activation>
+            <properties>
+                <product-name>mtr</product-name>
+            </properties>
+            <build>
+                <finalName>mtr-cli-${project.version}</finalName>
             </build>
         </profile>
     </profiles>

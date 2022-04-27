@@ -25,8 +25,12 @@
             <outputDirectory></outputDirectory>
             <filtered>true</filtered>
             <includes>
-               <include>/mta-version.txt</include>
+               <include>/version.txt</include>
                <include>/README.txt</include>
+               <include>/switch_to_authentication_required.sh</include>
+               <include>/switch_to_authentication_required.bat</include>
+               <include>/switch_to_automatic_authentication.sh</include>
+               <include>/switch_to_automatic_authentication.bat</include>
             </includes>
         </fileSet>
         <fileSet>
@@ -37,8 +41,12 @@
                 <include>**</include>
             </includes>
             <excludes>
-               <exclude>/mta-version.txt</exclude>
+               <exclude>/version.txt</exclude>
                <exclude>/README.txt</exclude>
+               <exclude>/switch_to_authentication_required.sh</exclude>
+               <exclude>/switch_to_authentication_required.bat</exclude>
+               <exclude>/switch_to_automatic_authentication.sh</exclude>
+               <exclude>/switch_to_automatic_authentication.bat</exclude>
             </excludes>
         </fileSet>
         <!-- Add the overlay files -->
@@ -47,19 +55,12 @@
             <outputDirectory></outputDirectory>
             <filtered>false</filtered>
         </fileSet>
-        <fileSet>
-            <directory>src/main/wildfly_overlay/themes/mta</directory>
-            <outputDirectory>themes/mta</outputDirectory>
-            <excludes>
-                <exclude>login/auto_login.theme.properties</exclude>
-            </excludes>
-        </fileSet>
     </fileSets>
     <!-- Override the theme.properties with the autologin one -->
     <files>
         <file>
-            <source>src/main/wildfly_overlay/themes/mta/login/auto_login.theme.properties</source>
-            <outputDirectory>themes/mta/login</outputDirectory>
+            <source>${project.build.directory}/${wildfly.directory}/themes/${product-name}/login/auto_login.theme.properties</source>
+            <outputDirectory>themes/${product-name}/login</outputDirectory>
             <destName>theme.properties</destName>
             <filtered>false</filtered>
         </file>
