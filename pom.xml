@@ -27,8 +27,9 @@
         <wildfly.artifactId>wildfly-dist</wildfly.artifactId>
         <version.wildfly>23.0.2.Final</version.wildfly>
         <wildfly.directory>wildfly-${version.wildfly}</wildfly.directory>
+        <wildfly.http.port>8080</wildfly.http.port>
 
-        <version.wildfly.maven.plugin>2.1.0.Final</version.wildfly.maven.plugin>
+        <version.wildfly.maven.plugin>3.0.1.Final</version.wildfly.maven.plugin>
 
         <windup.scm.connection>scm:git:https://github.com/windup/windup-web-distribution.git</windup.scm.connection>
         <windup.developer.connection>scm:git:git@github.com:windup/windup-web-distribution.git</windup.developer.connection>
@@ -283,6 +284,7 @@
                                 <argument>-jar</argument>
                                 <argument>${keycloak.tool.path}</argument>
                                 <argument>create-windup-realm</argument>
+                                <argument>--keycloakUrl=http://localhost:${wildfly.http.port}/auth</argument>
                                 <argument>--loginTheme</argument>
                                 <argument>${product-name}</argument>
                             </arguments>
@@ -301,6 +303,7 @@
                                 <argument>-jar</argument>
                                 <argument>${keycloak.tool.path}</argument>
                                 <argument>create-windup-user</argument>
+                                <argument>--keycloakUrl=http://localhost:${wildfly.http.port}/auth</argument>
                                 <argument>--newUserID</argument>
                                 <argument>migration</argument>
                                 <argument>--newUserPassword</argument>
@@ -325,6 +328,7 @@
                                 <argument>-jar</argument>
                                 <argument>${keycloak.tool.path}</argument>
                                 <argument>print-windup-realm-public-key</argument>
+                                <argument>--keycloakUrl=http://localhost:${wildfly.http.port}/auth</argument>
                             </arguments>
                         </configuration>
                     </execution>
@@ -367,6 +371,7 @@
                             </systemProperties>
                             <serverArgs>
                                 <serverArg>--admin-only</serverArg>
+                                <server-arg>-Djboss.http.port=${wildfly.http.port}</server-arg>
                             </serverArgs>
                             <scripts>
                                 <script>${project.build.directory}/${wildfly.directory}/bin/adapter-install.cli</script>
@@ -385,7 +390,6 @@
                         </goals>
                         <configuration>
                             <jbossHome>${project.build.directory}/${wildfly.directory}</jbossHome>
-                            <serverConfig>standalone-full.xml</serverConfig>
                             <scripts>
                                 <script>${project.build.directory}/publickey.cli</script>
                                 <script>src/main/cli/setup-windup-keycloak-properties.cli</script>
