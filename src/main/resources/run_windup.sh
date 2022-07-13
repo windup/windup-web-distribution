@@ -29,7 +29,7 @@ case $JAVAVER in
   echo ""
  ;;
 *)
-	echo "Error: a Java 11 JRE is required to run MTA; found [$JAVACMD -version == $JAVAVER]."
+	echo "Error: a Java 11 JRE is required to run WINDUP; found [$JAVACMD -version == $JAVAVER]."
 	exit 1
  ;;
 esac
@@ -53,7 +53,7 @@ if [ $MAX_HARD == 'unlimited' ] ; then MAX_HARD=$WE_NEED; fi;
 if [ $MAX_SOFT -lt $WE_NEED ] ; then
 
   if [ $MAX_HARD -lt $WE_NEED ] ; then
-    echo "The limit for number of open files is too low ($MAX_HARD), which may make MTA unstable."
+    echo "The limit for number of open files is too low ($MAX_HARD), which may make WINDUP unstable."
     echo "Please consider increasing the limit to at least $WE_NEED, see your system's documentation."
     echo "For Linux, limits are typically configured in /etc/security/limits.conf .";
     echo "For Mac OS X, limits are typically configured in /etc/launchd.conf or /etc/sysctl.conf (guide here: https://gist.github.com/Maarc/d13b1e70f191d5b527a24d39dd3e2569) .";

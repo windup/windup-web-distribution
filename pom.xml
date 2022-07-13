@@ -14,7 +14,7 @@
     </parent>
 
     <groupId>org.jboss.windup.web</groupId>
-    <artifactId>mta-web-distribution</artifactId>
+    <artifactId>windup-web-distribution</artifactId>
     <version>5.3.1-SNAPSHOT</version>
 
     <name>Windup Web - Distribution Build</name>
@@ -142,7 +142,7 @@
                                     <version>${project.version}</version>
                                     <type>war</type>
                                     <overWrite>true</overWrite>
-                                    <destFileName>mta-ui.war</destFileName>
+                                    <destFileName>windup-ui.war</destFileName>
                                     <outputDirectory>${project.build.directory}/${wildfly.directory}/standalone/deployments/</outputDirectory>
                                 </artifactItem>
                             </artifactItems>
@@ -497,10 +497,10 @@
                                 <phase>package</phase>
                                 <configuration>
                                     <licensesOutputDirectory>
-                                        ${project.build.directory}/mta-web-distribution-${project.version}/docs/licenses
+                                        ${project.build.directory}/windup-web-distribution-${project.version}/docs/licenses
                                     </licensesOutputDirectory>
                                     <licensesOutputFile>
-                                        ${project.build.directory}/mta-web-distribution-${project.version}/docs/licenses/licenses.xml
+                                        ${project.build.directory}/windup-web-distribution-${project.version}/docs/licenses/licenses.xml
                                     </licensesOutputFile>
                                 </configuration>
                             </execution>
@@ -572,10 +572,25 @@
         </profile>
 
         <profile>
-            <id>mta</id>
+            <id>windup</id>
             <activation>
                 <property>
                     <name>!downstream</name>
+                </property>
+            </activation>
+            <properties>
+                <product-name>windup</product-name>
+            </properties>
+            <build>
+                <finalName>windup-web-distribution-${project.version}</finalName>
+            </build>
+        </profile>
+        <profile>
+            <id>mta</id>
+            <activation>
+                <property>
+                    <name>downstream</name>
+                    <value>mta</value>
                 </property>
             </activation>
             <properties>

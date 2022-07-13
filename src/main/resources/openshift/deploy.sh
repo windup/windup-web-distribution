@@ -22,7 +22,7 @@ done < ${PROPERTIES_FILE}
 required_variables=(
     'OCP_PROJECT'
     'DB_VOLUME_CAPACITY'
-    'MTA_VOLUME_CAPACITY'
+    'WINDUP_VOLUME_CAPACITY'
     'WEB_CONSOLE_REQUESTED_CPU'
     'WEB_CONSOLE_REQUESTED_MEMORY'
     'EXECUTOR_REQUESTED_CPU'
@@ -58,16 +58,16 @@ sleep 1
 #sleep 1
 
 
-echo "  -> Process MTA Web Template"
+echo "  -> Process WINDUP Web Template"
 # Template adapted from https://github.com/jboss-openshift/application-templates/blob/master/sso/sso70-postgresql-persistent.json
 oc process -f templates/web-template-empty-dir-executor.json \
-    -p SSO_REALM=mta \
+    -p SSO_REALM=windup \
     -p POSTGRESQL_MAX_CONNECTIONS=200 \
     -p DB_DATABASE=${DB_DATABASE} \
     -p DB_USERNAME=${DB_USERNAME} \
     -p DB_PASSWORD=${DB_PASSWORD} \
     -p VOLUME_CAPACITY=${DB_VOLUME_CAPACITY} \
-    -p MTA_VOLUME_CAPACITY=${MTA_VOLUME_CAPACITY} \
+    -p WINDUP_VOLUME_CAPACITY=${WINDUP_VOLUME_CAPACITY} \
     -p WEB_CONSOLE_REQUESTED_CPU=${WEB_CONSOLE_REQUESTED_CPU} \
     -p WEB_CONSOLE_REQUESTED_MEMORY=${WEB_CONSOLE_REQUESTED_MEMORY} \
     -p EXECUTOR_REQUESTED_CPU=${EXECUTOR_REQUESTED_CPU} \
@@ -76,11 +76,11 @@ oc process -f templates/web-template-empty-dir-executor.json \
     -p DOCKER_IMAGES_TAG=${DOCKER_IMAGES_TAG} | oc create -n ${OCP_PROJECT} -f -
 sleep 1
 
-echo -n "  -> Deploy MTA Web Console ..."
+echo -n "  -> Deploy WINDUP Web Console ..."
 N=0
 until [ ${N} -ge 50 ]
 do
-  IS_RUNNING=$(oc get pods | grep mta-web-console | grep -v build |  grep -v deploy | grep Running | grep -v '0/'|wc -l)
+  IS_RUNNING=$(oc get pods | grep windup-web-console | grep -v build |  grep -v deploy | grep Running | grep -v '0/'|wc -l)
   if [ ${IS_RUNNING} == "1" ]
   then
     echo -e "done"
@@ -98,9 +98,9 @@ if [ ${N} -eq 50 ]
 	echo
 	echo "Check the status of the project in the OpenShift console to see if it is still processing or if there are errors"
     else
-	CONSOLE_URL="http://$(oc get route --no-headers -o=custom-columns=HOST:.spec.host mta-web-console)/"
+	CONSOLE_URL="http://$(oc get route --no-headers -o=custom-columns=HOST:.spec.host windup-web-console)/"
 
 	echo "Upload, build and deployment successful!"
 	echo
-	echo "Open ${CONSOLE_URL} to start using the MTA Web Console on OpenShift (user='mta',password='password')"
+	echo "Open ${CONSOLE_URL} to start using the WINDUP Web Console on OpenShift (user='windup',password='password')"
 fi
