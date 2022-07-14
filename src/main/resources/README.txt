@@ -1,9 +1,9 @@
- ____  _   _    _    __  __ _____
-|  \/  ||__  __| / \
-| |\/| |  | |   / _ \
-| |  | |  | |  / ___ \
-| |  | |__| |_/_/   \_\
-
+ _       ___           __
+| |     / (_)___  ____/ /_  ______
+| | /| / / / __ \/ __  / / / / __ \
+| |/ |/ / / / / / /_/ / /_/ / /_/ /
+|__/|__/_/_/ /_/\__,_/\__,_/ .___/
+                          /_/
 
 Migration Toolkit for Applications (WINDUP) ${project.version} is an extensible and customizable rule-based tool that helps simplify migration of Java applications.
 

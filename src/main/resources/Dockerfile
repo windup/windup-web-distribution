@@ -2,9 +2,9 @@ FROM registry.access.redhat.com/redhat-openjdk-18/openjdk18-openshift:latest
 
 EXPOSE 8080
 
-LABEL description="Windup Web Console" \
+LABEL description="Windup Migration Toolkit for Applications Web Console" \
       version="4.0.0-SNAPSHOT" \
-      io.k8s.description="Windup Web Console" \
+      io.k8s.description="Windup Migration Toolkit for Applications Web Console" \
       io.k8s.display-name="WINDUP Web Console" \
       io.openshift.expose-services="8080:http" \
       io.openshift.tags="windup,migration"
