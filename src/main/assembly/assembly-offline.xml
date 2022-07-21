@@ -14,7 +14,6 @@
             <directory>${project.build.directory}/${wildfly.directory}</directory>
             <outputDirectory></outputDirectory>
             <excludes>
-                <exclude>**/keycloak.lock.db</exclude>
                 <exclude>bin/standalone.conf</exclude>
                 <exclude>bin/standalone.conf.bat</exclude>
                 <exclude>standalone/data/content/**/*</exclude>
@@ -56,14 +55,4 @@
             <filtered>false</filtered>
         </fileSet>
     </fileSets>
-    <!-- Override the theme.properties with the autologin one -->
-    <files>
-        <file>
-            <source>${project.build.directory}/${wildfly.directory}/themes/${product-name}/login/auto_login.theme.properties</source>
-            <outputDirectory>themes/${product-name}/login</outputDirectory>
-            <destName>theme.properties</destName>
-            <filtered>false</filtered>
-        </file>
-    </files>
-
 </assembly>
