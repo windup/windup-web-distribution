@@ -250,6 +250,9 @@
                         </goals>
                         <configuration>
                             <jbossHome>${project.build.directory}/${wildfly.directory}</jbossHome>
+                            <scripts>
+                                <script>src/main/cli/setup-windup-sso-default-properties.cli</script>
+                            </scripts>
                         </configuration>
                     </execution>
                 </executions>
