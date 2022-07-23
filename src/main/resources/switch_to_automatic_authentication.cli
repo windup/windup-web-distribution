@@ -1,0 +1,30 @@
+embed-server --server-config=${config:standalone-full.xml}
+
+# Windup
+/system-property="windup.secured.url":write-attribute(name=value, value="none")
+
+# Keycloak
+if (outcome == success) of /system-property="keycloak.server.url":read-resource
+    /system-property="keycloak.server.url":remove
+end-if
+if (outcome == success) of /system-property="keycloak.realm.public.key":read-resource
+    /system-property="keycloak.realm.public.key":remove
+end-if
+if (outcome == success) of /system-property="keycloak.realm":read-resource
+    /system-property="keycloak.realm":remove
+end-if
+if (outcome == success) of /system-property="keycloak.sslRequired":read-resource
+    /system-property="keycloak.sslRequired":remove
+end-if
+if (outcome == success) of /system-property="keycloak.clientId":read-resource
+    /system-property="keycloak.clientId":remove
+end-if
+
+if (outcome == success) of /subsystem=keycloak/secure-deployment="api.war":read-resource
+    /subsystem=keycloak/secure-deployment="api.war":remove
+end-if
+if (outcome == success) of /subsystem=keycloak/secure-deployment="mta-ui.war":read-resource
+    /subsystem=keycloak/secure-deployment="mta-ui.war":remove
+end-if
+
+stop-embedded-server

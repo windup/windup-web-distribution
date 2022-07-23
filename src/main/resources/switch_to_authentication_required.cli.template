@@ -1,0 +1,16 @@
+embed-server --server-config=${config:standalone-full.xml}
+
+# Windup
+/system-property="windup.secured.url":write-attribute(name=value, value="/*")
+
+# Keycloak
+/system-property=keycloak.server.url:add(value="${SSO_AUTH_SERVER_URL}")
+/system-property=keycloak.realm.public.key:add(value="${SSO_REALM_PUBLIC_KEY}")
+/system-property=keycloak.realm:add(value="${SSO_REALM}")
+/system-property=keycloak.sslRequired:add(value="${SSO_SSL_REQUIRED}")
+/system-property=keycloak.clientId:add(value="${SSO_CLIENT_ID}")
+
+/subsystem=keycloak/secure-deployment="api.war":add(realm="${keycloak.realm}", realm-public-key="${keycloak.realm.public.key}", auth-server-url="${keycloak.server.url}", ssl-required="${keycloak.sslRequired}", resource="${keycloak.clientId}", public-client=true)
+/subsystem=keycloak/secure-deployment="mta-ui.war":add(realm="${keycloak.realm}", realm-public-key="${keycloak.realm.public.key}", auth-server-url="${keycloak.server.url}", ssl-required="${keycloak.sslRequired}", resource="${keycloak.clientId}", public-client=true)
+
+stop-embedded-server

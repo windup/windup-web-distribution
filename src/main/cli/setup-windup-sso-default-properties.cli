@@ -1,2 +1,1 @@
-/system-property=windup.sso.enabled:add(value="false")
 /system-property=windup.secured.url:add(value="***")
