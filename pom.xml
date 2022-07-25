@@ -235,7 +235,7 @@
                             </serverArgs>
                             <scripts>
                                 <script>${project.build.directory}/${wildfly.directory}/bin/adapter-install.cli</script>
-                                <script>src/main/cli/setup-eap.cli</script>
+                                <script>src/main/cli/setup.cli</script>
                                 <script>src/main/cli/adding-redirect.cli</script>
                             </scripts>
                             <startupTimeout>300</startupTimeout>
@@ -251,7 +251,7 @@
                         <configuration>
                             <jbossHome>${project.build.directory}/${wildfly.directory}</jbossHome>
                             <scripts>
-                                <script>src/main/cli/setup-windup-sso-default-properties.cli</script>
+                                <script>src/main/cli/setup-properties.cli</script>
                             </scripts>
                         </configuration>
                     </execution>

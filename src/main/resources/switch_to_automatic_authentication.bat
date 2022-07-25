@@ -4,7 +4,7 @@ set "DIR=%~dp0"
 
 cd "%DIR%"
 
-./bin/jboss-cli.bat --file=switch_to_automatic_authentication.cli
+./bin/jboss-cli.bat --file=unsecure-deployments.cli
 
 echo "================================"
 echo ""
