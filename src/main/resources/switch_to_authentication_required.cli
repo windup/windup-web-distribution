@@ -5,12 +5,11 @@ embed-server --server-config=${config:standalone-full.xml}
 
 # Keycloak
 /system-property=keycloak.server.url:add(value="${env.SSO_AUTH_SERVER_URL:http://localhost:8180:/auth}")
-/system-property=keycloak.realm.public.key:add(value="${env.SSO_REALM_PUBLIC_KEY:***}")
 /system-property=keycloak.realm:add(value="${env.SSO_REALM:windup}")
 /system-property=keycloak.sslRequired:add(value="${env.SSO_SSL_REQUIRED:NONE}")
 /system-property=keycloak.clientId:add(value="${env.SSO_CLIENT_ID:windup-web}")
 
-/subsystem=keycloak/secure-deployment="api.war":add(realm="${keycloak.realm}", realm-public-key="${keycloak.realm.public.key}", auth-server-url="${keycloak.server.url}", ssl-required="${keycloak.sslRequired}", resource="${keycloak.clientId}", public-client=true)
-/subsystem=keycloak/secure-deployment="mta-ui.war":add(realm="${keycloak.realm}", realm-public-key="${keycloak.realm.public.key}", auth-server-url="${keycloak.server.url}", ssl-required="${keycloak.sslRequired}", resource="${keycloak.clientId}", public-client=true)
+/subsystem=keycloak/secure-deployment="api.war":add(realm="${keycloak.realm}", auth-server-url="${keycloak.server.url}", ssl-required="${keycloak.sslRequired}", resource="${keycloak.clientId}", public-client=true)
+/subsystem=keycloak/secure-deployment="mta-ui.war":add(realm="${keycloak.realm}", auth-server-url="${keycloak.server.url}", ssl-required="${keycloak.sslRequired}", resource="${keycloak.clientId}", public-client=true)
 
 stop-embedded-server

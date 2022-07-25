@@ -7,9 +7,6 @@ embed-server --server-config=${config:standalone-full.xml}
 if (outcome == success) of /system-property="keycloak.server.url":read-resource
     /system-property="keycloak.server.url":remove
 end-if
-if (outcome == success) of /system-property="keycloak.realm.public.key":read-resource
-    /system-property="keycloak.realm.public.key":remove
-end-if
 if (outcome == success) of /system-property="keycloak.realm":read-resource
     /system-property="keycloak.realm":remove
 end-if
