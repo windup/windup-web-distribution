@@ -20,8 +20,8 @@ end-if
 if (outcome == success) of /subsystem=keycloak/secure-deployment="api.war":read-resource
     /subsystem=keycloak/secure-deployment="api.war":remove
 end-if
-if (outcome == success) of /subsystem=keycloak/secure-deployment="mta-ui.war":read-resource
-    /subsystem=keycloak/secure-deployment="mta-ui.war":remove
+if (outcome == success) of /subsystem=keycloak/secure-deployment="windup-ui.war":read-resource
+    /subsystem=keycloak/secure-deployment="windup-ui.war":remove
 end-if
 
 stop-embedded-server

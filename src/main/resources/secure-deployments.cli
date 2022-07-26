@@ -10,6 +10,6 @@ embed-server --server-config=${config:standalone-full.xml}
 /system-property=keycloak.clientId:add(value="${env.SSO_CLIENT_ID:windup-web}")
 
 /subsystem=keycloak/secure-deployment="api.war":add(realm="${keycloak.realm}", auth-server-url="${keycloak.server.url}", ssl-required="${keycloak.sslRequired}", resource="${keycloak.clientId}", public-client=true)
-/subsystem=keycloak/secure-deployment="mta-ui.war":add(realm="${keycloak.realm}", auth-server-url="${keycloak.server.url}", ssl-required="${keycloak.sslRequired}", resource="${keycloak.clientId}", public-client=true)
+/subsystem=keycloak/secure-deployment="windup-ui.war":add(realm="${keycloak.realm}", auth-server-url="${keycloak.server.url}", ssl-required="${keycloak.sslRequired}", resource="${keycloak.clientId}", public-client=true)
 
 stop-embedded-server
