@@ -462,6 +462,21 @@
                 <finalName>tackle-web-distribution-${project.version}</finalName>
             </build>
         </profile>
+        <profile>
+            <id>mtr</id>
+            <activation>
+                <property>
+                    <name>downstream</name>
+                    <value>mtr</value>
+                </property>
+            </activation>
+            <properties>
+                <product-name>mtr</product-name>
+            </properties>
+            <build>
+                <finalName>mtr-web-distribution-${project.version}</finalName>
+            </build>
+        </profile>
     </profiles>
 
     <scm>
