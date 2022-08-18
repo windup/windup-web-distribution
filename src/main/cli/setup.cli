@@ -38,6 +38,9 @@ if (outcome == success) of /subsystem=microprofile-opentracing-smallrye:read-res
     /subsystem=microprofile-opentracing-smallrye/jaeger-tracer=jaeger:write-attribute(name=sampler-param, value=0)
 end-if
 
+## Property replacement
+/subsystem=ee:write-attribute(name="spec-descriptor-property-replacement", value=true)
+
 # Other
 /subsystem=undertow/server=default-server/http-listener=default:write-attribute(name=max-post-size, value=943718400)
 

@@ -4,13 +4,13 @@ set "DIR=%~dp0"
 
 cd "%DIR%"
 
-copy "%DIR%\themes\${product-name}\login\login_required.theme.properties" "%DIR%\themes\${product-name}\login\theme.properties"
+./bin/jboss-cli.bat --file=unsecure-deployments.cli
+./bin/jboss-cli.bat --file=secure-deployments.cli
 
 echo "================================"
 echo ""
 echo "The system will now require an authentication step."
 echo ""
-echo "We recommend that you login to http://localhost:8080/auth and remove the default 'migration' user from the realm at this point".
-echo "(Default Keycloak user: admin, password: password)"
+echo "We recommend that you verify the ENV Variables SSO_AUTH_SERVER_URL, SSO_REALM, SSO_SSL_REQUIRED, and SSO_CLIENT_ID".
 echo ""
 echo "================================"

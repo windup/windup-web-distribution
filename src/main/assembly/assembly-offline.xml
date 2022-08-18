@@ -14,7 +14,6 @@
             <directory>${project.build.directory}/${wildfly.directory}</directory>
             <outputDirectory></outputDirectory>
             <excludes>
-                <exclude>**/keycloak.lock.db</exclude>
                 <exclude>bin/standalone.conf</exclude>
                 <exclude>bin/standalone.conf.bat</exclude>
                 <exclude>standalone/data/content/**/*</exclude>
@@ -31,6 +30,8 @@
                <include>/switch_to_authentication_required.bat</include>
                <include>/switch_to_automatic_authentication.sh</include>
                <include>/switch_to_automatic_authentication.bat</include>
+               <include>/secure-deployments.cli</include>
+               <include>/unsecure-deployments.cli</include>
             </includes>
         </fileSet>
         <fileSet>
@@ -47,6 +48,8 @@
                <exclude>/switch_to_authentication_required.bat</exclude>
                <exclude>/switch_to_automatic_authentication.sh</exclude>
                <exclude>/switch_to_automatic_authentication.bat</exclude>
+               <exclude>/secure-deployments.cli</exclude>
+               <exclude>/unsecure-deployments.cli</exclude>
             </excludes>
         </fileSet>
         <!-- Add the overlay files -->
@@ -56,14 +59,4 @@
             <filtered>false</filtered>
         </fileSet>
     </fileSets>
-    <!-- Override the theme.properties with the autologin one -->
-    <files>
-        <file>
-            <source>${project.build.directory}/${wildfly.directory}/themes/${product-name}/login/auto_login.theme.properties</source>
-            <outputDirectory>themes/${product-name}/login</outputDirectory>
-            <destName>theme.properties</destName>
-            <filtered>false</filtered>
-        </file>
-    </files>
-
 </assembly>
