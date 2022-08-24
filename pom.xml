@@ -15,7 +15,7 @@
 
     <groupId>org.jboss.windup.web</groupId>
     <artifactId>windup-web-distribution</artifactId>
-    <version>5.3.1-SNAPSHOT</version>
+    <version>6.0.1-SNAPSHOT</version>
 
     <name>Windup Web - Distribution Build</name>
     <packaging>pom</packaging>
@@ -460,6 +460,21 @@
             </properties>
             <build>
                 <finalName>tackle-web-distribution-${project.version}</finalName>
+            </build>
+        </profile>
+        <profile>
+            <id>mtr</id>
+            <activation>
+                <property>
+                    <name>downstream</name>
+                    <value>mtr</value>
+                </property>
+            </activation>
+            <properties>
+                <product-name>mtr</product-name>
+            </properties>
+            <build>
+                <finalName>mtr-web-distribution-${project.version}</finalName>
             </build>
         </profile>
     </profiles>
