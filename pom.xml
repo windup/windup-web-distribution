@@ -22,6 +22,8 @@
 
     <properties>
         <version.keycloak>18.0.2</version.keycloak>
+        <version.windup.web>6.0.1-SNAPSHOT</version.windup.web>
+        <version.windup.openshift>6.0.1-SNAPSHOT</version.windup.openshift>
 
         <wildfly.groupId>org.wildfly</wildfly.groupId>
         <wildfly.artifactId>wildfly-dist</wildfly.artifactId>
@@ -55,7 +57,30 @@
 
     <dependencyManagement>
         <dependencies>
-
+            <!-- Placeholder dependency for letting PNC manage the 'version' value properly -->
+            <dependency>
+                <groupId>org.keycloak</groupId>
+                <artifactId>keycloak-wildfly-adapter-dist</artifactId>
+                <version>${version.keycloak}</version>
+                <type>zip</type>
+            </dependency>
+            <dependency>
+                <groupId>${project.groupId}</groupId>
+                <artifactId>windup-web-services</artifactId>
+                <version>${version.windup.web}</version>
+                <type>war</type>
+            </dependency>
+            <dependency>
+                <groupId>${project.groupId}</groupId>
+                <artifactId>windup-web-ui-pf4</artifactId>
+                <version>${version.windup.web}</version>
+                <type>war</type>
+            </dependency>
+            <dependency>
+                <groupId>org.jboss.windup</groupId>
+                <artifactId>windup-web-openshift-templates</artifactId>
+                <version>${version.windup.openshift}</version>
+            </dependency>
         </dependencies>
     </dependencyManagement>
 
