@@ -315,7 +315,7 @@
                             </goals>
                             <configuration>
                                 <descriptors>
-                                    <descriptor>src/main/assembly/assembly-offline.xml</descriptor>
+                                    <descriptor>${project.parent.basedir}/src/main/assembly/assembly-offline.xml</descriptor>
                                 </descriptors>
                             </configuration>
                         </execution>
