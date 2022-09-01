@@ -14,10 +14,10 @@
     </parent>
 
     <groupId>org.jboss.windup.web</groupId>
-    <artifactId>windup-web-distribution</artifactId>
+    <artifactId>windup-web-distribution-parent</artifactId>
     <version>6.0.1-SNAPSHOT</version>
 
-    <name>Windup Web - Distribution Build</name>
+    <name>Windup Web - Distribution Build Parent</name>
     <packaging>pom</packaging>
 
     <properties>
@@ -98,138 +98,265 @@
         <pluginManagement>
             <plugins>
                 <plugin>
-                    <groupId>org.codehaus.mojo</groupId>
-                    <artifactId>exec-maven-plugin</artifactId>
-                    <version>1.6.0</version>
+                    <artifactId>maven-dependency-plugin</artifactId>
+                    <executions>
+                        <!-- Copy the applications to deploy locally -->
+                        <execution>
+                            <id>copy-web-applications</id>
+                            <phase>package</phase>
+                            <goals>
+                                <goal>copy</goal>
+                            </goals>
+                            <configuration>
+                                <skip>${skip.deployment}</skip>
+                                <artifactItems>
+                                    <artifactItem>
+                                        <groupId>${project.groupId}</groupId>
+                                        <artifactId>windup-web-services</artifactId>
+                                        <version>${project.version}</version>
+                                        <type>war</type>
+                                        <overWrite>true</overWrite>
+                                        <destFileName>api.war</destFileName>
+                                        <outputDirectory>${project.build.directory}/${wildfly.directory}/standalone/deployments/</outputDirectory>
+                                    </artifactItem>
+                                    <artifactItem>
+                                        <groupId>${project.groupId}</groupId>
+                                        <artifactId>windup-web-ui-pf4</artifactId>
+                                        <version>${project.version}</version>
+                                        <type>war</type>
+                                        <overWrite>true</overWrite>
+                                        <destFileName>windup-ui.war</destFileName>
+                                        <outputDirectory>${project.build.directory}/${wildfly.directory}/standalone/deployments/</outputDirectory>
+                                    </artifactItem>
+                                </artifactItems>
+                            </configuration>
+                        </execution>
+                        <!-- Unpack Wildfly and the required overlays -->
+                        <execution>
+                            <id>unpack</id>
+                            <phase>compile</phase>
+                            <goals>
+                                <goal>unpack</goal>
+                            </goals>
+                            <configuration>
+                                <artifactItems>
+                                    <artifactItem>
+                                        <groupId>${wildfly.groupId}</groupId>
+                                        <artifactId>${wildfly.artifactId}</artifactId>
+                                        <version>${version.wildfly}</version>
+                                        <type>zip</type>
+                                        <overWrite>true</overWrite>
+                                        <excludes>**/README.txt</excludes>
+                                        <outputDirectory>${project.build.directory}</outputDirectory>
+                                    </artifactItem>
+                                    <artifactItem>
+                                        <groupId>org.keycloak</groupId>
+                                        <artifactId>keycloak-wildfly-adapter-dist</artifactId>
+                                        <version>${version.keycloak}</version>
+                                        <type>zip</type>
+                                        <overWrite>true</overWrite>
+                                        <outputDirectory>${project.build.directory}/${wildfly.directory}/</outputDirectory>
+                                    </artifactItem>
+                                    <artifactItem>
+                                        <groupId>org.jboss.windup</groupId>
+                                        <artifactId>windup-web-openshift-templates</artifactId>
+                                        <version>${project.version}</version>
+                                        <type>jar</type>
+                                        <overWrite>true</overWrite>
+                                        <excludes>META-INF/</excludes>
+                                        <outputDirectory>${project.build.directory}/${wildfly.directory}/openshift/templates</outputDirectory>
+                                    </artifactItem>
+                                </artifactItems>
+                            </configuration>
+                        </execution>
+                        <!-- Unpack only logging.properties from Wildfly -->
+                        <execution>
+                            <id>unpack-logging-properties</id>
+                            <phase>test</phase>
+                            <goals>
+                                <goal>unpack</goal>
+                            </goals>
+                            <configuration>
+                                <artifactItems>
+                                    <artifactItem>
+                                        <groupId>${wildfly.groupId}</groupId>
+                                        <artifactId>${wildfly.artifactId}</artifactId>
+                                        <version>${version.wildfly}</version>
+                                        <type>zip</type>
+                                        <overWrite>true</overWrite>
+                                        <includes>**/logging.properties</includes>
+                                        <outputDirectory>${project.build.directory}</outputDirectory>
+                                    </artifactItem>
+                                </artifactItems>
+                            </configuration>
+                        </execution>
+                        <!-- Overlay an updated H2 jar -->
+                        <execution>
+                            <id>copy-h2db</id>
+                            <phase>generate-test-resources</phase>
+                            <goals>
+                                <goal>copy</goal>
+                            </goals>
+                            <configuration>
+                                <artifactItems>
+                                    <artifactItem>
+                                        <groupId>com.h2database</groupId>
+                                        <artifactId>h2</artifactId>
+                                        <version>1.4.194</version>
+                                        <outputDirectory>${project.build.directory}/${wildfly.directory}/modules/com/h2database/h2/main</outputDirectory>
+                                        <overWrite>true</overWrite>
+                                    </artifactItem>
+                                </artifactItems>
+                            </configuration>
+                        </execution>
+                    </executions>
                 </plugin>
+                <!-- Startup wildfly and configure keycloak -->
                 <plugin>
                     <groupId>org.wildfly.plugins</groupId>
                     <artifactId>wildfly-maven-plugin</artifactId>
                     <version>${version.wildfly.maven.plugin}</version>
+                    <executions>
+                        <execution>
+                            <id>start-wildfly</id>
+                            <phase>compile</phase>
+                            <goals>
+                                <goal>start</goal>
+                                <goal>execute-commands</goal>
+                            </goals>
+                            <configuration>
+                                <fork>true</fork>
+                                <jbossHome>${project.build.directory}/${wildfly.directory}</jbossHome>
+                                <serverConfig>standalone-full.xml</serverConfig>
+                                <stdout>${project.build.directory}/jboss.stdout</stdout>
+                                <systemProperties>
+                                    <windup.data.dir>${jboss.server.data.dir}/h2/windup-web</windup.data.dir>
+                                </systemProperties>
+                                <serverArgs>
+                                    <serverArg>--admin-only</serverArg>
+                                    <server-arg>-Djboss.http.port=${wildfly.http.port}</server-arg>
+                                </serverArgs>
+                                <scripts>
+                                    <script>${project.build.directory}/${wildfly.directory}/bin/adapter-install.cli</script>
+                                    <script>${project.parent.basedir}/src/main/cli/setup.cli</script>
+                                    <script>${project.parent.basedir}/src/main/cli/adding-redirect.cli</script>
+                                </scripts>
+                                <startupTimeout>300</startupTimeout>
+                            </configuration>
+                        </execution>
+                        <execution>
+                            <id>stop-wildfly</id>
+                            <phase>prepare-package</phase>
+                            <goals>
+                                <goal>execute-commands</goal>
+                                <goal>shutdown</goal>
+                            </goals>
+                            <configuration>
+                                <jbossHome>${project.build.directory}/${wildfly.directory}</jbossHome>
+                                <scripts>
+                                    <script>${project.parent.basedir}/src/main/cli/setup-properties.cli</script>
+                                </scripts>
+                            </configuration>
+                        </execution>
+                    </executions>
                 </plugin>
                 <plugin>
-                    <artifactId>maven-resources-plugin</artifactId>
-                    <version>3.0.2</version>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-antrun-plugin</artifactId>
+                    <executions>
+                        <!--
+                          This insures that the windup-web-redirect directory exists.
+                          Without this, the CLI script may fail later on.
+                        -->
+                        <execution>
+                            <id>create-windup-web-redirect-directory</id>
+                            <phase>process-resources</phase>
+                            <configuration>
+                                <target>
+                                    <mkdir dir="${project.build.directory}/${wildfly.directory}/windup-web-redirect" />
+                                </target>
+                            </configuration>
+                            <goals>
+                                <goal>run</goal>
+                            </goals>
+                        </execution>
+                        <!--
+                            This plugin causes a small sleep before packaging. This fixes a
+                            (somewhat) common case that can cause packaging to happen before
+                            the server is fully shutdown, which can result in either
+                            a failure or some partial files.
+
+                            So far, I have only seen that failure on CI. (jsight - 2018/04/25)
+                        -->
+                        <execution>
+                            <id>sleep-for-a-while</id>
+                            <phase>package</phase>
+                            <goals>
+                                <goal>run</goal>
+                            </goals>
+                            <configuration>
+                                <target>
+                                    <sleep seconds="5" />
+                                </target>
+                            </configuration>
+                        </execution>
+                    </executions>
                 </plugin>
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-assembly-plugin</artifactId>
                     <version>3.0.0</version>
+                    <executions>
+                        <execution>
+                            <id>distribution</id>
+                            <phase>package</phase>
+                            <goals>
+                                <goal>single</goal>
+                            </goals>
+                            <configuration>
+                                <descriptors>
+                                    <descriptor>src/main/assembly/assembly-offline.xml</descriptor>
+                                </descriptors>
+                            </configuration>
+                        </execution>
+                    </executions>
                 </plugin>
             </plugins>
         </pluginManagement>
         <plugins>
+            <!-- These declarations make sure children get plugins in their lifecycle -->
             <plugin>
                 <artifactId>maven-dependency-plugin</artifactId>
+                <!-- Configuration won't be propagated to children -->
+                <inherited>false</inherited>
                 <executions>
                     <!-- Copy the applications to deploy locally -->
                     <execution>
+                        <!-- This matches the definition above in the pluginManagement section and thus overrides execution -->
                         <id>copy-web-applications</id>
-                        <phase>package</phase>
-                        <goals>
-                            <goal>copy</goal>
-                        </goals>
-                        <configuration>
-                            <skip>${skip.deployment}</skip>
-                            <artifactItems>
-                                <artifactItem>
-                                    <groupId>${project.groupId}</groupId>
-                                    <artifactId>windup-web-services</artifactId>
-                                    <version>${project.version}</version>
-                                    <type>war</type>
-                                    <overWrite>true</overWrite>
-                                    <destFileName>api.war</destFileName>
-                                    <outputDirectory>${project.build.directory}/${wildfly.directory}/standalone/deployments/</outputDirectory>
-                                </artifactItem>
-                                <artifactItem>
-                                    <groupId>${project.groupId}</groupId>
-                                    <artifactId>windup-web-ui-pf4</artifactId>
-                                    <version>${project.version}</version>
-                                    <type>war</type>
-                                    <overWrite>true</overWrite>
-                                    <destFileName>windup-ui.war</destFileName>
-                                    <outputDirectory>${project.build.directory}/${wildfly.directory}/standalone/deployments/</outputDirectory>
-                                </artifactItem>
-                            </artifactItems>
-                        </configuration>
+                        <!-- Unbind from lifecycle for this POM -->
+                        <phase/>
                     </execution>
                     <!-- Unpack Wildfly and the required overlays -->
                     <execution>
+                        <!-- This matches the definition above in the pluginManagement section and thus overrides execution -->
                         <id>unpack</id>
-                        <phase>compile</phase>
-                        <goals>
-                            <goal>unpack</goal>
-                        </goals>
-                        <configuration>
-                            <artifactItems>
-                                <artifactItem>
-                                    <groupId>${wildfly.groupId}</groupId>
-                                    <artifactId>${wildfly.artifactId}</artifactId>
-                                    <version>${version.wildfly}</version>
-                                    <type>zip</type>
-                                    <overWrite>true</overWrite>
-                                    <excludes>**/README.txt</excludes>
-                                    <outputDirectory>${project.build.directory}</outputDirectory>
-                                </artifactItem>
-                                <artifactItem>
-                                    <groupId>org.keycloak</groupId>
-                                    <artifactId>keycloak-wildfly-adapter-dist</artifactId>
-                                    <version>${version.keycloak}</version>
-                                    <type>zip</type>
-                                    <overWrite>true</overWrite>
-                                    <outputDirectory>${project.build.directory}/${wildfly.directory}/</outputDirectory>
-                                </artifactItem>
-                                <artifactItem>
-                                    <groupId>org.jboss.windup</groupId>
-                                    <artifactId>windup-web-openshift-templates</artifactId>
-                                    <version>${project.version}</version>
-                                    <type>jar</type>
-                                    <overWrite>true</overWrite>
-                                    <excludes>META-INF/</excludes>
-                                    <outputDirectory>${project.build.directory}/${wildfly.directory}/openshift/templates</outputDirectory>
-                                </artifactItem>
-                            </artifactItems>
-                        </configuration>
+                        <!-- Unbind from lifecycle for this POM -->
+                        <phase/>
                     </execution>
                     <!-- Unpack only logging.properties from Wildfly -->
                     <execution>
+                        <!-- This matches the definition above in the pluginManagement section and thus overrides execution -->
                         <id>unpack-logging-properties</id>
-                        <phase>test</phase>
-                        <goals>
-                            <goal>unpack</goal>
-                        </goals>
-                        <configuration>
-                            <artifactItems>
-                                <artifactItem>
-                                    <groupId>${wildfly.groupId}</groupId>
-                                    <artifactId>${wildfly.artifactId}</artifactId>
-                                    <version>${version.wildfly}</version>
-                                    <type>zip</type>
-                                    <overWrite>true</overWrite>
-                                    <includes>**/logging.properties</includes>
-                                    <outputDirectory>${project.build.directory}</outputDirectory>
-                                </artifactItem>
-                            </artifactItems>
-                        </configuration>
+                        <!-- Unbind from lifecycle for this POM -->
+                        <phase/>
                     </execution>
                     <!-- Overlay an updated H2 jar -->
                     <execution>
+                        <!-- This matches the definition above in the pluginManagement section and thus overrides execution -->
                         <id>copy-h2db</id>
-                        <phase>generate-test-resources</phase>
-                        <goals>
-                            <goal>copy</goal>
-                        </goals>
-                        <configuration>
-                            <artifactItems>
-                                <artifactItem>
-                                    <groupId>com.h2database</groupId>
-                                    <artifactId>h2</artifactId>
-                                    <version>1.4.194</version>
-                                    <outputDirectory>${project.build.directory}/${wildfly.directory}/modules/com/h2database/h2/main</outputDirectory>
-                                    <overWrite>true</overWrite>
-                                </artifactItem>
-                            </artifactItems>
-                        </configuration>
+                        <!-- Unbind from lifecycle for this POM -->
+                        <phase/>
                     </execution>
                 </executions>
             </plugin>
@@ -238,108 +365,55 @@
             <plugin>
                 <groupId>org.wildfly.plugins</groupId>
                 <artifactId>wildfly-maven-plugin</artifactId>
+                <version>${version.wildfly.maven.plugin}</version>
+                <!-- Configuration won't be propagated to children -->
+                <inherited>false</inherited>
                 <executions>
                     <execution>
+                        <!-- This matches the definition above in the pluginManagement section and thus overrides execution -->
                         <id>start-wildfly</id>
-                        <phase>compile</phase>
-                        <goals>
-                            <goal>start</goal>
-                            <goal>execute-commands</goal>
-                        </goals>
-                        <configuration>
-                            <fork>true</fork>
-                            <jbossHome>${project.build.directory}/${wildfly.directory}</jbossHome>
-                            <serverConfig>standalone-full.xml</serverConfig>
-                            <stdout>${project.build.directory}/jboss.stdout</stdout>
-                            <systemProperties>
-                                <windup.data.dir>${jboss.server.data.dir}/h2/windup-web</windup.data.dir>
-                            </systemProperties>
-                            <serverArgs>
-                                <serverArg>--admin-only</serverArg>
-                                <server-arg>-Djboss.http.port=${wildfly.http.port}</server-arg>
-                            </serverArgs>
-                            <scripts>
-                                <script>${project.build.directory}/${wildfly.directory}/bin/adapter-install.cli</script>
-                                <script>src/main/cli/setup.cli</script>
-                                <script>src/main/cli/adding-redirect.cli</script>
-                            </scripts>
-                            <startupTimeout>300</startupTimeout>
-                        </configuration>
+                        <!-- Unbind from lifecycle for this POM -->
+                        <phase/>
                     </execution>
                     <execution>
+                        <!-- This matches the definition above in the pluginManagement section and thus overrides execution -->
                         <id>stop-wildfly</id>
-                        <phase>prepare-package</phase>
-                        <goals>
-                            <goal>execute-commands</goal>
-                            <goal>shutdown</goal>
-                        </goals>
-                        <configuration>
-                            <jbossHome>${project.build.directory}/${wildfly.directory}</jbossHome>
-                            <scripts>
-                                <script>src/main/cli/setup-properties.cli</script>
-                            </scripts>
-                        </configuration>
+                        <!-- Unbind from lifecycle for this POM -->
+                        <phase/>
                     </execution>
                 </executions>
             </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-antrun-plugin</artifactId>
+                <!-- Configuration won't be propagated to children -->
+                <inherited>false</inherited>
                 <executions>
-
-                    <!--
-                      This insures that the windup-web-redirect directory exists.
-                      Without this, the CLI script may fail later on.
-                    -->
                     <execution>
+                        <!-- This matches the definition above in the pluginManagement section and thus overrides execution -->
                         <id>create-windup-web-redirect-directory</id>
-                        <phase>process-resources</phase>
-                        <configuration>
-                            <target>
-                                <mkdir dir="${project.build.directory}/${wildfly.directory}/windup-web-redirect" />
-                            </target>
-                        </configuration>
-                        <goals>
-                            <goal>run</goal>
-                        </goals>
+                        <!-- Unbind from lifecycle for this POM -->
+                        <phase/>
                     </execution>
-                    <!--
-                        This plugin causes a small sleep before packaging. This fixes a
-                        (somewhat) common case that can cause packaging to happen before
-                        the server is fully shutdown, which can result in either
-                        a failure or some partial files.
-
-                        So far, I have only seen that failure on CI. (jsight - 2018/04/25)
-                    -->
                     <execution>
+                        <!-- This matches the definition above in the pluginManagement section and thus overrides execution -->
                         <id>sleep-for-a-while</id>
-                        <phase>package</phase>
-                        <goals>
-                            <goal>run</goal>
-                        </goals>
-                        <configuration>
-                            <target>
-                                <sleep seconds="5" />
-                            </target>
-                        </configuration>
+                        <!-- Unbind from lifecycle for this POM -->
+                        <phase/>
                     </execution>
                 </executions>
             </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-assembly-plugin</artifactId>
+                <!-- Configuration won't be propagated to children -->
+                <inherited>false</inherited>
                 <executions>
                     <execution>
+                        <!-- This matches the definition above in the pluginManagement section and thus overrides execution -->
                         <id>distribution</id>
-                        <phase>package</phase>
-                        <goals>
-                            <goal>single</goal>
-                        </goals>
-                        <configuration>
-                            <descriptors>
-                                <descriptor>src/main/assembly/assembly-offline.xml</descriptor>
-                            </descriptors>
-                        </configuration>
+                        <!-- Unbind from lifecycle for this POM -->
+                        <phase/>
                     </execution>
                 </executions>
             </plugin>
@@ -456,6 +530,9 @@
             <build>
                 <finalName>windup-web-distribution-${project.version}</finalName>
             </build>
+            <modules>
+                <module>windup-web-distribution</module>
+            </modules>
         </profile>
         <profile>
             <id>mta</id>
@@ -471,6 +548,9 @@
             <build>
                 <finalName>mta-web-distribution-${project.version}</finalName>
             </build>
+            <modules>
+                <module>mta-web-distribution</module>
+            </modules>
         </profile>
         <profile>
             <id>tackle</id>
@@ -486,6 +566,9 @@
             <build>
                 <finalName>tackle-web-distribution-${project.version}</finalName>
             </build>
+            <modules>
+                <module>tackle-web-distribution</module>
+            </modules>
         </profile>
         <profile>
             <id>mtr</id>
@@ -501,6 +584,9 @@
             <build>
                 <finalName>mtr-web-distribution-${project.version}</finalName>
             </build>
+            <modules>
+                <module>mtr-web-distribution</module>
+            </modules>
         </profile>
     </profiles>
 

@@ -20,7 +20,7 @@
             </excludes>
         </fileSet>
         <fileSet>
-            <directory>src/main/resources</directory>
+            <directory>${project.parent.basedir}/src/main/resources</directory>
             <outputDirectory></outputDirectory>
             <filtered>true</filtered>
             <includes>
@@ -35,7 +35,7 @@
             </includes>
         </fileSet>
         <fileSet>
-            <directory>src/main/resources</directory>
+            <directory>${project.parent.basedir}/src/main/resources</directory>
             <outputDirectory></outputDirectory>
             <filtered>false</filtered>
             <includes>
@@ -54,7 +54,7 @@
         </fileSet>
         <!-- Add the overlay files -->
         <fileSet>
-            <directory>src/main/wildfly_overlay</directory>
+            <directory>${project.parent.basedir}/src/main/wildfly_overlay</directory>
             <outputDirectory></outputDirectory>
             <filtered>false</filtered>
         </fileSet>
