@@ -113,7 +113,6 @@
                                     <artifactItem>
                                         <groupId>${project.groupId}</groupId>
                                         <artifactId>windup-web-services</artifactId>
-                                        <version>${project.version}</version>
                                         <type>war</type>
                                         <overWrite>true</overWrite>
                                         <destFileName>api.war</destFileName>
@@ -122,7 +121,6 @@
                                     <artifactItem>
                                         <groupId>${project.groupId}</groupId>
                                         <artifactId>windup-web-ui-pf4</artifactId>
-                                        <version>${project.version}</version>
                                         <type>war</type>
                                         <overWrite>true</overWrite>
                                         <destFileName>windup-ui.war</destFileName>
@@ -152,7 +150,6 @@
                                     <artifactItem>
                                         <groupId>org.keycloak</groupId>
                                         <artifactId>keycloak-wildfly-adapter-dist</artifactId>
-                                        <version>${version.keycloak}</version>
                                         <type>zip</type>
                                         <overWrite>true</overWrite>
                                         <outputDirectory>${project.build.directory}/${wildfly.directory}/</outputDirectory>
@@ -160,7 +157,6 @@
                                     <artifactItem>
                                         <groupId>org.jboss.windup</groupId>
                                         <artifactId>windup-web-openshift-templates</artifactId>
-                                        <version>${project.version}</version>
                                         <type>jar</type>
                                         <overWrite>true</overWrite>
                                         <excludes>META-INF/</excludes>
