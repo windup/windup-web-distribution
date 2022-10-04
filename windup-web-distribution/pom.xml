@@ -13,4 +13,51 @@
     <name>Windup Web - Distribution Build</name>
     <packaging>pom</packaging>
 
+    <build>
+        <plugins>
+            <plugin>
+                <artifactId>maven-dependency-plugin</artifactId>
+                    <executions>
+                        <!-- Unpack Wildfly and the required overlays -->
+                        <execution>
+                            <id>unpack</id>
+                            <phase>compile</phase>
+                            <goals>
+                                <goal>unpack</goal>
+                            </goals>
+                            <configuration>
+                                <artifactItems>
+                                    <!-- Artifacts must be replicated from parent pom because inheritance has been disabled -->
+                                    <artifactItem>
+                                        <groupId>${wildfly.groupId}</groupId>
+                                        <artifactId>${wildfly.artifactId}</artifactId>
+                                        <version>${version.wildfly}</version>
+                                        <type>zip</type>
+                                        <overWrite>true</overWrite>
+                                        <excludes>**/README.txt</excludes>
+                                        <outputDirectory>${project.build.directory}</outputDirectory>
+                                    </artifactItem>
+                                    <artifactItem>
+                                        <groupId>org.keycloak</groupId>
+                                        <artifactId>keycloak-wildfly-adapter-dist</artifactId>
+                                        <type>zip</type>
+                                        <overWrite>true</overWrite>
+                                        <outputDirectory>${project.build.directory}/${wildfly.directory}/</outputDirectory>
+                                    </artifactItem>
+                                    <artifactItem>
+                                        <groupId>org.jboss.windup</groupId>
+                                        <artifactId>windup-web-openshift-templates</artifactId>
+                                        <version>${version.windup.openshift}</version>
+                                        <type>jar</type>
+                                        <overWrite>true</overWrite>
+                                        <excludes>META-INF/</excludes>
+                                        <outputDirectory>${project.build.directory}/${wildfly.directory}/openshift/templates</outputDirectory>
+                                    </artifactItem>
+                                </artifactItems>
+                            </configuration>
+                        </execution>
+                    </executions>
+            </plugin>
+        </plugins>
+    </build>
 </project>
