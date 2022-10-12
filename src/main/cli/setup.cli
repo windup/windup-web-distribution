@@ -8,7 +8,7 @@
 
 # Properties
 /system-property=windup.data.dir:add(value="${jboss.server.data.dir}/h2/windup-web")
-/subsystem=datasources/data-source=WindupServicesDS:add(jndi-name="java:jboss/datasources/WindupServicesDS", connection-url="jdbc:h2:${windup.data.dir}/h2/windup-web;MULTI_THREADED=1", driver-name="h2", max-pool-size=30, user-name=sa, password=sa)
+/subsystem=datasources/data-source=WindupServicesDS:add(jndi-name="java:jboss/datasources/WindupServicesDS", connection-url="jdbc:h2:${windup.data.dir}/h2/windup-web", driver-name="h2", max-pool-size=30, user-name=sa, password=sa)
 /system-property=windup.data.dir:remove()
 
 # Logging
