@@ -31,7 +31,7 @@
         <wildfly.directory>wildfly-${version.wildfly}</wildfly.directory>
         <wildfly.http.port>8080</wildfly.http.port>
 
-        <version.wildfly.maven.plugin>3.0.1.Final</version.wildfly.maven.plugin>
+        <version.wildfly.maven.plugin>4.0.0.Final</version.wildfly.maven.plugin>
 
         <windup.scm.connection>scm:git:https://github.com/windup/windup-web-distribution.git</windup.scm.connection>
         <windup.developer.connection>scm:git:git@github.com:windup/windup-web-distribution.git</windup.developer.connection>
