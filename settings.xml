@@ -39,8 +39,24 @@
         </pluginRepository>
       </pluginRepositories>
     </profile>
+    <profile>
+        <id>sonatype-snapshot</id>
+        <repositories>
+            <repository>
+                <id>sonatype-snapshots-repo</id>
+                <url>https://oss.sonatype.org/content/repositories/snapshots</url>
+                <releases>
+                    <enabled>false</enabled>
+                </releases>
+                <snapshots>
+                    <enabled>true</enabled>
+                </snapshots>
+            </repository>
+        </repositories>
+    </profile>
   </profiles>
     <activeProfiles>
        <activeProfile>jboss-public-repository</activeProfile>
+        <activeProfile>sonatype-snapshot</activeProfile>
     </activeProfiles>
 </settings>
