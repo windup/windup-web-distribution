@@ -225,7 +225,7 @@
                                     <server-arg>-Djboss.http.port=${wildfly.http.port}</server-arg>
                                 </serverArgs>
                                 <scripts>
-                                    <script>${project.build.directory}/${wildfly.directory}/bin/adapter-install.cli</script>
+                                    <script>${project.build.directory}/${wildfly.directory}/bin/adapter-elytron-install.cli</script>
                                     <script>${project.parent.basedir}/src/main/cli/setup.cli</script>
                                     <script>${project.parent.basedir}/src/main/cli/adding-redirect.cli</script>
                                 </scripts>
