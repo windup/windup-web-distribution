@@ -1,0 +1,104 @@
+echo INFO: Updating configuration to use elytron
+
+if (outcome != success) of /subsystem=elytron/http-authentication-factory=application-http-authentication:read-resource
+  echo INFO: Adding http-authentication-factory=application-http-authentication to Elytron
+  /subsystem=elytron/http-authentication-factory=application-http-authentication:add(security-domain=ApplicationDomain, http-server-mechanism-factory=global, mechanism-configurations=[{mechanism-name=BASIC, mechanism-realm-configurations=[{realm-name=ApplicationRealm}]}])
+end-if
+
+if (outcome != success) of /subsystem=undertow/application-security-domain=other:read-resource
+  echo INFO: Adding application-security-domain=other to Undertow
+  /subsystem=undertow/application-security-domain=other:add(security-domain=ApplicationDomain)
+end-if
+
+if (outcome == success && result.ssl-context == undefined) of /subsystem=undertow/server=default-server/https-listener=https:read-resource
+  echo INFO: Configuring the Undertow https listener
+  batch
+  /subsystem=undertow/server=default-server/https-listener=https:write-attribute(name=security-realm,value=undefined)
+  /subsystem=undertow/server=default-server/https-listener=https:write-attribute(name=ssl-context, value=applicationSSC)
+  run-batch
+end-if
+
+if (outcome == success && result.http-authentication-factory == undefined) of /subsystem=undertow/server=default-server/host=default-host/setting=http-invoker:read-resource
+  echo INFO: Configuring the Undertow https-invoker for Elytron
+  batch
+  /subsystem=undertow/server=default-server/host=default-host/setting=http-invoker:undefine-attribute(name=security-realm)
+  /subsystem=undertow/server=default-server/host=default-host/setting=http-invoker:write-attribute(name=http-authentication-factory, value=application-http-authentication)
+  run-batch
+end-if
+
+if (outcome != success) of /subsystem=ejb3/application-security-domain=other:read-resource
+  echo INFO: Adding application-security-domain=other to ejb3
+  /subsystem=ejb3/application-security-domain=other:add(security-domain=ApplicationDomain)
+end-if
+
+if (outcome == success && result.security-domain == undefined) of /subsystem=batch-jberet:read-resource
+  echo INFO: Configuring JBeret
+  /subsystem=batch-jberet:write-attribute(name=security-domain, value=ApplicationDomain)
+end-if
+
+if (outcome == success && result.elytron-domain == undefined) of /subsystem=messaging-activemq/server=default:read-resource
+  echo INFO: Configuring Messaging
+  batch
+  /subsystem=messaging-activemq/server=default:undefine-attribute(name=security-domain)
+  /subsystem=messaging-activemq/server=default:write-attribute(name=elytron-domain, value=ApplicationDomain)
+  run-batch
+end-if
+
+if (outcome == success && result.sasl-authentication-factory == undefined) of /subsystem=remoting/http-connector=http-remoting-connector:read-resource
+  echo INFO: Configuring the remoting http-connector
+  batch
+  /subsystem=remoting/http-connector=http-remoting-connector:undefine-attribute(name=security-realm)
+  /subsystem=remoting/http-connector=http-remoting-connector:write-attribute(name=sasl-authentication-factory, value=application-sasl-authentication)
+  run-batch
+end-if
+
+if (outcome != success) of /core-service=management/access=identity:read-resource
+  echo INFO: Adding /core-service=management/access=identity
+  /core-service=management/access=identity:add(security-domain=ManagementDomain)
+end-if
+
+if (outcome == success && result.security-realm != undefined) of /core-service=management/management-interface=http-interface:read-resource
+  echo INFO: Configuring the management http-interface
+  batch
+  /core-service=management/management-interface=http-interface:write-attribute(name=http-upgrade,value={enabled=true, sasl-authentication-factory=management-sasl-authentication})
+  /core-service=management/management-interface=http-interface:write-attribute(name=http-authentication-factory,value=management-http-authentication)
+  /core-service=management/management-interface=http-interface:undefine-attribute(name=security-realm)
+  run-batch
+end-if
+
+for realm in /core-service=management:read-children-names(child-type=security-realm)
+   echo INFO: Removing security-realm $realm
+  /core-service=management/security-realm=$realm:remove
+done
+
+if (outcome == success) of /subsystem=security:read-resource
+  echo INFO: Removing legacy security subsystem
+  /subsystem=security:remove
+end-if
+
+if (outcome == success) of /extension=org.jboss.as.security:read-resource
+  echo INFO: Removing legacy security extension.
+  /extension=org.jboss.as.security:remove
+end-if
+
+if (outcome == success) of /subsystem=picketlink-federation:read-resource
+  echo INFO: Removing Picketlink federation subsystem
+  /subsystem=picketlink-federation:remove
+end-if
+
+if (outcome == success) of /subsystem=picketlink-identity-management:read-resource
+  echo INFO: Removing Picketlink identity management subsystem
+  /subsystem=picketlink-identity-management:remove
+end-if
+
+if (outcome == success) of /extension=org.wildfly.extension.picketlink:read-resource
+  echo INFO: Removing Picketlink extension
+  /extension=org.wildfly.extension.picketlink:remove
+end-if
+
+if (outcome == success) of /core-service=vault:read-resource
+  echo INFO: Removing legacy security vault.
+  /core-service=vault:remove
+end-if
+
+echo INFO: Configuration done.

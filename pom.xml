@@ -228,6 +228,7 @@
                                     <script>${project.build.directory}/${wildfly.directory}/bin/adapter-elytron-install.cli</script>
                                     <script>${project.parent.basedir}/src/main/cli/setup.cli</script>
                                     <script>${project.parent.basedir}/src/main/cli/adding-redirect.cli</script>
+                                    <script>${project.parent.basedir}/src/main/cli/enable-elytron-se17.cli</script>
                                 </scripts>
                                 <startupTimeout>300</startupTimeout>
                             </configuration>
