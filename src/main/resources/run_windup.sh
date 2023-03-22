@@ -29,7 +29,7 @@ case $JAVAVER in
   echo ""
  ;;
 *"17"*)
-  export JAVA_OPTS="$JAVA_OPTS --add-modules=java.se --add-exports=java.naming/com.sun.jndi.ldap=ALL-UNNAMED --add-opens=java.base/java.lang=ALL-UNNAMED --add-opens=java.base/java.lang.invoke=ALL-UNNAMED --add-opens=java.base/java.io=ALL-UNNAMED --add-opens=java.base/java.security=ALL-UNNAMED --add-opens=java.base/java.util=ALL-UNNAMED --add-opens=java.management/javax.management=ALL-UNNAMED --add-opens=java.naming/javax.naming=ALL-UNNAMED --add-opens=java.base/java.util.stream=ALL-UNNAMED --add-opens=java.base/sun.util.calendar=ALL-UNNAMED"
+  export JAVA_OPTS="$JAVA_OPTS --add-modules=java.se --add-opens=java.base/java.lang=ALL-UNNAMED --add-opens=java.base/java.util=ALL-UNNAMED --add-opens=java.base/java.util.stream=ALL-UNNAMED --add-opens=java.base/sun.util.calendar=ALL-UNNAMED"
   echo ""
  ;;
 *)

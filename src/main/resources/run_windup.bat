@@ -48,7 +48,7 @@ if %JAVAVER_MAJOR% equ 11 (
     goto init
 )
 if %JAVAVER_MAJOR% equ 17 (
-    set "JAVA_OPTS=%JAVA_OPTS% --add-modules=java.se --add-exports=java.naming/com.sun.jndi.ldap=ALL-UNNAMED --add-opens=java.base/java.lang=ALL-UNNAMED --add-opens=java.base/java.lang.invoke=ALL-UNNAMED --add-opens=java.base/java.io=ALL-UNNAMED --add-opens=java.base/java.security=ALL-UNNAMED --add-opens=java.base/java.util=ALL-UNNAMED --add-opens=java.management/javax.management=ALL-UNNAMED --add-opens=java.naming/javax.naming=ALL-UNNAMED --add-opens=java.base/java.util.stream=ALL-UNNAMED --add-opens=java.base/sun.util.calendar=ALL-UNNAMED"
+    set "JAVA_OPTS=%JAVA_OPTS% --add-modules=java.se --add-opens=java.base/java.lang=ALL-UNNAMED --add-opens=java.base/java.util=ALL-UNNAMED --add-opens=java.base/java.util.stream=ALL-UNNAMED --add-opens=java.base/sun.util.calendar=ALL-UNNAMED"
     goto init
 )
 
