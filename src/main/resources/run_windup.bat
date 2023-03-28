@@ -47,6 +47,10 @@ set "JAVAVER_MAJOR=%JAVAVER_MAJOR:~1,2%"
 if %JAVAVER_MAJOR% equ 11 (
     goto init
 )
+if %JAVAVER_MAJOR% equ 17 (
+    set "JAVA_OPTS=%JAVA_OPTS% --add-modules=java.se --add-opens=java.base/java.lang=ALL-UNNAMED --add-opens=java.base/java.util=ALL-UNNAMED --add-opens=java.base/java.util.stream=ALL-UNNAMED --add-opens=java.base/sun.util.calendar=ALL-UNNAMED"
+    goto init
+)
 
 echo.
 echo A Java 11 JRE is required to run WINDUP. "%JAVA_HOME%\bin\java.exe" is version %JAVAVER%
