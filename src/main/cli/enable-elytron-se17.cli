@@ -26,7 +26,7 @@ if (outcome == success && result.http-authentication-factory == undefined) of /s
   run-batch
 end-if
 
-if (outcome != success) of /subsystem=ejb3/application-security-domain=other:read-resource
+if (outcome == success && (result.application-security-domain == undefined || result.application-security-domain.other == undefined)) of /subsystem=ejb3:read-resource(recursive)
   echo INFO: Adding application-security-domain=other to ejb3
   /subsystem=ejb3/application-security-domain=other:add(security-domain=ApplicationDomain)
 end-if
