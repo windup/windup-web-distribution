@@ -24,7 +24,7 @@
 
 <module xmlns="urn:jboss:module:1.9" name="com.h2database.h2">
     <resources>
-        <resource-root path="h2-2.1.214.jar"/>
+        <resource-root path="h2-${version.h2}.jar"/>
     </resources>
     <dependencies>
         <module name="java.compiler"/>
