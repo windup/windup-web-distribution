@@ -56,7 +56,7 @@
         <fileSet>
             <directory>${project.parent.basedir}/src/main/wildfly_overlay</directory>
             <outputDirectory></outputDirectory>
-            <filtered>false</filtered>
+            <filtered>true</filtered>
         </fileSet>
     </fileSets>
 </assembly>
