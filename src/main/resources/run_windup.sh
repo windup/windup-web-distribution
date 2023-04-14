@@ -28,6 +28,10 @@ case $JAVAVER in
 *"11"*)
   echo ""
  ;;
+*"17"*)
+  export JAVA_OPTS="$JAVA_OPTS --add-modules=java.se --add-opens=java.base/java.lang=ALL-UNNAMED --add-opens=java.base/java.util=ALL-UNNAMED --add-opens=java.base/java.util.stream=ALL-UNNAMED --add-opens=java.base/sun.util.calendar=ALL-UNNAMED"
+  echo ""
+ ;;
 *)
 	echo "Error: a Java 11 JRE is required to run WINDUP; found [$JAVACMD -version == $JAVAVER]."
 	exit 1
