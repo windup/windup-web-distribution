@@ -15,15 +15,15 @@
 
     <groupId>org.jboss.windup.web</groupId>
     <artifactId>windup-web-distribution-parent</artifactId>
-    <version>6.2.5-SNAPSHOT</version>
+    <version>6.2.5.Final</version>
 
     <name>Windup Web - Distribution Build Parent</name>
     <packaging>pom</packaging>
 
     <properties>
         <version.keycloak>18.0.2</version.keycloak>
-        <version.windup.web>6.2.5-SNAPSHOT</version.windup.web>
-        <version.windup.openshift>6.2.5-SNAPSHOT</version.windup.openshift>
+        <version.windup.web>6.2.5.Final</version.windup.web>
+        <version.windup.openshift>6.2.5.Final</version.windup.openshift>
 
         <wildfly.groupId>org.wildfly</wildfly.groupId>
         <wildfly.artifactId>wildfly-dist</wildfly.artifactId>
