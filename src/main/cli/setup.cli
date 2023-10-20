@@ -45,6 +45,9 @@ end-if
 # Other
 /subsystem=undertow/server=default-server/http-listener=default:write-attribute(name=max-post-size, value=943718400)
 
+/subsystem=undertow/server=default-server/http-listener=default:write-attribute(name=enable-http2, value=false)
+/subsystem=undertow/server=default-server/https-listener=https:write-attribute(name=enable-http2, value=false)
+
 /subsystem=transactions:write-attribute(name=node-identifier,value="a")
 command-timeout set 15000
 reload
