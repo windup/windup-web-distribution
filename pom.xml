@@ -21,7 +21,7 @@
     <packaging>pom</packaging>
 
     <properties>
-        <version.keycloak>18.0.2</version.keycloak>
+        <version.keycloak>22.0.5</version.keycloak>
         <version.windup.web>6.3.4-SNAPSHOT</version.windup.web>
         <version.windup.openshift>6.3.4-SNAPSHOT</version.windup.openshift>
 
