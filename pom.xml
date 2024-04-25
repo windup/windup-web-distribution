@@ -42,7 +42,7 @@
         <keycloak.tool.path>${keycloak.tool.basedir}/${keycloak.tool.name}</keycloak.tool.path>
         <skip.deployment>false</skip.deployment>
         <assembly.baseDirectory>${project.build.finalName}</assembly.baseDirectory>
-        <version.h2>2.1.214</version.h2>
+        <version.h2>2.2.220</version.h2>
     </properties>
 
     <distributionManagement>
